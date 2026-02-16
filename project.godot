@@ -18,11 +18,12 @@ config/name="Demir Yolcusu"
 config/description="Türkiye'nin demiryollarında geçen isometrik pixel art tren yönetim oyunu"
 config/version="0.1.0"
 config/features=PackedStringArray("4.6", "Mobile")
-run/main_scene="res://src/scenes/station/station_scene.tscn"
+run/main_scene="res://src/scenes/garage/garage_scene.tscn"
 
 [autoload]
 
 EventBus="*res://src/events/event_bus.gd"
+GameManager="*res://src/managers/game_manager.gd"
 
 [display]
 

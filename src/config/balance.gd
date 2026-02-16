@@ -88,6 +88,40 @@ const FUEL_PER_WAGON_MULTIPLIER := 0.1
 
 
 # ==========================================================
+# LOKOMOTİF
+# ==========================================================
+
+## Lokomotif baz hızları (km/saat)
+const LOCOMOTIVE_SPEED_COAL_OLD := 60.0
+const LOCOMOTIVE_SPEED_COAL_NEW := 75.0
+const LOCOMOTIVE_SPEED_DIESEL_OLD := 80.0
+const LOCOMOTIVE_SPEED_DIESEL_NEW := 100.0
+const LOCOMOTIVE_SPEED_ELECTRIC := 120.0
+
+## Lokomotif fiyatları (DA)
+const LOCOMOTIVE_COST_COAL_OLD := 200
+const LOCOMOTIVE_COST_COAL_NEW := 500
+const LOCOMOTIVE_COST_DIESEL_OLD := 1000
+const LOCOMOTIVE_COST_DIESEL_NEW := 2000
+const LOCOMOTIVE_COST_ELECTRIC := 5000
+
+
+# ==========================================================
+# VAGON FİYATLARI
+# ==========================================================
+
+## Vagon satın alma fiyatları (DA)
+const WAGON_COST_ECONOMY := 100
+const WAGON_COST_BUSINESS := 200
+const WAGON_COST_VIP := 350
+const WAGON_COST_DINING := 150
+const WAGON_COST_CARGO := 80
+
+## Vagon ağırlığı (basitleştirilmiş, ton)
+const WAGON_WEIGHT := 15.0
+
+
+# ==========================================================
 # DURAK ZAMANLAMA
 # ==========================================================
 
