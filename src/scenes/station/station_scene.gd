@@ -2,6 +2,8 @@
 ## Restored English comments for maintainability and i18n coding standards.
 
 extends Node2D
+const StationUiBuilder := preload("res://src/scenes/station/station_ui_builder.gd")
+const StationInteractionManager := preload("res://src/scenes/station/station_interaction_manager.gd")
 
 var _event_bus: Node
 var _economy: EconomySystem
@@ -169,391 +171,21 @@ func _setup_systems() -> void:
 
 ## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
-	_build_background()
-	_build_hud()
-	_build_train()
-	_build_refuel_controls()
-	_build_cargo_panel()
-	_build_event_banner()
-	_build_summary_panel()
-
-## Lifecycle/helper logic for `_build_background`.
-func _build_background() -> void:
-	var sky_top := ColorRect.new()
-	sky_top.color = Color("#9dd5ff")
-	sky_top.size = Vector2(VIEWPORT_W, VIEWPORT_H * 0.45)
-	sky_top.z_index = -11
-	add_child(sky_top)
-
-	var sky_bottom := ColorRect.new()
-	sky_bottom.color = Color("#dbeeff")
-	sky_bottom.position = Vector2(0, VIEWPORT_H * 0.45)
-	sky_bottom.size = Vector2(VIEWPORT_W, VIEWPORT_H * 0.2)
-	sky_bottom.z_index = -11
-	add_child(sky_bottom)
-
-	var tree_line := ColorRect.new()
-	tree_line.color = Color("#4d8c3a")
-	tree_line.position = Vector2(0, TRAIN_Y + 20)
-	tree_line.size = Vector2(VIEWPORT_W, 12)
-	tree_line.z_index = -9
-	add_child(tree_line)
-
-	var platform := ColorRect.new()
-	platform.color = COLOR_PLATFORM
-	platform.position = Vector2(0, TRAIN_Y + 60)
-	platform.size = Vector2(VIEWPORT_W, 200)
-	platform.z_index = -5
-	add_child(platform)
-
-	var platform_edge := ColorRect.new()
-	platform_edge.color = Color("#f7e7b5")
-	platform_edge.position = Vector2(0, TRAIN_Y + 56)
-	platform_edge.size = Vector2(VIEWPORT_W, 4)
-	platform_edge.z_index = -4
-	add_child(platform_edge)
-
-	for i in 2:
-		var rail := ColorRect.new()
-		rail.color = COLOR_RAIL
-		rail.position = Vector2(0, TRAIN_Y + 50 + i * 20)
-		rail.size = Vector2(VIEWPORT_W, 4)
-		rail.z_index = -4
-		add_child(rail)
-
-	var wait_line := ColorRect.new()
-	wait_line.color = Color(1, 1, 1, 0.3)
-	wait_line.position = Vector2(20, WAITING_Y - 40)
-	wait_line.size = Vector2(VIEWPORT_W - 40, 2)
-	wait_line.z_index = -3
-	add_child(wait_line)
-
-	var wait_label := Label.new()
-	wait_label.text = I18n.t("station.waiting_area")
-	wait_label.position = Vector2(VIEWPORT_W / 2.0 - 80, WAITING_Y - 60)
-	wait_label.add_theme_font_size_override("font_size", 14)
-	wait_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.5))
-	add_child(wait_label)
-
-## Lifecycle/helper logic for `_build_hud`.
-func _build_hud() -> void:
-	var canvas := CanvasLayer.new()
-	canvas.layer = 10
-	add_child(canvas)
-
-	_hud_timer = Label.new()
-	_hud_timer.position = Vector2(VIEWPORT_W - 150, 82)
-	_hud_timer.add_theme_font_size_override("font_size", 20)
-	_hud_timer.add_theme_color_override("font_color", Color.WHITE)
-	canvas.add_child(_hud_timer)
-
-	_hud_station = Label.new()
-	_hud_station.position = Vector2(VIEWPORT_W - 200, 108)
-	_hud_station.size = Vector2(180, 20)
-	_hud_station.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_hud_station.add_theme_font_size_override("font_size", 12)
-	_hud_station.add_theme_color_override("font_color", Color("#aaaaaa"))
-	canvas.add_child(_hud_station)
-
-	_event_icon_label = Label.new()
-	_event_icon_label.position = Vector2(VIEWPORT_W - 52, 128)
-	_event_icon_label.size = Vector2(32, 20)
-	_event_icon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_event_icon_label.add_theme_font_size_override("font_size", 16)
-	_event_icon_label.visible = false
-	canvas.add_child(_event_icon_label)
-
-## Lifecycle/helper logic for `_build_refuel_controls`.
-func _build_refuel_controls() -> void:
-	_fuel_button = Button.new()
-	_fuel_button.position = Vector2(VIEWPORT_W - 180, 92)
-	_fuel_button.size = Vector2(160, 32)
-	_fuel_button.text = I18n.t("station.button.refuel")
-	add_child(_fuel_button)
-
-	_fuel_progress_bg = ColorRect.new()
-	_fuel_progress_bg.position = Vector2(VIEWPORT_W - 180, 128)
-	_fuel_progress_bg.size = Vector2(160, 8)
-	_fuel_progress_bg.color = Color("#2c3e50")
-	add_child(_fuel_progress_bg)
-
-	_fuel_progress_fill = ColorRect.new()
-	_fuel_progress_fill.position = Vector2(VIEWPORT_W - 180, 128)
-	_fuel_progress_fill.size = Vector2(0, 8)
-	_fuel_progress_fill.color = Color("#27ae60")
-	add_child(_fuel_progress_fill)
-
-## Lifecycle/helper logic for `_build_shop_controls`.
-func _build_shop_controls() -> void:
-	_shop_button = Button.new()
-	_shop_button.position = Vector2(VIEWPORT_W - 180, 140)
-	_shop_button.size = Vector2(160, 28)
-	_shop_button.text = I18n.t("station.button.shop")
-	add_child(_shop_button)
-
-	_shop_panel = PanelContainer.new()
-	_shop_panel.position = Vector2(30, 180)
-	_shop_panel.size = Vector2(VIEWPORT_W - 60, 220)
-	_shop_panel.visible = false
-	add_child(_shop_panel)
-
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.08, 0.11, 0.2, 0.95)
-	style.border_color = Color("#f39c12")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	_shop_panel.add_theme_stylebox_override("panel", style)
-
-	var box := VBoxContainer.new()
-	_shop_panel.add_child(box)
-
-	var title := Label.new()
-	title.text = I18n.t("station.shop.title")
-	title.add_theme_font_size_override("font_size", 16)
-	box.add_child(title)
-
-	for shop_type in [Constants.ShopType.BUFFET, Constants.ShopType.SOUVENIR, Constants.ShopType.CARGO_DEPOT]:
-		var row := HBoxContainer.new()
-		var label := Label.new()
-		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		label.name = "Label"
-		row.add_child(label)
-		var btn := Button.new()
-		btn.name = "Action"
-		btn.pressed.connect(_on_shop_action_pressed.bind(shop_type))
-		row.add_child(btn)
-		box.add_child(row)
-		_shop_rows.append(row)
-
-	var close_btn := Button.new()
-	close_btn.text = I18n.t("station.shop.close")
-	close_btn.pressed.connect(func() -> void:
-		_shop_panel.visible = false
-	)
-	box.add_child(close_btn)
-
-## Lifecycle/helper logic for `_build_cargo_panel`.
-func _build_cargo_panel() -> void:
-	_cargo_panel = PanelContainer.new()
-	_cargo_panel.position = Vector2(20, 760)
-	_cargo_panel.size = Vector2(VIEWPORT_W - 40, 180)
-	add_child(_cargo_panel)
-
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.1, 0.2, 0.92)
-	style.border_color = Color("#2c3e50")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(6)
-	_cargo_panel.add_theme_stylebox_override("panel", style)
-
-	var root := VBoxContainer.new()
-	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_cargo_panel.add_child(root)
-
-	var title := Label.new()
-	title.text = I18n.t("station.cargo.title")
-	title.add_theme_font_size_override("font_size", 15)
-	title.add_theme_color_override("font_color", Color("#f1c40f"))
-	root.add_child(title)
-
-	_cargo_note_label = Label.new()
-	_cargo_note_label.add_theme_font_size_override("font_size", 12)
-	_cargo_note_label.add_theme_color_override("font_color", Color("#ecf0f1"))
-	root.add_child(_cargo_note_label)
-
-	_cargo_list = VBoxContainer.new()
-	root.add_child(_cargo_list)
-
-	_cargo_info_label = Label.new()
-	_cargo_info_label.add_theme_font_size_override("font_size", 11)
-	_cargo_info_label.add_theme_color_override("font_color", Color("#95a5a6"))
-	root.add_child(_cargo_info_label)
-
-## Lifecycle/helper logic for `_build_event_banner`.
-func _build_event_banner() -> void:
-	_event_banner = Label.new()
-	_event_banner.position = Vector2(20, 80)
-	_event_banner.size = Vector2(VIEWPORT_W - 40, 24)
-	_event_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_event_banner.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_event_banner.add_theme_font_size_override("font_size", 14)
-	_event_banner.add_theme_color_override("font_color", Color.BLACK)
-	_event_banner.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
-	_event_banner.modulate = COLOR_EVENT
-	_event_banner.visible = false
-	add_child(_event_banner)
-
-## Lifecycle/helper logic for `_build_train`.
-func _build_train() -> void:
-	_wagon_nodes.clear()
-
-	var wagon_count := _wagons.size()
-
-	var total_train_w := wagon_count * WAGON_SPACING + LOCO_SIZE.x + 20
-	var start_x := maxf(20.0, (VIEWPORT_W - total_train_w) / 2.0)
-
-	for i in wagon_count:
-		var wagon: WagonData = _wagons[i]
-		var wagon_node := ColorRect.new()
-		wagon_node.size = WAGON_SIZE
-		wagon_node.color = _get_wagon_color(wagon.type)
-		wagon_node.position = Vector2(start_x + i * WAGON_SPACING, TRAIN_Y - WAGON_SIZE.y / 2)
-		add_child(wagon_node)
-		_wagon_nodes.append(wagon_node)
-
-		if wagon.type == Constants.WagonType.CARGO:
-			for x in [12.0, 34.0, 56.0, 78.0]:
-				var slash_a := ColorRect.new()
-				slash_a.position = Vector2(x, 10)
-				slash_a.size = Vector2(2, 50)
-				slash_a.rotation = deg_to_rad(38.0)
-				slash_a.color = Color("#d7ccc8")
-				wagon_node.add_child(slash_a)
-		else:
-			for w in range(3):
-				var window := ColorRect.new()
-				window.position = Vector2(8 + w * 30, 8)
-				window.size = Vector2(20, 18)
-				window.color = Color(1, 1, 1, 0.42)
-				wagon_node.add_child(window)
-
-		var label := Label.new()
-		label.name = "WagonLabel"
-		label.text = "%s\n0/%d" % [_get_wagon_short_name(wagon.type), wagon.get_capacity()]
-		label.position = Vector2(8, 12)
-		label.add_theme_font_size_override("font_size", 12)
-		label.add_theme_color_override("font_color", Color.WHITE)
-		wagon_node.add_child(label)
-
-	for i in range(wagon_count - 1):
-		var conn := ColorRect.new()
-		conn.color = COLOR_RAIL
-		var x1 := start_x + i * WAGON_SPACING + WAGON_SIZE.x
-		conn.position = Vector2(x1, TRAIN_Y - 2)
-		conn.size = Vector2(WAGON_SPACING - WAGON_SIZE.x, 4)
-		add_child(conn)
-
-	var loco_x := start_x + wagon_count * WAGON_SPACING
-	var loco := ColorRect.new()
-	loco.size = LOCO_SIZE
-	loco.color = COLOR_LOCO
-	loco.position = Vector2(loco_x, TRAIN_Y - LOCO_SIZE.y / 2)
-	add_child(loco)
-
-	var chimney := Polygon2D.new()
-	chimney.polygon = PackedVector2Array([
-		Vector2(64, 0),
-		Vector2(88, 0),
-		Vector2(80, -16),
-	])
-	chimney.color = Color("#2c3e50")
-	loco.add_child(chimney)
-
-	for wheel_x in [12.0, 38.0, 64.0]:
-		var wheel := ColorRect.new()
-		wheel.position = Vector2(wheel_x, LOCO_SIZE.y - 8)
-		wheel.size = Vector2(14, 14)
-		wheel.color = Color("#34495e")
-		loco.add_child(wheel)
-
-	var headlight := ColorRect.new()
-	headlight.position = Vector2(LOCO_SIZE.x - 12, 14)
-	headlight.size = Vector2(8, 8)
-	headlight.color = Color("#f1c40f")
-	loco.add_child(headlight)
-
-	if wagon_count > 0:
-		var last_end := start_x + (wagon_count - 1) * WAGON_SPACING + WAGON_SIZE.x
-		var loco_conn := ColorRect.new()
-		loco_conn.color = COLOR_RAIL
-		loco_conn.position = Vector2(last_end, TRAIN_Y - 2)
-		loco_conn.size = Vector2(loco_x - last_end, 4)
-		add_child(loco_conn)
-
-	var gm: Node = get_node_or_null("/root/GameManager")
-	var loco_name: String = I18n.t("locomotive.kara_duman").replace(" ", "\n")
-	if gm:
-		loco_name = gm.train_config.get_locomotive().loco_name
-
-		var parts: PackedStringArray = loco_name.split(" ")
-		if parts.size() > 1:
-			loco_name = parts[0] + "\n" + parts[1]
-	var loco_label := Label.new()
-	loco_label.text = loco_name
-	loco_label.position = Vector2(10, 15)
-	loco_label.add_theme_font_size_override("font_size", 13)
-	loco_label.add_theme_color_override("font_color", Color.WHITE)
-	loco.add_child(loco_label)
-
-## Lifecycle/helper logic for `_build_summary_panel`.
-func _build_summary_panel() -> void:
-	var canvas := CanvasLayer.new()
-	canvas.layer = 20
-	add_child(canvas)
-
-	_summary_panel = PanelContainer.new()
-	_summary_panel.position = Vector2(40, 200)
-	_summary_panel.size = Vector2(VIEWPORT_W - 80, 450)
-	_summary_panel.visible = false
-
-	var style := StyleBoxFlat.new()
-	style.bg_color = COLOR_HUD_BG
-	style.border_color = Color("#C0392B")
-	style.set_border_width_all(3)
-	style.set_corner_radius_all(8)
-	style.set_content_margin_all(20)
-	_summary_panel.add_theme_stylebox_override("panel", style)
-	canvas.add_child(_summary_panel)
-
-	var vbox := VBoxContainer.new()
-	_summary_panel.add_child(vbox)
-
-	var title := Label.new()
-	title.text = I18n.t("station.title.summary")
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", Color("#F1C40F"))
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(title)
-
-	vbox.add_child(HSeparator.new())
-
-	_summary_label = Label.new()
-	_summary_label.add_theme_font_size_override("font_size", 16)
-	_summary_label.add_theme_color_override("font_color", Color.WHITE)
-	vbox.add_child(_summary_label)
-
-	vbox.add_child(Control.new())
-
-	var gm: Node = get_node_or_null("/root/GameManager")
-	if gm and gm.trip_planner.is_trip_active():
-		if not gm.trip_planner.is_at_final_stop():
-
-			var continue_btn := Button.new()
-			continue_btn.text = I18n.t("station.button.continue")
-			continue_btn.add_theme_font_size_override("font_size", 18)
-			continue_btn.pressed.connect(_on_continue_pressed)
-			vbox.add_child(continue_btn)
-		else:
-
-			var finish_btn := Button.new()
-			finish_btn.text = I18n.t("station.button.finish_trip")
-			finish_btn.add_theme_font_size_override("font_size", 18)
-			finish_btn.pressed.connect(_on_finish_trip_pressed)
-			vbox.add_child(finish_btn)
-	else:
-
-		var restart_btn := Button.new()
-		restart_btn.text = I18n.t("station.button.restart")
-		restart_btn.add_theme_font_size_override("font_size", 18)
-		restart_btn.pressed.connect(_on_restart_pressed)
-		vbox.add_child(restart_btn)
-
-		var garage_btn := Button.new()
-		garage_btn.text = I18n.t("station.button.back_garage")
-		garage_btn.add_theme_font_size_override("font_size", 18)
-		garage_btn.pressed.connect(_on_garage_pressed)
-		vbox.add_child(garage_btn)
+	var refs: Dictionary = StationUiBuilder.build(self)
+	_hud_timer = refs.get("hud_timer")
+	_hud_station = refs.get("hud_station")
+	_event_icon_label = refs.get("event_icon_label")
+	_wagon_nodes = refs.get("wagon_nodes", [])
+	_fuel_button = refs.get("fuel_button")
+	_fuel_progress_bg = refs.get("fuel_progress_bg")
+	_fuel_progress_fill = refs.get("fuel_progress_fill")
+	_cargo_panel = refs.get("cargo_panel")
+	_cargo_list = refs.get("cargo_list")
+	_cargo_note_label = refs.get("cargo_note_label")
+	_cargo_info_label = refs.get("cargo_info_label")
+	_event_banner = refs.get("event_banner")
+	_summary_panel = refs.get("summary_panel")
+	_summary_label = refs.get("summary_label")
 
 ## Lifecycle/helper logic for `_start_station`.
 func _start_station() -> void:
@@ -912,32 +544,7 @@ func _get_current_station_name() -> String:
 
 ## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
-	if not _is_active:
-		return
-
-	if event is InputEventScreenTouch or event is InputEventMouseButton:
-		var pos := _get_event_position(event)
-		var pressed := _is_pressed(event)
-
-		if pressed:
-			if _shop_panel and _shop_panel.visible and _is_in_rect(pos, _shop_panel.position, _shop_panel.size):
-				return
-			if _shop_button and _is_in_rect(pos, _shop_button.position, _shop_button.size):
-				_toggle_shop_panel()
-				return
-			if _is_in_rect(pos, _fuel_button.position, _fuel_button.size):
-				_try_refuel()
-				return
-			if _cargo_panel and _is_in_rect(pos, _cargo_panel.position, _cargo_panel.size):
-				return
-			_try_start_drag(pos)
-		else:
-			_try_end_drag(pos)
-
-	elif event is InputEventScreenDrag or event is InputEventMouseMotion:
-		if _dragged_passenger_index >= 0:
-			var pos := _get_event_position(event)
-			_passenger_nodes[_dragged_passenger_index].position = pos - _drag_offset
+	StationInteractionManager.handle_input(self, event)
 
 ## Lifecycle/helper logic for `_get_event_position`.
 func _get_event_position(event: InputEvent) -> Vector2:
@@ -1009,16 +616,7 @@ func _try_end_drag(pos: Vector2) -> void:
 
 ## Lifecycle/helper logic for `_rebuild_passenger_nodes`.
 func _rebuild_passenger_nodes() -> void:
-	for node in _passenger_nodes:
-		node.queue_free()
-	_passenger_nodes.clear()
-
-	for i in _waiting_passengers.size():
-		var p := _waiting_passengers[i]
-		var node := _create_passenger_node(p)
-		node.position = _get_passenger_position(i)
-		add_child(node)
-		_passenger_nodes.append(node)
+	StationInteractionManager.rebuild_passenger_nodes(self)
 
 ## Lifecycle/helper logic for `_create_passenger_node`.
 func _create_passenger_node(passenger: Dictionary) -> Control:
@@ -1091,21 +689,7 @@ func _create_passenger_node(passenger: Dictionary) -> Control:
 
 ## Lifecycle/helper logic for `_update_patience_bars`.
 func _update_patience_bars() -> void:
-	for i in _passenger_nodes.size():
-		if i >= _waiting_passengers.size():
-			break
-		var p: Dictionary = _waiting_passengers[i]
-		var percent := PatienceSystem.get_patience_percent(p)
-		var pnode: Control = _passenger_nodes[i]
-		var bar: ColorRect = pnode.get_node("PatienceBarFill")
-		bar.size.x = (PASSENGER_SIZE.x - 4) * (percent / 100.0)
-
-		if percent > 60:
-			bar.color = COLOR_SUCCESS
-		elif percent > 30:
-			bar.color = Color("#F39C12")
-		else:
-			bar.color = COLOR_FAIL
+	StationInteractionManager.update_patience_bars(self)
 
 ## Lifecycle/helper logic for `_get_passenger_position`.
 func _get_passenger_position(index: int) -> Vector2:
@@ -1162,82 +746,19 @@ func _update_hud() -> void:
 
 ## Lifecycle/helper logic for `_update_refuel_controls`.
 func _update_refuel_controls() -> void:
-	var gm: Node = get_node_or_null("/root/GameManager")
-	if gm == null:
-		_fuel_button.disabled = true
-		_fuel_button.text = I18n.t("station.button.refuel")
-		return
-
-	var fuel: FuelSystem = gm.fuel_system
-	var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
-	var cost: int = fuel.get_refuel_cost(missing)
-	if _refuel_in_progress:
-		_fuel_button.disabled = true
-		_fuel_button.text = I18n.t("station.button.refuel_progress")
-	elif missing <= 0.0:
-		_fuel_button.disabled = true
-		_fuel_button.text = I18n.t("station.button.refuel_full")
-	else:
-		_fuel_button.disabled = not _economy.can_afford(cost)
-		_fuel_button.text = I18n.t("station.button.refuel_with_cost", [cost])
+	StationInteractionManager.update_refuel_controls(self)
 
 ## Lifecycle/helper logic for `_try_refuel`.
 func _try_refuel() -> void:
-	if _refuel_in_progress:
-		return
-	var gm: Node = get_node_or_null("/root/GameManager")
-	if gm == null:
-		return
-	var fuel: FuelSystem = gm.fuel_system
-	var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
-	var cost: int = fuel.get_refuel_cost(missing)
-	if missing <= 0.0 or not _economy.can_afford(cost):
-		return
-	_refuel_in_progress = true
-	_refuel_progress = 0.0
-	_fuel_progress_fill.size.x = 0
+	StationInteractionManager.try_refuel(self)
 
 ## Lifecycle/helper logic for `_process_refuel`.
 func _process_refuel(delta: float) -> void:
-	if not _refuel_in_progress:
-		return
-	_refuel_progress += delta / 1.5
-	var p := clampf(_refuel_progress, 0.0, 1.0)
-	_fuel_progress_fill.size.x = 160.0 * p
-	if p >= 1.0:
-		var gm: Node = get_node_or_null("/root/GameManager")
-		if gm:
-			var fuel: FuelSystem = gm.fuel_system
-			var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
-			fuel.buy_refuel(missing)
-		_refuel_in_progress = false
-		_refuel_progress = 0.0
-		_fuel_progress_fill.size.x = 0
-		_update_hud()
+	StationInteractionManager.process_refuel(self, delta)
 
 ## Lifecycle/helper logic for `_update_wagon_labels`.
 func _update_wagon_labels() -> void:
-	var gm: Node = get_node_or_null("/root/GameManager")
-	var cargo_loaded: int = 0
-	if gm and gm.cargo_system:
-		cargo_loaded = gm.cargo_system.get_loaded_weight()
-	for i in _wagon_nodes.size():
-		if i >= _wagons.size():
-			break
-		var wagon: WagonData = _wagons[i]
-		var wnode: ColorRect = _wagon_nodes[i]
-		var label := wnode.get_node_or_null("WagonLabel") as Label
-		if label == null:
-			continue
-		if wagon.type == Constants.WagonType.CARGO:
-			label.text = "%s\n%s %d/%d" % [
-				_get_wagon_short_name(wagon.type),
-				I18n.t("station.cargo.boxes_icon"),
-				cargo_loaded,
-				wagon.get_capacity(),
-			]
-		else:
-			label.text = "%s\n%d/%d" % [_get_wagon_short_name(wagon.type), wagon.get_passenger_count(), wagon.get_capacity()]
+	StationInteractionManager.update_wagon_labels(self)
 
 ## Lifecycle/helper logic for `_flash_wagon`.
 func _flash_wagon(wagon_index: int, color: Color) -> void:

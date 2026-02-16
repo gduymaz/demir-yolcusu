@@ -2,6 +2,8 @@
 ## Restored English comments for maintainability and i18n coding standards.
 
 extends Node2D
+const GarageUiBuilder := preload("res://src/scenes/garage/garage_ui_builder.gd")
+const GarageInteractionManager := preload("res://src/scenes/garage/garage_interaction_manager.gd")
 
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
@@ -75,226 +77,15 @@ func _ready() -> void:
 
 ## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
-	_build_background()
-	_build_header()
-	_build_utility_buttons()
-	_build_loco_panel()
-	_build_train_area()
-	_build_info_bar()
-	_build_wagon_pool()
-	_build_button_bar()
-	_build_shop_panel()
-	_build_upgrade_panel()
-
-## Lifecycle/helper logic for `_build_background`.
-func _build_background() -> void:
-	var bg := ColorRect.new()
-	bg.position = Vector2.ZERO
-	bg.size = Vector2(VIEWPORT_W, VIEWPORT_H)
-	bg.color = COLOR_BG
-	add_child(bg)
-
-## Lifecycle/helper logic for `_build_header`.
-func _build_header() -> void:
-	var header_bg := ColorRect.new()
-	header_bg.position = Vector2.ZERO
-	header_bg.size = Vector2(VIEWPORT_W, HEADER_H)
-	header_bg.color = COLOR_HEADER
-	add_child(header_bg)
-
-	var title := Label.new()
-	title.text = I18n.t("garage.title")
-	title.position = Vector2(MARGIN, 10)
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", COLOR_TEXT)
-	add_child(title)
-
-	_money_label = Label.new()
-	_money_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_money_label.position = Vector2(VIEWPORT_W - 160, 10)
-	_money_label.size = Vector2(140, 30)
-	_money_label.add_theme_font_size_override("font_size", 20)
-	_money_label.add_theme_color_override("font_color", COLOR_GOLD)
-	add_child(_money_label)
-
-func _build_utility_buttons() -> void:
-	var achievements_btn := _create_button(I18n.t("garage.button.achievements"), Vector2(VIEWPORT_W - 250, 52), Vector2(110, 34), Color("#9b59b6"))
-	achievements_btn.name = "AchievementsButton"
-	add_child(achievements_btn)
-
-	var settings_btn := _create_button(I18n.t("garage.button.settings"), Vector2(VIEWPORT_W - 130, 52), Vector2(110, 34), Color("#34495e"))
-	settings_btn.name = "SettingsButton"
-	add_child(settings_btn)
-
-## Lifecycle/helper logic for `_build_loco_panel`.
-func _build_loco_panel() -> void:
-	var panel_bg := ColorRect.new()
-	panel_bg.position = Vector2(0, HEADER_H)
-	panel_bg.size = Vector2(VIEWPORT_W, LOCO_PANEL_H)
-	panel_bg.color = COLOR_PANEL
-	add_child(panel_bg)
-
-	var section_label := Label.new()
-	section_label.text = I18n.t("garage.section.locomotive")
-	section_label.position = Vector2(MARGIN, HEADER_H + 5)
-	section_label.add_theme_font_size_override("font_size", 12)
-	section_label.add_theme_color_override("font_color", Color("#888888"))
-	add_child(section_label)
-
-	var container := Control.new()
-	container.position = Vector2(MARGIN, HEADER_H + 25)
-	container.size = Vector2(VIEWPORT_W - MARGIN * 2, 50)
-	container.name = "LocoContainer"
-	add_child(container)
-
-## Lifecycle/helper logic for `_build_train_area`.
-func _build_train_area() -> void:
-
-	var area_bg := ColorRect.new()
-	area_bg.position = Vector2(0, TRAIN_AREA_Y)
-	area_bg.size = Vector2(VIEWPORT_W, TRAIN_AREA_H)
-	area_bg.color = Color("#111122")
-	add_child(area_bg)
-
-	var rail := ColorRect.new()
-	rail.position = Vector2(0, TRAIN_AREA_Y + TRAIN_AREA_H - 20)
-	rail.size = Vector2(VIEWPORT_W, 4)
-	rail.color = Color("#444444")
-	add_child(rail)
-
-	_train_container = Control.new()
-	_train_container.position = Vector2(0, TRAIN_AREA_Y)
-	_train_container.size = Vector2(VIEWPORT_W, TRAIN_AREA_H)
-	_train_container.name = "TrainContainer"
-	add_child(_train_container)
-
-## Lifecycle/helper logic for `_build_info_bar`.
-func _build_info_bar() -> void:
-	var bar_bg := ColorRect.new()
-	bar_bg.position = Vector2(0, INFO_BAR_Y)
-	bar_bg.size = Vector2(VIEWPORT_W, 40)
-	bar_bg.color = COLOR_HEADER
-	add_child(bar_bg)
-
-	_info_label = Label.new()
-	_info_label.position = Vector2(MARGIN, INFO_BAR_Y + 8)
-	_info_label.size = Vector2(VIEWPORT_W - MARGIN * 2, 24)
-	_info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_info_label.add_theme_font_size_override("font_size", 14)
-	_info_label.add_theme_color_override("font_color", COLOR_TEXT)
-	add_child(_info_label)
-
-## Lifecycle/helper logic for `_build_wagon_pool`.
-func _build_wagon_pool() -> void:
-	var pool_bg := ColorRect.new()
-	pool_bg.position = Vector2(0, WAGON_POOL_Y)
-	pool_bg.size = Vector2(VIEWPORT_W, WAGON_POOL_H)
-	pool_bg.color = COLOR_PANEL.darkened(0.2)
-	add_child(pool_bg)
-
-	var section_label := Label.new()
-	section_label.text = I18n.t("garage.section.wagons")
-	section_label.position = Vector2(MARGIN, WAGON_POOL_Y + 5)
-	section_label.add_theme_font_size_override("font_size", 12)
-	section_label.add_theme_color_override("font_color", Color("#888888"))
-	add_child(section_label)
-
-	_wagon_pool_container = Control.new()
-	_wagon_pool_container.position = Vector2(MARGIN, WAGON_POOL_Y + 25)
-	_wagon_pool_container.size = Vector2(VIEWPORT_W - MARGIN * 2, WAGON_POOL_H - 30)
-	_wagon_pool_container.name = "WagonPoolContainer"
-	add_child(_wagon_pool_container)
-
-## Lifecycle/helper logic for `_build_button_bar`.
-func _build_button_bar() -> void:
-
-	var shop_btn := _create_button(I18n.t("garage.button.shop"), Vector2(MARGIN, BUTTON_BAR_Y), Vector2(160, BUTTON_H), COLOR_BUTTON)
-	shop_btn.name = "ShopButton"
-	add_child(shop_btn)
-
-	var upgrade_btn := _create_button(I18n.t("garage.button.upgrade"), Vector2(190, BUTTON_BAR_Y), Vector2(160, BUTTON_H), Color("#8e44ad"))
-	upgrade_btn.name = "UpgradeButton"
-	add_child(upgrade_btn)
-
-	var go_btn := _create_button(I18n.t("garage.button.go_map"), Vector2(360, BUTTON_BAR_Y), Vector2(160, BUTTON_H), COLOR_GREEN)
-	go_btn.name = "GoButton"
-	add_child(go_btn)
-
-## Lifecycle/helper logic for `_build_shop_panel`.
-func _build_shop_panel() -> void:
-
-	_shop_panel = Control.new()
-	_shop_panel.position = Vector2(0, 0)
-	_shop_panel.size = Vector2(VIEWPORT_W, VIEWPORT_H)
-	_shop_panel.visible = false
-	_shop_panel.name = "ShopPanel"
-	add_child(_shop_panel)
-
-	var overlay := ColorRect.new()
-	overlay.position = Vector2.ZERO
-	overlay.size = Vector2(VIEWPORT_W, VIEWPORT_H)
-	overlay.color = Color(0, 0, 0, 0.7)
-	_shop_panel.add_child(overlay)
-
-	var box := ColorRect.new()
-	box.position = Vector2(40, 150)
-	box.size = Vector2(460, 600)
-	box.color = COLOR_PANEL
-	_shop_panel.add_child(box)
-
-	var title := Label.new()
-	title.text = I18n.t("garage.shop.title")
-	title.position = Vector2(180, 165)
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", COLOR_GOLD)
-	_shop_panel.add_child(title)
-
-	var shop_items_container := Control.new()
-	shop_items_container.position = Vector2(60, 210)
-	shop_items_container.size = Vector2(420, 400)
-	shop_items_container.name = "ShopItemsContainer"
-	_shop_panel.add_child(shop_items_container)
-
-	var close_btn := _create_button(I18n.t("garage.shop.close"), Vector2(170, 650), Vector2(200, 50), COLOR_RED)
-	close_btn.name = "ShopCloseButton"
-	_shop_panel.add_child(close_btn)
-
-func _build_upgrade_panel() -> void:
-	_upgrade_panel = Control.new()
-	_upgrade_panel.position = Vector2(0, 0)
-	_upgrade_panel.size = Vector2(VIEWPORT_W, VIEWPORT_H)
-	_upgrade_panel.visible = false
-	_upgrade_panel.name = "UpgradePanel"
-	add_child(_upgrade_panel)
-
-	var overlay := ColorRect.new()
-	overlay.position = Vector2.ZERO
-	overlay.size = Vector2(VIEWPORT_W, VIEWPORT_H)
-	overlay.color = Color(0, 0, 0, 0.7)
-	_upgrade_panel.add_child(overlay)
-
-	var box := ColorRect.new()
-	box.position = Vector2(35, 110)
-	box.size = Vector2(470, 690)
-	box.color = COLOR_PANEL
-	_upgrade_panel.add_child(box)
-
-	var title := Label.new()
-	title.text = I18n.t("garage.upgrade.title")
-	title.position = Vector2(145, 125)
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", COLOR_GOLD)
-	_upgrade_panel.add_child(title)
-
-	var content := Control.new()
-	content.position = Vector2(55, 170)
-	content.size = Vector2(430, 560)
-	content.name = "UpgradeContent"
-	_upgrade_panel.add_child(content)
-
-	var close_btn := _create_button(I18n.t("garage.shop.close"), Vector2(170, 740), Vector2(200, 50), COLOR_RED)
-	close_btn.name = "UpgradeCloseButton"
-	_upgrade_panel.add_child(close_btn)
+	var refs: Dictionary = GarageUiBuilder.build(self)
+	_money_label = refs.get("money_label")
+	_train_container = refs.get("train_container")
+	_info_label = refs.get("info_label")
+	_wagon_pool_container = refs.get("wagon_pool_container")
+	_shop_panel = refs.get("shop_panel")
+	_upgrade_panel = refs.get("upgrade_panel")
+	_upgrade_entries = refs.get("upgrade_entries", [])
+	_upgrade_respec_rect = refs.get("upgrade_respec_rect", Rect2())
 
 ## Lifecycle/helper logic for `_create_button`.
 func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color) -> Control:
@@ -722,245 +513,46 @@ func _refresh_upgrade_panel() -> void:
 
 ## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
-	if _should_ignore_mouse_event(event):
-		return
-
-	if _shop_visible:
-		_handle_shop_input(event)
-		return
-	if _upgrade_visible:
-		_handle_upgrade_input(event)
-		return
-
-	if event is InputEventScreenTouch or event is InputEventMouseButton:
-		var pos := _get_event_position(event)
-		var pressed := _is_pressed(event)
-
-		if pressed:
-			_on_press(pos)
-		else:
-			_on_release(pos)
-
-	elif (event is InputEventScreenDrag or event is InputEventMouseMotion) and _dragging:
-		var pos := _get_event_position(event)
-		_on_drag(pos)
+	GarageInteractionManager.handle_input(self, event)
 
 ## Lifecycle/helper logic for `_handle_shop_input`.
 func _handle_shop_input(event: InputEvent) -> void:
-	if not (event is InputEventScreenTouch or event is InputEventMouseButton):
-		return
-	if not _is_pressed(event):
-		return
-
-	var pos := _get_event_position(event)
-
-	var close_btn: Control = _shop_panel.get_node("ShopCloseButton")
-	if _is_in_rect(pos, close_btn.position, close_btn.size):
-		_shop_visible = false
-		_shop_panel.visible = false
-		_refresh_all()
-		return
-
-	for entry in _shop_entries:
-		var rect: Rect2 = entry.get("rect", Rect2())
-		if rect.has_point(pos):
-			if str(entry.get("kind", "")) == "wagon":
-				_try_buy_wagon(int(entry.get("type", 0)))
-			else:
-				_try_buy_locomotive(str(entry.get("id", "")), float(entry.get("rep", 0.0)))
-			return
+	GarageInteractionManager._handle_shop_input(self, event)
 
 func _handle_upgrade_input(event: InputEvent) -> void:
-	if not (event is InputEventScreenTouch or event is InputEventMouseButton):
-		return
-	if not _is_pressed(event):
-		return
-	var pos := _get_event_position(event)
-	var close_btn: Control = _upgrade_panel.get_node("UpgradeCloseButton")
-	if _is_in_rect(pos, close_btn.position, close_btn.size):
-		_upgrade_visible = false
-		_upgrade_panel.visible = false
-		_refresh_all()
-		return
-	if _upgrade_respec_rect.has_point(pos):
-		_try_respec_selected_target()
-		return
-	for entry in _upgrade_entries:
-		var rect: Rect2 = entry.get("rect", Rect2())
-		if rect.has_point(pos):
-			_try_upgrade_entry(entry)
-			return
+	GarageInteractionManager._handle_upgrade_input(self, event)
 
 ## Lifecycle/helper logic for `_on_press`.
 func _on_press(pos: Vector2) -> void:
-	if _dragging:
-		return
-
-	var shop_btn: Control = get_node("ShopButton")
-	if _is_in_rect(pos, shop_btn.position, shop_btn.size):
-		_open_shop()
-		return
-
-	var achievements_btn: Control = get_node("AchievementsButton")
-	if _is_in_rect(pos, achievements_btn.position, achievements_btn.size):
-		SceneTransition.transition_to("res://src/scenes/achievements/achievements_scene.tscn")
-		return
-
-	var settings_btn: Control = get_node("SettingsButton")
-	if _is_in_rect(pos, settings_btn.position, settings_btn.size):
-		SceneTransition.transition_to("res://src/scenes/settings/settings_scene.tscn")
-		return
-
-	var upgrade_btn: Control = get_node("UpgradeButton")
-	if _is_in_rect(pos, upgrade_btn.position, upgrade_btn.size):
-		_open_upgrade()
-		return
-
-	var go_btn: Control = get_node("GoButton")
-	if _is_in_rect(pos, go_btn.position, go_btn.size):
-		_go_to_station()
-		return
-
-	var gm: Node = _get_game_manager()
-	var config: TrainConfig = gm.train_config
-	for i in range(_train_wagon_nodes.size()):
-		var node: Control = _train_wagon_nodes[i]
-		var node_global := node.position + _train_container.position
-		if _is_in_rect(pos, node_global, node.size):
-			_start_drag_from_train(i, pos)
-			return
-
-	for i in range(_pool_wagon_nodes.size()):
-		var node: Control = _pool_wagon_nodes[i]
-		var node_global := node.position + _wagon_pool_container.position
-		if _is_in_rect(pos, node_global, node.size):
-			_start_drag_from_pool(i, pos)
-			return
-
-	var loco_container: Control = get_node("LocoContainer")
-	for i in range(_loco_buttons.size()):
-		var btn: Control = _loco_buttons[i]
-		var btn_global := btn.position + loco_container.position
-		if _is_in_rect(pos, btn_global, btn.size):
-			_select_locomotive(i)
-			return
+	GarageInteractionManager._on_press(self, pos)
 
 ## Lifecycle/helper logic for `_on_drag`.
 func _on_drag(pos: Vector2) -> void:
-	if _drag_node:
-		_drag_node.position = pos - _drag_offset
+	GarageInteractionManager._on_drag(self, pos)
 
 ## Lifecycle/helper logic for `_on_release`.
 func _on_release(pos: Vector2) -> void:
-	if not _dragging:
-		return
-
-	_dragging = false
-
-	var in_train_area := pos.y >= TRAIN_AREA_Y and pos.y <= TRAIN_AREA_Y + TRAIN_AREA_H
-
-	if _drag_source == "pool" and in_train_area:
-
-		_add_wagon_to_train_from_pool()
-	elif _drag_source == "train" and not in_train_area:
-
-		_remove_wagon_from_train()
-
-	if _drag_node:
-		_drag_node.queue_free()
-		_drag_node = null
-
-	_refresh_all()
+	GarageInteractionManager._on_release(self, pos)
 
 ## Lifecycle/helper logic for `_start_drag_from_pool`.
 func _start_drag_from_pool(index: int, pos: Vector2) -> void:
-	var gm: Node = _get_game_manager()
-	var available: Array = gm.inventory.get_available_wagons()
-	if index >= available.size():
-		return
-
-	_dragging = true
-	_drag_source = "pool"
-	_drag_index = index
-	_drag_wagon = available[index]
-	_set_upgrade_target_wagon(_drag_wagon)
-
-	_drag_node = ColorRect.new()
-	_drag_node.size = Vector2(WAGON_SPRITE_W, WAGON_SPRITE_H)
-	_drag_node.color = _get_wagon_color(_drag_wagon.type)
-	_drag_node.modulate = Color(1, 1, 1, 0.7)
-	_drag_node.z_index = 100
-	_drag_offset = Vector2(WAGON_SPRITE_W / 2.0, WAGON_SPRITE_H / 2.0)
-	_drag_node.position = pos - _drag_offset
-	add_child(_drag_node)
+	GarageInteractionManager._start_drag_from_pool(self, index, pos)
 
 ## Lifecycle/helper logic for `_start_drag_from_train`.
 func _start_drag_from_train(index: int, pos: Vector2) -> void:
-	var gm: Node = _get_game_manager()
-	var wagons: Array = gm.train_config.get_wagons()
-	if index >= wagons.size():
-		return
-
-	_dragging = true
-	_drag_source = "train"
-	_drag_index = index
-	_drag_wagon = wagons[index]
-	_set_upgrade_target_wagon(_drag_wagon)
-
-	_drag_node = ColorRect.new()
-	_drag_node.size = Vector2(WAGON_SPRITE_W, WAGON_SPRITE_H)
-	_drag_node.color = _get_wagon_color(_drag_wagon.type)
-	_drag_node.modulate = Color(1, 1, 1, 0.7)
-	_drag_node.z_index = 100
-	_drag_offset = Vector2(WAGON_SPRITE_W / 2.0, WAGON_SPRITE_H / 2.0)
-	_drag_node.position = pos - _drag_offset
-	add_child(_drag_node)
+	GarageInteractionManager._start_drag_from_train(self, index, pos)
 
 ## Lifecycle/helper logic for `_add_wagon_to_train_from_pool`.
 func _add_wagon_to_train_from_pool() -> void:
-	var gm: Node = _get_game_manager()
-	var config: TrainConfig = gm.train_config
-	if config.is_full() or _drag_wagon == null:
-		return
-	if config.add_wagon(_drag_wagon):
-		gm.inventory.mark_wagon_in_use(_drag_wagon)
-		gm.sync_trip_wagon_count()
-		if gm.tutorial_manager:
-			gm.tutorial_manager.notify("wagon_added")
+	GarageInteractionManager._add_wagon_to_train_from_pool(self)
 
 ## Lifecycle/helper logic for `_remove_wagon_from_train`.
 func _remove_wagon_from_train() -> void:
-	var gm: Node = _get_game_manager()
-	var config: TrainConfig = gm.train_config
-	var removed := config.remove_wagon_at(_drag_index)
-	if removed:
-		gm.inventory.unmark_wagon_in_use(removed)
-		gm.sync_trip_wagon_count()
+	GarageInteractionManager._remove_wagon_from_train(self)
 
 ## Lifecycle/helper logic for `_select_locomotive`.
 func _select_locomotive(index: int) -> void:
-	var gm: Node = _get_game_manager()
-	var locos: Array = gm.inventory.get_locomotives()
-	if index >= locos.size():
-		return
-
-	var loco: LocomotiveData = locos[index]
-	_set_upgrade_target_locomotive(loco.id)
-	var old_config: TrainConfig = gm.train_config
-
-	for wagon in old_config.get_wagons():
-		gm.inventory.unmark_wagon_in_use(wagon)
-
-	gm.train_config = TrainConfig.new(loco)
-
-	for wagon in old_config.get_wagons():
-		if gm.train_config.is_full():
-			break
-		gm.train_config.add_wagon(wagon)
-		gm.inventory.mark_wagon_in_use(wagon)
-	gm.sync_trip_wagon_count()
-
-	_refresh_all()
+	GarageInteractionManager._select_locomotive(self, index)
 
 ## Lifecycle/helper logic for `_open_shop`.
 func _open_shop() -> void:
