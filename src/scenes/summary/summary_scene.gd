@@ -53,7 +53,6 @@ func _build() -> void:
 	lines.append("- Toplam gider: %d DA" % int(costs.get("total", 0)))
 	lines.append("")
 	var net := int(report.get("net_profit", 0))
-	lines.append("NET KAZANC: %d DA" % net)
 	lines.append("Itibar degisimi: %.1f" % float(report.get("reputation_delta", 0.0)))
 	lines.append("")
 	lines.append("ISTATISTIK")
@@ -69,6 +68,18 @@ func _build() -> void:
 	body.text = "\n".join(lines)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	add_child(body)
+
+	var net_label := Label.new()
+	net_label.position = Vector2(40, 610)
+	net_label.size = Vector2(VIEWPORT_W - 80, 34)
+	net_label.text = "NET KAZANC: %d DA" % net
+	net_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	net_label.add_theme_font_size_override("font_size", 24)
+	if net >= 0:
+		net_label.add_theme_color_override("font_color", Color("#2ecc71"))
+	else:
+		net_label.add_theme_color_override("font_color", Color("#e74c3c"))
+	add_child(net_label)
 
 	var map_btn := Button.new()
 	map_btn.position = Vector2(150, 860)

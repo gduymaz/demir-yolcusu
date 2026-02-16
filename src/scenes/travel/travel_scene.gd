@@ -154,15 +154,9 @@ func _build_train() -> void:
 
 
 func _build_hud() -> void:
-	var hud_bg := ColorRect.new()
-	hud_bg.size = Vector2(VIEWPORT_W, HUD_H)
-	hud_bg.color = COLOR_PANEL
-	hud_bg.z_index = 20
-	add_child(hud_bg)
-
-	# Güzergah
+	# Güzergah bilgisi (global HUD'un altındaki satır)
 	_from_label = Label.new()
-	_from_label.position = Vector2(20, 15)
+	_from_label.position = Vector2(20, 82)
 	_from_label.add_theme_font_size_override("font_size", 16)
 	_from_label.add_theme_color_override("font_color", COLOR_GREEN)
 	_from_label.z_index = 21
@@ -170,38 +164,37 @@ func _build_hud() -> void:
 
 	var arrow := Label.new()
 	arrow.text = "-->"
-	arrow.position = Vector2(220, 15)
+	arrow.position = Vector2(220, 82)
 	arrow.add_theme_font_size_override("font_size", 16)
 	arrow.add_theme_color_override("font_color", COLOR_TEXT)
 	arrow.z_index = 21
 	add_child(arrow)
 
 	_to_label = Label.new()
-	_to_label.position = Vector2(270, 15)
+	_to_label.position = Vector2(270, 82)
 	_to_label.add_theme_font_size_override("font_size", 16)
 	_to_label.add_theme_color_override("font_color", COLOR_GOLD)
 	_to_label.z_index = 21
 	add_child(_to_label)
 
-	# Yakıt
+	# Anlık hız/uyarı satırı
 	_fuel_label = Label.new()
-	_fuel_label.position = Vector2(20, 50)
+	_fuel_label.position = Vector2(20, 104)
 	_fuel_label.add_theme_font_size_override("font_size", 14)
 	_fuel_label.add_theme_color_override("font_color", COLOR_TEXT)
 	_fuel_label.z_index = 21
 	add_child(_fuel_label)
 
 	_warning_label = Label.new()
-	_warning_label.position = Vector2(180, 50)
+	_warning_label.position = Vector2(180, 104)
 	_warning_label.size = Vector2(160, 20)
 	_warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_warning_label.add_theme_font_size_override("font_size", 13)
 	_warning_label.add_theme_color_override("font_color", Color("#e74c3c"))
 	add_child(_warning_label)
 
-	# Hız
 	_speed_label = Label.new()
-	_speed_label.position = Vector2(350, 50)
+	_speed_label.position = Vector2(350, 104)
 	_speed_label.add_theme_font_size_override("font_size", 14)
 	_speed_label.add_theme_color_override("font_color", COLOR_TEXT)
 	_speed_label.z_index = 21

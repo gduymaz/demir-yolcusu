@@ -84,6 +84,40 @@ func test_TripSummary_ShouldUseFuelConsumptionCostAndStationBreakdown() -> void:
 	assert_int(report.get("stats", {}).get("stops_visited", 0)).is_equal(1)
 
 
+func test_TripSummary_MultipleStationsAndLoss_ShouldAggregateCorrectly() -> void:
+	var gm := _create_manager()
+	gm._on_trip_started({})
+	gm.record_station_result("TORBALI", 60, 2, 1)
+	gm.record_station_result("SELCUK", 90, 3, 0)
+	gm.fuel_system.begin_trip_tracking()
+	gm.fuel_system.consume(100.0)
+	gm._on_trip_completed({
+		"total_earned": 150,
+		"earnings": {"ticket": 150, "cargo": 0},
+		"spendings": {},
+	})
+
+	var report: Dictionary = gm.get_last_trip_report()
+	assert_int(report.get("revenue", {}).get("ticket_total", 0)).is_equal(150)
+	assert_int(report.get("costs", {}).get("fuel_total", 0)).is_equal(100)
+	assert_int(report.get("net_profit", 0)).is_equal(50)
+	assert_int(report.get("stats", {}).get("passengers_transported", 0)).is_equal(5)
+	assert_int(report.get("stats", {}).get("passengers_lost", 0)).is_equal(1)
+	assert_int(report.get("stats", {}).get("stops_visited", 0)).is_equal(2)
+
+
+func test_SaveLoad_ShouldPersistTipFlags() -> void:
+	var gm1 := _create_manager()
+	gm1.mark_tip_shown("tip_garage")
+	gm1.mark_tip_shown("tip_map")
+	assert_bool(gm1.save_game()).is_true()
+
+	_clear_runtime_nodes()
+	var gm2 := _create_manager()
+	assert_bool(gm2.has_tip_been_shown("tip_garage")).is_true()
+	assert_bool(gm2.has_tip_been_shown("tip_map")).is_true()
+
+
 func _create_manager() -> Node:
 	var bus: Node = load("res://src/events/event_bus.gd").new()
 	bus.name = "EventBus"

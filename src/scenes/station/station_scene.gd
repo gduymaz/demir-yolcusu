@@ -22,8 +22,6 @@ var _dragged_passenger_index: int = -1
 var _drag_offset: Vector2 = Vector2.ZERO
 
 # -- Node referansları --
-var _hud_money: Label
-var _hud_reputation: Label
 var _hud_timer: Label
 var _hud_station: Label
 var _passenger_nodes: Array = []
@@ -201,32 +199,17 @@ func _build_hud() -> void:
 	canvas.layer = 10
 	add_child(canvas)
 
-	var hud_bg := ColorRect.new()
-	hud_bg.color = COLOR_HUD_BG
-	hud_bg.size = Vector2(VIEWPORT_W, 80)
-	canvas.add_child(hud_bg)
-
-	_hud_money = Label.new()
-	_hud_money.position = Vector2(20, 15)
-	_hud_money.add_theme_font_size_override("font_size", 20)
-	_hud_money.add_theme_color_override("font_color", Color("#F1C40F"))
-	canvas.add_child(_hud_money)
-
-	_hud_reputation = Label.new()
-	_hud_reputation.position = Vector2(20, 45)
-	_hud_reputation.add_theme_font_size_override("font_size", 16)
-	_hud_reputation.add_theme_color_override("font_color", Color.WHITE)
-	canvas.add_child(_hud_reputation)
-
+	# Global HUD para/itibar/yakıtı zaten gösteriyor.
+	# Bu sahnede sadece süre ve durak adı yerel olarak gösterilir.
 	_hud_timer = Label.new()
-	_hud_timer.position = Vector2(VIEWPORT_W - 150, 15)
-	_hud_timer.add_theme_font_size_override("font_size", 24)
+	_hud_timer.position = Vector2(VIEWPORT_W - 150, 82)
+	_hud_timer.add_theme_font_size_override("font_size", 20)
 	_hud_timer.add_theme_color_override("font_color", Color.WHITE)
 	canvas.add_child(_hud_timer)
 
 	# Durak ismi
 	_hud_station = Label.new()
-	_hud_station.position = Vector2(VIEWPORT_W - 200, 50)
+	_hud_station.position = Vector2(VIEWPORT_W - 200, 108)
 	_hud_station.size = Vector2(180, 20)
 	_hud_station.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_hud_station.add_theme_font_size_override("font_size", 12)
@@ -697,8 +680,6 @@ func _get_passenger_type_letter(type: Constants.PassengerType) -> String:
 
 
 func _update_hud() -> void:
-	_hud_money.text = "%d DA" % _economy.get_balance()
-	_hud_reputation.text = "%.1f yildiz" % _reputation.get_stars()
 	_update_refuel_controls()
 
 
