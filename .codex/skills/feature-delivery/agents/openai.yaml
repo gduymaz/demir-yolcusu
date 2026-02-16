@@ -1,0 +1,4 @@
+display_name: Feature Delivery
+short_description: Küçük dilimlerle özellik geliştirme
+full_description: Özellikleri parçalara ayırarak test-first ve düşük riskli teslim sağlar.
+default_prompt: Bu özelliği küçük dilimlere böl, her dilim için test-first ilerle ve doğrulama raporu çıkar.

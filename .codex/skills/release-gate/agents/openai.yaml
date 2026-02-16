@@ -1,0 +1,4 @@
+display_name: Release Gate
+short_description: Sürüm öncesi kalite kapısı
+full_description: Yayın öncesi test, risk ve performans durumunu bir kapı kriteri olarak değerlendirir.
+default_prompt: Release gate checklist uygula, bloklayıcı riskleri çıkar ve Go/No-Go önerisi ver.

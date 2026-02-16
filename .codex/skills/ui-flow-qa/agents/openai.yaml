@@ -1,0 +1,4 @@
+display_name: UI Flow QA
+short_description: Mobil UI akış kalite kontrolü
+full_description: Sahne geçişlerini ve kullanıcı akışlarını edge-case odaklı doğrular.
+default_prompt: Kritik UI akışlarını doğrula, state tutarsızlıklarını bul ve önceliklendir.

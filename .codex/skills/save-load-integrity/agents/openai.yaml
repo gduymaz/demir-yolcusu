@@ -1,0 +1,4 @@
+display_name: Save Load Integrity
+short_description: Kayıt verisi bütünlüğü ve migration akışı
+full_description: Save/load formatını güvenli değiştirir, bozuk veri senaryolarını test eder.
+default_prompt: Save/load değişikliğini migration ve fallback kurallarıyla uygula, test kanıtını çıkar.

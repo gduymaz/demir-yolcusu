@@ -1,0 +1,4 @@
+display_name: Bugfix Regression
+short_description: Regresyon testli hata düzeltme
+full_description: Önce hatayı testle sabitleyip sonra minimum ve güvenli düzeltme uygular.
+default_prompt: Bildirilen hatayı yeniden üret, önce regresyon testi ekle, ardından minimum fix uygula.

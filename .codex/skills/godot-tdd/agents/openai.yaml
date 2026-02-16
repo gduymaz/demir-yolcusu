@@ -1,0 +1,4 @@
+display_name: Godot TDD
+short_description: GdUnit4 ile test-first geliştirme akışı
+full_description: Godot projelerinde RED-GREEN-REFACTOR ile özellik geliştirme ve güvenli refactor.
+default_prompt: Yeni bir özellik veya refactor için önce testleri yaz, sonra minimum kod değişikliğiyle geçir.

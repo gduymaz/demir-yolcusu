@@ -1,0 +1,4 @@
+display_name: Mobile Performance
+short_description: Godot mobil performans optimizasyonu
+full_description: Darboğaz analizi, ölçüm odaklı optimizasyon ve regresyon kontrolü yapar.
+default_prompt: Mobil performans sorununu ölç, en etkili düşük riskli optimizasyonu uygula ve sonucu raporla.

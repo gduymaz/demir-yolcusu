@@ -1,0 +1,4 @@
+display_name: Economy Balance
+short_description: Demir Altını ekonomi dengeleme
+full_description: Fiyat/ödül parametrelerini exploit önleme ve oyun akışı dengesine göre optimize eder.
+default_prompt: Ekonomi parametrelerini analiz et, denge testleriyle güvenli güncelle.
