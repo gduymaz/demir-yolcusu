@@ -13,14 +13,14 @@ static func handle_input(scene: Node, event: InputEvent) -> void:
 		_handle_upgrade_input(scene, event)
 		return
 	if event is InputEventScreenTouch or event is InputEventMouseButton:
-		var pos := scene._get_event_position(event)
-		var pressed := scene._is_pressed(event)
+		var pos: Vector2 = scene._get_event_position(event)
+		var pressed: bool = scene._is_pressed(event)
 		if pressed:
 			_on_press(scene, pos)
 		else:
 			_on_release(scene, pos)
 	elif (event is InputEventScreenDrag or event is InputEventMouseMotion) and scene._dragging:
-		var pos := scene._get_event_position(event)
+		var pos: Vector2 = scene._get_event_position(event)
 		_on_drag(scene, pos)
 
 static func _handle_shop_input(scene: Node, event: InputEvent) -> void:
@@ -28,7 +28,7 @@ static func _handle_shop_input(scene: Node, event: InputEvent) -> void:
 		return
 	if not scene._is_pressed(event):
 		return
-	var pos := scene._get_event_position(event)
+	var pos: Vector2 = scene._get_event_position(event)
 	var close_btn: Control = scene._shop_panel.get_node("ShopCloseButton")
 	if scene._is_in_rect(pos, close_btn.position, close_btn.size):
 		scene._shop_visible = false
@@ -49,7 +49,7 @@ static func _handle_upgrade_input(scene: Node, event: InputEvent) -> void:
 		return
 	if not scene._is_pressed(event):
 		return
-	var pos := scene._get_event_position(event)
+	var pos: Vector2 = scene._get_event_position(event)
 	var close_btn: Control = scene._upgrade_panel.get_node("UpgradeCloseButton")
 	if scene._is_in_rect(pos, close_btn.position, close_btn.size):
 		scene._upgrade_visible = false
@@ -91,13 +91,13 @@ static func _on_press(scene: Node, pos: Vector2) -> void:
 	var gm: Node = scene._get_game_manager()
 	for i in range(scene._train_wagon_nodes.size()):
 		var node: Control = scene._train_wagon_nodes[i]
-		var node_global := node.position + scene._train_container.position
+		var node_global: Vector2 = node.position + scene._train_container.position
 		if scene._is_in_rect(pos, node_global, node.size):
 			_start_drag_from_train(scene, i, pos)
 			return
 	for i in range(scene._pool_wagon_nodes.size()):
 		var pool_node: Control = scene._pool_wagon_nodes[i]
-		var node_global_pool := pool_node.position + scene._wagon_pool_container.position
+		var node_global_pool: Vector2 = pool_node.position + scene._wagon_pool_container.position
 		if scene._is_in_rect(pos, node_global_pool, pool_node.size):
 			_start_drag_from_pool(scene, i, pos)
 			return
@@ -117,7 +117,7 @@ static func _on_release(scene: Node, pos: Vector2) -> void:
 	if not scene._dragging:
 		return
 	scene._dragging = false
-	var in_train_area := pos.y >= scene.TRAIN_AREA_Y and pos.y <= scene.TRAIN_AREA_Y + scene.TRAIN_AREA_H
+	var in_train_area: bool = pos.y >= scene.TRAIN_AREA_Y and pos.y <= scene.TRAIN_AREA_Y + scene.TRAIN_AREA_H
 	if scene._drag_source == "pool" and in_train_area:
 		_add_wagon_to_train_from_pool(scene)
 	elif scene._drag_source == "train" and not in_train_area:

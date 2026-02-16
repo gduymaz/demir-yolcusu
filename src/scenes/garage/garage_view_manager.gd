@@ -3,6 +3,10 @@
 
 extends RefCounted
 
+const PixelTextureLoader := preload("res://src/utils/pixel_texture_loader.gd")
+const WAGON_TEXTURE_PATH := "res://assets/sprites/vehicles/wagon_pixel.png"
+const LOCO_TEXTURE_PATH := "res://assets/sprites/vehicles/loco_pixel.png"
+
 static func refresh_all(scene: Node) -> void:
 	scene._refresh_money()
 	refresh_loco_list(scene)
@@ -61,6 +65,25 @@ static func refresh_train_view(scene: Node) -> void:
 	loco_node.size = Vector2(scene.LOCO_SPRITE_W, scene.LOCO_SPRITE_H)
 	loco_node.color = scene.COLOR_LOCO
 	scene._train_container.add_child(loco_node)
+	_apply_texture(loco_node, LOCO_TEXTURE_PATH)
+
+	var chimney := Polygon2D.new()
+	chimney.polygon = PackedVector2Array([Vector2(56, 0), Vector2(74, 0), Vector2(68, -10)])
+	chimney.color = Color("#2c3e50")
+	loco_node.add_child(chimney)
+
+	var headlight := ColorRect.new()
+	headlight.position = Vector2(scene.LOCO_SPRITE_W - 10, 16)
+	headlight.size = Vector2(6, 6)
+	headlight.color = Color("#f1c40f")
+	loco_node.add_child(headlight)
+
+	for wheel_x in [8.0, 30.0, 52.0]:
+		var wheel := ColorRect.new()
+		wheel.position = Vector2(wheel_x, scene.LOCO_SPRITE_H - 8)
+		wheel.size = Vector2(10, 10)
+		wheel.color = Color("#34495e")
+		loco_node.add_child(wheel)
 
 	var loco_label := Label.new()
 	loco_label.text = loco.loco_name
@@ -79,6 +102,30 @@ static func refresh_train_view(scene: Node) -> void:
 		wagon_node.color = scene._get_wagon_color(wagon.type)
 		scene._train_container.add_child(wagon_node)
 		scene._train_wagon_nodes.append(wagon_node)
+		_apply_texture(wagon_node, WAGON_TEXTURE_PATH)
+
+		if wagon.type == Constants.WagonType.CARGO:
+			for x in [10.0, 28.0, 46.0]:
+				var cross := ColorRect.new()
+				cross.position = Vector2(x, 8)
+				cross.size = Vector2(2, scene.WAGON_SPRITE_H - 16)
+				cross.rotation = deg_to_rad(30.0)
+				cross.color = Color("#d7ccc8")
+				wagon_node.add_child(cross)
+		else:
+			for w in range(2):
+				var window := ColorRect.new()
+				window.position = Vector2(10 + w * 30, 8)
+				window.size = Vector2(22, 14)
+				window.color = Color(1.0, 1.0, 1.0, 0.4)
+				wagon_node.add_child(window)
+
+		for wheel_x in [10.0, 44.0]:
+			var wagon_wheel := ColorRect.new()
+			wagon_wheel.position = Vector2(wheel_x, scene.WAGON_SPRITE_H - 8)
+			wagon_wheel.size = Vector2(10, 10)
+			wagon_wheel.color = Color("#2c3e50")
+			wagon_node.add_child(wagon_wheel)
 
 		var label := Label.new()
 		label.text = scene._get_wagon_short_name(wagon.type)
@@ -110,7 +157,7 @@ static func refresh_train_view(scene: Node) -> void:
 static func refresh_info_bar(scene: Node) -> void:
 	var gm: Node = scene._get_game_manager()
 	var cfg: TrainConfig = gm.train_config
-	var fuel_name := scene._get_fuel_name(cfg.get_locomotive().fuel_type)
+	var fuel_name: String = scene._get_fuel_name(cfg.get_locomotive().fuel_type)
 	scene._info_label.text = I18n.t(
 		"garage.info.train",
 		[
@@ -131,10 +178,10 @@ static func refresh_wagon_pool(scene: Node) -> void:
 	var columns := 4
 	for i in range(available.size()):
 		var wagon: WagonData = available[i]
-		var col := i % columns
+		var col: int = i % columns
 		var row := int(i / columns)
-		var x := col * (scene.POOL_WAGON_W + 8)
-		var y := row * (scene.POOL_WAGON_H + 10)
+		var x: float = float(col * (scene.POOL_WAGON_W + 8))
+		var y: float = float(row * (scene.POOL_WAGON_H + 10))
 
 		var card := ColorRect.new()
 		card.position = Vector2(x, y)
@@ -142,6 +189,23 @@ static func refresh_wagon_pool(scene: Node) -> void:
 		card.color = scene._get_wagon_color(wagon.type)
 		scene._wagon_pool_container.add_child(card)
 		scene._pool_wagon_nodes.append(card)
+		_apply_texture(card, WAGON_TEXTURE_PATH)
+
+		if wagon.type == Constants.WagonType.CARGO:
+			for line_x in [14.0, 36.0, 58.0, 80.0]:
+				var slash := ColorRect.new()
+				slash.position = Vector2(line_x, 8)
+				slash.size = Vector2(2, 40)
+				slash.rotation = deg_to_rad(34.0)
+				slash.color = Color("#d7ccc8")
+				card.add_child(slash)
+		else:
+			for w in range(3):
+				var pwindow := ColorRect.new()
+				pwindow.position = Vector2(8 + w * 28, 10)
+				pwindow.size = Vector2(18, 12)
+				pwindow.color = Color(1.0, 1.0, 1.0, 0.4)
+				card.add_child(pwindow)
 
 		var lbl := Label.new()
 		lbl.text = scene._get_wagon_short_name(wagon.type)
@@ -195,8 +259,8 @@ static func refresh_shop(scene: Node) -> void:
 		name_label.add_theme_color_override("font_color", scene.COLOR_TEXT)
 		item.add_child(name_label)
 
-		var price := gm.inventory.get_wagon_price(wtype)
-		var required_rep := scene._wagon_required_reputation(wtype)
+		var price: int = gm.inventory.get_wagon_price(wtype)
+		var required_rep: float = scene._wagon_required_reputation(wtype)
 		var can_afford: bool = balance >= price and gm.reputation.meets_requirement(required_rep)
 
 		var cap_label := Label.new()
@@ -214,7 +278,7 @@ static func refresh_shop(scene: Node) -> void:
 			req.add_theme_color_override("font_color", scene.COLOR_RED if not gm.reputation.meets_requirement(required_rep) else Color("#95a5a6"))
 			item.add_child(req)
 
-		var buy_btn := scene._create_button("%d DA" % price, Vector2(280, 5), Vector2(110, 45), scene.COLOR_GREEN if can_afford else scene.COLOR_BUTTON_DISABLED)
+		var buy_btn: Control = scene._create_button("%d DA" % price, Vector2(280, 5), Vector2(110, 45), scene.COLOR_GREEN if can_afford else scene.COLOR_BUTTON_DISABLED)
 		buy_btn.name = "BuyBtn_%d" % wtype
 		item.add_child(buy_btn)
 
@@ -261,7 +325,7 @@ static func refresh_shop(scene: Node) -> void:
 
 		var owned: bool = gm.inventory.has_locomotive(str(def["id"]))
 		var can_buy_loco: bool = (not owned) and balance >= int(def["price"]) and gm.reputation.meets_requirement(float(def["rep"]))
-		var loco_buy := scene._create_button(
+		var loco_buy: Control = scene._create_button(
 			I18n.t("garage.shop.owned") if owned else "%d DA" % int(def["price"]),
 			Vector2(280, 5),
 			Vector2(110, 45),
@@ -348,7 +412,7 @@ static func refresh_upgrade_panel(scene: Node) -> void:
 				content.add_child(reason_label)
 			row_y += 88
 
-	var respec_btn := scene._create_button(I18n.t("garage.upgrade.respec"), Vector2(0, 470), Vector2(180, 42), Color("#16a085"))
+	var respec_btn: Control = scene._create_button(I18n.t("garage.upgrade.respec"), Vector2(0, 470), Vector2(180, 42), Color("#16a085"))
 	content.add_child(respec_btn)
 	scene._upgrade_respec_rect = Rect2(content.position + Vector2(0, 470), Vector2(180, 42))
 
@@ -385,7 +449,7 @@ static func create_upgrade_row(scene: Node, title: String, level: int, next_leve
 	cost_label.add_theme_color_override("font_color", Color("#f1c40f"))
 	row.add_child(cost_label)
 
-	var upgrade_btn := scene._create_button(I18n.t("garage.upgrade.button"), Vector2(300, 8), Vector2(110, 36), scene.COLOR_GREEN if can_upgrade else scene.COLOR_BUTTON_DISABLED)
+	var upgrade_btn: Control = scene._create_button(I18n.t("garage.upgrade.button"), Vector2(300, 8), Vector2(110, 36), scene.COLOR_GREEN if can_upgrade else scene.COLOR_BUTTON_DISABLED)
 	row.add_child(upgrade_btn)
 	return row
 
@@ -451,3 +515,17 @@ static func wagon_upgrade_effect_text(upgrade_type: int, wagon_type: int) -> Str
 			return I18n.t("garage.upgrade.effect.wagon.maintenance")
 		_:
 			return I18n.t("garage.upgrade.reason.generic")
+
+static func _apply_texture(node: ColorRect, texture_path: String) -> void:
+	var texture: Texture2D = PixelTextureLoader.load_texture(texture_path)
+	if texture == null:
+		return
+	var tex := TextureRect.new()
+	tex.texture = texture
+	tex.position = Vector2.ZERO
+	tex.size = node.size
+	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tex.modulate = Color(1, 1, 1, 0.88)
+	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.add_child(tex)

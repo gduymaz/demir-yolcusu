@@ -3,6 +3,11 @@
 
 extends RefCounted
 
+const PixelTextureLoader := preload("res://src/utils/pixel_texture_loader.gd")
+const STATION_BG_TEXTURE_PATH := "res://assets/sprites/backgrounds/station_country_preview.png"
+const WAGON_TEXTURE_PATH := "res://assets/sprites/vehicles/wagon_pixel.png"
+const LOCO_TEXTURE_PATH := "res://assets/sprites/vehicles/loco_pixel.png"
+
 static func build(scene: Node) -> Dictionary:
 	_build_background(scene)
 	var hud := _build_hud(scene)
@@ -29,6 +34,18 @@ static func build(scene: Node) -> Dictionary:
 	}
 
 static func _build_background(scene: Node) -> void:
+	var bg_texture: Texture2D = PixelTextureLoader.load_texture(STATION_BG_TEXTURE_PATH)
+	if bg_texture != null:
+		var bg_tex := TextureRect.new()
+		bg_tex.position = Vector2(0, 80)
+		bg_tex.size = Vector2(scene.VIEWPORT_W, scene.VIEWPORT_H - 80)
+		bg_tex.texture = bg_texture
+		bg_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		bg_tex.modulate = Color(1, 1, 1, 0.85)
+		bg_tex.z_index = -12
+		scene.add_child(bg_tex)
+
 	var sky_top := ColorRect.new()
 	sky_top.color = Color("#9dd5ff")
 	sky_top.size = Vector2(scene.VIEWPORT_W, scene.VIEWPORT_H * 0.45)
@@ -203,11 +220,11 @@ static func _build_event_banner(scene: Node) -> Label:
 
 static func _build_train(scene: Node) -> Dictionary:
 	var wagon_nodes: Array = []
-	var wagon_count := scene._wagons.size()
-	var total_train_w := wagon_count * scene.WAGON_SPACING + scene.LOCO_SIZE.x + 20
-	var start_x := maxf(20.0, (scene.VIEWPORT_W - total_train_w) / 2.0)
+	var wagon_count: int = scene._wagons.size()
+	var total_train_w: float = float(wagon_count * scene.WAGON_SPACING + scene.LOCO_SIZE.x + 20)
+	var start_x: float = maxf(20.0, (scene.VIEWPORT_W - total_train_w) / 2.0)
 
-	for i in wagon_count:
+	for i in range(wagon_count):
 		var wagon: WagonData = scene._wagons[i]
 		var wagon_node := ColorRect.new()
 		wagon_node.size = scene.WAGON_SIZE
@@ -215,6 +232,7 @@ static func _build_train(scene: Node) -> Dictionary:
 		wagon_node.position = Vector2(start_x + i * scene.WAGON_SPACING, scene.TRAIN_Y - scene.WAGON_SIZE.y / 2)
 		scene.add_child(wagon_node)
 		wagon_nodes.append(wagon_node)
+		_apply_texture(wagon_node, WAGON_TEXTURE_PATH)
 
 		if wagon.type == Constants.WagonType.CARGO:
 			for x in [12.0, 34.0, 56.0, 78.0]:
@@ -243,17 +261,18 @@ static func _build_train(scene: Node) -> Dictionary:
 	for i in range(wagon_count - 1):
 		var conn := ColorRect.new()
 		conn.color = scene.COLOR_RAIL
-		var x1 := start_x + i * scene.WAGON_SPACING + scene.WAGON_SIZE.x
+		var x1: float = start_x + i * scene.WAGON_SPACING + scene.WAGON_SIZE.x
 		conn.position = Vector2(x1, scene.TRAIN_Y - 2)
 		conn.size = Vector2(scene.WAGON_SPACING - scene.WAGON_SIZE.x, 4)
 		scene.add_child(conn)
 
-	var loco_x := start_x + wagon_count * scene.WAGON_SPACING
+	var loco_x: float = start_x + wagon_count * scene.WAGON_SPACING
 	var loco := ColorRect.new()
 	loco.size = scene.LOCO_SIZE
 	loco.color = scene.COLOR_LOCO
 	loco.position = Vector2(loco_x, scene.TRAIN_Y - scene.LOCO_SIZE.y / 2)
 	scene.add_child(loco)
+	_apply_texture(loco, LOCO_TEXTURE_PATH)
 
 	var chimney := Polygon2D.new()
 	chimney.polygon = PackedVector2Array([Vector2(64, 0), Vector2(88, 0), Vector2(80, -16)])
@@ -274,7 +293,7 @@ static func _build_train(scene: Node) -> Dictionary:
 	loco.add_child(headlight)
 
 	if wagon_count > 0:
-		var last_end := start_x + (wagon_count - 1) * scene.WAGON_SPACING + scene.WAGON_SIZE.x
+		var last_end: float = start_x + (wagon_count - 1) * scene.WAGON_SPACING + scene.WAGON_SIZE.x
 		var loco_conn := ColorRect.new()
 		loco_conn.color = scene.COLOR_RAIL
 		loco_conn.position = Vector2(last_end, scene.TRAIN_Y - 2)
@@ -364,3 +383,17 @@ static func _build_summary_panel(scene: Node) -> Dictionary:
 		"panel": summary_panel,
 		"label": summary_label,
 	}
+
+static func _apply_texture(node: ColorRect, texture_path: String) -> void:
+	var texture: Texture2D = PixelTextureLoader.load_texture(texture_path)
+	if texture == null:
+		return
+	var tex := TextureRect.new()
+	tex.texture = texture
+	tex.position = Vector2.ZERO
+	tex.size = node.size
+	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tex.modulate = Color(1, 1, 1, 0.9)
+	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.add_child(tex)

@@ -3,6 +3,7 @@
 
 extends Node2D
 
+const PixelTextureLoader := preload("res://src/utils/pixel_texture_loader.gd")
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
 const SKY_H := 400
@@ -25,6 +26,8 @@ const COLOR_TEXT := Color("#ecf0f1")
 const COLOR_GOLD := Color("#f39c12")
 const COLOR_GREEN := Color("#27ae60")
 const COLOR_PANEL := Color("#16213e")
+const TRAVEL_BG_TEXTURE_PATH := "res://assets/sprites/backgrounds/travel_mountain_preview.png"
+const LOCO_TEXTURE_PATH := "res://assets/sprites/vehicles/loco_pixel.png"
 
 var _travel_speed := 1.0
 var _progress := 0.0
@@ -86,6 +89,17 @@ func _update_event_banner(delta: float) -> void:
 
 ## Lifecycle/helper logic for `_build_landscape`.
 func _build_landscape() -> void:
+	var bg_texture: Texture2D = PixelTextureLoader.load_texture(TRAVEL_BG_TEXTURE_PATH)
+	if bg_texture != null:
+		var bg_tex := TextureRect.new()
+		bg_tex.position = Vector2(0, HUD_H)
+		bg_tex.size = Vector2(VIEWPORT_W, VIEWPORT_H - HUD_H)
+		bg_tex.texture = bg_texture
+		bg_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bg_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		bg_tex.modulate = Color(1, 1, 1, 0.86)
+		bg_tex.z_index = -3
+		add_child(bg_tex)
 
 	var bg := ColorRect.new()
 	bg.size = Vector2(VIEWPORT_W, VIEWPORT_H)
@@ -137,6 +151,18 @@ func _build_train() -> void:
 	_train_node.color = COLOR_TRAIN
 	_train_node.z_index = 10
 	add_child(_train_node)
+
+	var loco_texture: Texture2D = PixelTextureLoader.load_texture(LOCO_TEXTURE_PATH)
+	if loco_texture != null:
+		var tex := TextureRect.new()
+		tex.texture = loco_texture
+		tex.position = Vector2(0, 0)
+		tex.size = Vector2(TRAIN_W, TRAIN_H)
+		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tex.modulate = Color(1, 1, 1, 0.92)
+		tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_train_node.add_child(tex)
 
 	var chimney := ColorRect.new()
 	chimney.position = Vector2(TRAIN_W - 25, -15)

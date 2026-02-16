@@ -7,8 +7,8 @@ static func handle_input(scene: Node, event: InputEvent) -> void:
 	if not scene._is_active:
 		return
 	if event is InputEventScreenTouch or event is InputEventMouseButton:
-		var pos := scene._get_event_position(event)
-		var pressed := scene._is_pressed(event)
+		var pos: Vector2 = scene._get_event_position(event)
+		var pressed: bool = scene._is_pressed(event)
 		if pressed:
 			if scene._shop_panel and scene._shop_panel.visible and scene._is_in_rect(pos, scene._shop_panel.position, scene._shop_panel.size):
 				return
@@ -25,7 +25,7 @@ static func handle_input(scene: Node, event: InputEvent) -> void:
 			scene._try_end_drag(pos)
 	if event is InputEventScreenDrag or event is InputEventMouseMotion:
 		if scene._dragged_passenger_index >= 0 and scene._dragged_passenger_index < scene._passenger_nodes.size():
-			var drag_pos := scene._get_event_position(event)
+			var drag_pos: Vector2 = scene._get_event_position(event)
 			var pnode: Control = scene._passenger_nodes[scene._dragged_passenger_index]
 			pnode.position = drag_pos - scene._drag_offset
 
@@ -34,8 +34,8 @@ static func rebuild_passenger_nodes(scene: Node) -> void:
 		node.queue_free()
 	scene._passenger_nodes.clear()
 	for i in range(scene._waiting_passengers.size()):
-		var passenger := scene._waiting_passengers[i]
-		var pnode := scene._create_passenger_node(passenger)
+		var passenger: Dictionary = scene._waiting_passengers[i]
+		var pnode: Control = scene._create_passenger_node(passenger)
 		pnode.position = scene._get_passenger_position(i)
 		scene.add_child(pnode)
 		scene._passenger_nodes.append(pnode)
@@ -45,7 +45,7 @@ static func update_patience_bars(scene: Node) -> void:
 		if i >= scene._waiting_passengers.size():
 			break
 		var passenger: Dictionary = scene._waiting_passengers[i]
-		var percent := PatienceSystem.get_patience_percent(passenger)
+		var percent: float = PatienceSystem.get_patience_percent(passenger)
 		var pnode: Control = scene._passenger_nodes[i]
 		var bar: ColorRect = pnode.get_node("PatienceBarFill")
 		bar.size.x = (scene.PASSENGER_SIZE.x - 4) * (percent / 100.0)

@@ -3,8 +3,10 @@
 
 extends CanvasLayer
 
+const PixelTextureLoader := preload("res://src/utils/pixel_texture_loader.gd")
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
+const CONDUCTOR_TEXTURE_PATH := "res://assets/sprites/characters/conductor_pixel.png"
 
 var _mascot: Control
 var _bubble: PanelContainer
@@ -82,6 +84,17 @@ func _build_ui() -> void:
 	body.size = Vector2(32, 48)
 	body.color = Color("#d35400")
 	_mascot.add_child(body)
+
+	var conductor_texture: Texture2D = PixelTextureLoader.load_texture(CONDUCTOR_TEXTURE_PATH)
+	if conductor_texture != null:
+		var sprite := TextureRect.new()
+		sprite.texture = conductor_texture
+		sprite.position = Vector2(0, 10)
+		sprite.size = Vector2(48, 64)
+		sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		sprite.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_mascot.add_child(sprite)
 
 	var hat := Polygon2D.new()
 	hat.polygon = PackedVector2Array([Vector2(2, 20), Vector2(24, 2), Vector2(46, 20)])

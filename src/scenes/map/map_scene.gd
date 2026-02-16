@@ -3,6 +3,7 @@
 
 extends Node2D
 
+const PixelTextureLoader := preload("res://src/utils/pixel_texture_loader.gd")
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
 const MAP_Y := 80
@@ -36,6 +37,7 @@ const COLOR_PANEL := Color("#16213e")
 const COLOR_BUTTON := Color("#2980b9")
 const COLOR_BUTTON_DISABLED := Color("#555555")
 const COLOR_LOCKED := Color("#333333")
+const MAP_TEXTURE_PATH := "res://assets/sprites/backgrounds/map_overworld_preview.png"
 
 var _stop_nodes: Array = []
 var _route_line_nodes: Array = []
@@ -104,6 +106,17 @@ func _build_header() -> void:
 
 ## Lifecycle/helper logic for `_build_map`.
 func _build_map() -> void:
+	var map_texture: Texture2D = PixelTextureLoader.load_texture(MAP_TEXTURE_PATH)
+	if map_texture != null:
+		var map_tex := TextureRect.new()
+		map_tex.position = Vector2(8, MAP_Y + 8)
+		map_tex.size = Vector2(VIEWPORT_W - 16, MAP_H - 16)
+		map_tex.texture = map_texture
+		map_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		map_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		map_tex.modulate = Color(1, 1, 1, 0.8)
+		map_tex.z_index = -1
+		add_child(map_tex)
 
 	var sea := ColorRect.new()
 	sea.position = Vector2(0, MAP_Y)

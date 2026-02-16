@@ -14,6 +14,10 @@ const MUSIC_TRACKS := {
 
 const SFX_TRACKS := {
 	"train_whistle": "res://assets/audio/sfx/train_whistle.wav",
+	"station_arrival": "res://assets/audio/sfx/station_arrival.wav",
+	"conductor_hm": "res://assets/audio/sfx/conductor_hm.wav",
+	"conductor_aha": "res://assets/audio/sfx/conductor_aha.wav",
+	"conductor_oh": "res://assets/audio/sfx/conductor_oh.wav",
 	"money_earn": "res://assets/audio/sfx/money_earn.wav",
 	"money_spend": "res://assets/audio/sfx/money_spend.wav",
 	"passenger_board": "res://assets/audio/sfx/passenger_board.wav",
@@ -88,6 +92,22 @@ func _bind_event_bus() -> void:
 		_event_bus.random_event_triggered.connect(_on_random_event_triggered)
 	if not _event_bus.cargo_delivered.is_connected(_on_cargo_delivered):
 		_event_bus.cargo_delivered.connect(_on_cargo_delivered)
+	if not _event_bus.trip_started.is_connected(_on_trip_started):
+		_event_bus.trip_started.connect(_on_trip_started)
+	if not _event_bus.station_arrived.is_connected(_on_station_arrived):
+		_event_bus.station_arrived.connect(_on_station_arrived)
+	if not _event_bus.fuel_low.is_connected(_on_fuel_low):
+		_event_bus.fuel_low.connect(_on_fuel_low)
+	if not _event_bus.fuel_empty.is_connected(_on_fuel_empty):
+		_event_bus.fuel_empty.connect(_on_fuel_empty)
+	if not _event_bus.shop_opened.is_connected(_on_shop_opened):
+		_event_bus.shop_opened.connect(_on_shop_opened)
+	if not _event_bus.shop_upgraded.is_connected(_on_shop_upgraded):
+		_event_bus.shop_upgraded.connect(_on_shop_upgraded)
+	if not _event_bus.locomotive_upgraded.is_connected(_on_locomotive_upgraded):
+		_event_bus.locomotive_upgraded.connect(_on_locomotive_upgraded)
+	if not _event_bus.wagon_upgraded.is_connected(_on_wagon_upgraded):
+		_event_bus.wagon_upgraded.connect(_on_wagon_upgraded)
 
 func _on_scene_changed(scene: Node) -> void:
 	if scene == null:
@@ -209,11 +229,13 @@ func _apply_player_volumes() -> void:
 		_sfx_player.volume_db = sfx_db
 
 func _load_audio(path: String) -> AudioStream:
-	var import_path := "%s.import" % path
-	if FileAccess.file_exists(import_path):
+	if ResourceLoader.exists(path, "AudioStream"):
 		var stream: Resource = ResourceLoader.load(path)
 		if stream is AudioStream:
 			return stream
+	if FileAccess.file_exists(path):
+		# Keep runtime resilient when placeholder audio files exist without import artifacts.
+		return _get_silent_stream()
 	return _get_silent_stream()
 
 func _get_silent_stream() -> AudioStreamWAV:
@@ -262,6 +284,44 @@ func _on_achievement_unlocked(_achievement_data: Dictionary) -> void:
 
 func _on_random_event_triggered(_event_data: Dictionary) -> void:
 	play_sfx("event_alert")
+	_play_conductor_reaction("hm")
 
 func _on_cargo_delivered(_cargo_data: Dictionary, _station_id: String) -> void:
 	play_sfx("cargo_deliver")
+
+func _on_trip_started(_route_data: Dictionary) -> void:
+	play_sfx("train_whistle")
+
+func _on_station_arrived(station_id: String) -> void:
+	play_station_announcement(station_id)
+
+func _on_fuel_low(_locomotive_id: String, _percentage: float) -> void:
+	play_sfx("timer_warning")
+
+func _on_fuel_empty(_locomotive_id: String) -> void:
+	play_sfx("error")
+
+func _on_shop_opened(_station_id: String, _shop_type: int) -> void:
+	_play_conductor_reaction("aha")
+
+func _on_shop_upgraded(_station_id: String, _shop_type: int, _level: int) -> void:
+	play_sfx("upgrade_done")
+
+func _on_locomotive_upgraded(_loco_id: String, _upgrade_type: int, _level: int) -> void:
+	play_sfx("upgrade_done")
+
+func _on_wagon_upgraded(_wagon_id: String, _upgrade_type: int, _level: int) -> void:
+	play_sfx("upgrade_done")
+
+func play_station_announcement(_station_id: String) -> void:
+	# MVP fallback announcement cue. Station-specific spoken assets can replace this later.
+	play_sfx("station_arrival")
+
+func _play_conductor_reaction(tag: String) -> void:
+	match tag:
+		"aha":
+			play_sfx("conductor_aha")
+		"oh":
+			play_sfx("conductor_oh")
+		_:
+			play_sfx("conductor_hm")

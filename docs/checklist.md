@@ -2,7 +2,7 @@
 
 **Son Güncelleme:** 2026-02-16  
 **Aktif Faz:** 10 (devam ediyor)  
-**Toplam Test:** 366 / 366 PASSED
+**Toplam Test:** 368 / 368 PASSED
 
 > Bu dosyayı her faz sonunda güncelle. Codex/Claude Code'a "bu checklist'i kontrol et" diyerek durumu doğrulat.
 
@@ -408,6 +408,8 @@
     - [x] Durak müziği (altyapı + track mapping)
 - [ ] SFX
     - [x] Tren düdüğü (altyapı + track mapping)
+    - [x] Durağa varış anons işaret sesi (station_arrival cue)
+    - [x] Kondüktör tepki sesleri için track mapping (hm/aha/oh)
     - [x] Para kazanma sesi (EventBus tetikleyici)
     - [x] Yolcu bindirme/indirme (EventBus tetikleyici)
     - [x] Sürükle-bırak (tutma/bırakma) (track mapping hazır)
@@ -418,8 +420,11 @@
 - [ ] Türkçe durak anonsu ("Sayın yolcular, Selçuk istasyonuna...")
 - [ ] Kondüktör tepki sesleri ("hm", "aha", "oh")
 - [x] Ayrı müzik/SFX ses seviyesi ayarı
+- [x] Import-ready olmayan ses dosyalarında crash yerine güvenli fallback
 
 ### 10.2 Placeholder → Gerçek Görsel Geçişi
+- [x] Kod tabanlı placeholder polish (main menu tren animasyonu + splash duman/tekerlek)
+- [x] Garaj tren/vagon placeholder detayları (pencere/tekerlek/kargo deseni)
 - [ ] Lokomotif sprite (8 yönlü + tekerlek animasyonu)
 - [ ] Vagon sprite'ları (tip renkleriyle)
 - [ ] Yolcu sprite'ları (4 tip — görsel ayrım)
@@ -436,7 +441,9 @@
 - [ ] Satın alma + başarım ödülü olarak açılma
 
 ### 10.4 MVP Final Test & Polish
-- [x] Tüm testler geçiyor (366/366)
+- [x] Tüm testler geçiyor (368/368)
+- [x] Akış zinciri doğrulama scripti (./run.sh flow)
+- [x] Faz 10 smoke/perf checklist dosyası (docs/phase10_smoke_perf_checklist.md)
 - [ ] Tam oyun akışı baştan sona oynanabilir
 - [x] Save/load tam çalışıyor (3 slot)
 - [ ] İlk açılış → tutorial → ilk sefer → para kazan → yükselt → tekrar oyna

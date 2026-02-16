@@ -4,6 +4,8 @@
 extends RefCounted
 
 const StationUiBuilder := preload("res://src/scenes/station/station_ui_builder.gd")
+const PixelTextureLoader := preload("res://src/utils/pixel_texture_loader.gd")
+const PASSENGER_TEXTURE_PATH := "res://assets/sprites/characters/passenger_pixel.png"
 
 static func setup_systems(scene: Node) -> void:
 	var gm: Node = scene.get_node_or_null("/root/GameManager")
@@ -73,7 +75,7 @@ static func process(scene: Node, delta: float) -> void:
 	var gm: Node = scene.get_node_or_null("/root/GameManager")
 	if gm and gm.has_method("get_station_patience_multiplier"):
 		patience_delta *= gm.get_station_patience_multiplier(get_current_station_name(scene))
-	var lost := scene._patience.update(scene._waiting_passengers, patience_delta)
+	var lost: Array = scene._patience.update(scene._waiting_passengers, patience_delta)
 	if lost.size() > 0:
 		var conductor: Node = scene.get_node_or_null("/root/ConductorManager")
 		if conductor:
@@ -116,9 +118,9 @@ static func start_station(scene: Node) -> void:
 			show_event_icon(scene, str(station_event.get("id", "")))
 			show_conductor_event_tip(scene, station_event)
 	setup_special_action(scene, gm)
-	var destinations := get_destination_names(scene)
+	var destinations: Array = get_destination_names(scene)
 	var distance: int = get_current_distance(scene)
-	scene._waiting_passengers = []
+	scene._waiting_passengers.clear()
 	var batch_count: int = max(1, int(round(5.0 * passenger_multiplier)))
 	for p in PassengerFactory.create_batch(batch_count, destinations, distance):
 		scene._waiting_passengers.append(p)
@@ -139,11 +141,11 @@ static func end_station(scene: Node) -> void:
 	scene._is_active = false
 	scene._time_remaining = 0.0
 	scene._hud_timer.text = I18n.t("station.hud.time", [0])
-	var summary := scene._economy.get_trip_summary()
-	var boarded_count := 0
+	var summary: Dictionary = scene._economy.get_trip_summary()
+	var boarded_count: int = 0
 	for w in scene._wagons:
 		boarded_count += (w as WagonData).get_passenger_count()
-	var lost_count := 5 - scene._waiting_passengers.size() - boarded_count
+	var lost_count: int = 5 - scene._waiting_passengers.size() - boarded_count
 	var ticket_end := int(summary.get("earnings", {}).get("ticket", 0))
 	var station_ticket := maxi(0, ticket_end - scene._station_ticket_start)
 	var gm: Node = scene.get_node_or_null("/root/GameManager")
@@ -385,8 +387,20 @@ static func create_passenger_node(scene: Node, passenger: Dictionary) -> Control
 	head.position = Vector2(12, 2)
 	head.color = Color("#f5d7b2")
 	root.add_child(head)
+
+	var passenger_tex: Texture2D = PixelTextureLoader.load_texture(PASSENGER_TEXTURE_PATH)
+	if passenger_tex != null:
+		var sprite := TextureRect.new()
+		sprite.texture = passenger_tex
+		sprite.position = Vector2(4, 2)
+		sprite.size = Vector2(32, 32)
+		sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		sprite.modulate = get_passenger_color(scene, passenger["type"]).lightened(0.2)
+		sprite.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(sprite)
 	var type_label := Label.new()
-	type_label.text = get_passenger_type_letter(passenger["type"])
+	type_label.text = get_passenger_type_letter(scene, passenger["type"])
 	type_label.position = Vector2(12, 22)
 	type_label.add_theme_font_size_override("font_size", 14)
 	type_label.add_theme_color_override("font_color", Color.WHITE)

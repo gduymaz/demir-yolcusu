@@ -42,6 +42,8 @@ Modes:
   play      Run game normally (default)
   debug     Run game with debug output + file logging enabled
   headless  Run headless smoke check and quit
+  flow      Validate scene flow chain links (static)
+  test      Run gdUnit test suite in headless mode
 USAGE
 }
 
@@ -77,6 +79,12 @@ case "$MODE" in
     ;;
   headless)
     exec "$GODOT_BIN_RESOLVED" --headless --path "$ROOT_DIR" --quit
+    ;;
+  flow)
+    exec "$ROOT_DIR/scripts/validate_flow_chain.sh"
+    ;;
+  test)
+    exec "$GODOT_BIN_RESOLVED" --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a tests -c --ignoreHeadlessMode
     ;;
   -h|--help|help)
     usage

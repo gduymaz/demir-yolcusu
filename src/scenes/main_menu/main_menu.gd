@@ -18,10 +18,19 @@ var _slot_mode: int = SlotMode.LOAD
 var _slot_rows: Array = []
 var _pending_overwrite_slot: int = -1
 var _has_any_save: bool = false
+var _train: ColorRect
+var _train_base_x: float = 100.0
+var _train_elapsed: float = 0.0
 
 func _ready() -> void:
 	_build_scene()
 	_refresh()
+
+func _process(delta: float) -> void:
+	if _train == null:
+		return
+	_train_elapsed += delta
+	_train.position.x = _train_base_x + sin(_train_elapsed * 1.25) * 32.0
 
 func _build_scene() -> void:
 	var bg := ColorRect.new()
@@ -38,11 +47,31 @@ func _build_scene() -> void:
 	logo.add_theme_color_override("font_color", Color("#e74c3c"))
 	add_child(logo)
 
-	var train := ColorRect.new()
-	train.position = Vector2(100, 200)
-	train.size = Vector2(340, 40)
-	train.color = Color("#c0392b")
-	add_child(train)
+	_train = ColorRect.new()
+	_train.position = Vector2(_train_base_x, 200)
+	_train.size = Vector2(340, 40)
+	_train.color = Color("#c0392b")
+	add_child(_train)
+
+	var cabin := ColorRect.new()
+	cabin.position = Vector2(250, -18)
+	cabin.size = Vector2(80, 18)
+	cabin.color = Color("#922b21")
+	_train.add_child(cabin)
+
+	for i in range(4):
+		var window := ColorRect.new()
+		window.position = Vector2(20 + i * 75, 8)
+		window.size = Vector2(32, 16)
+		window.color = Color(1.0, 1.0, 1.0, 0.45)
+		_train.add_child(window)
+
+	for wheel_x in [20.0, 95.0, 170.0, 245.0, 310.0]:
+		var wheel := ColorRect.new()
+		wheel.position = Vector2(wheel_x, 34)
+		wheel.size = Vector2(16, 16)
+		wheel.color = Color("#2c3e50")
+		_train.add_child(wheel)
 
 	_start_button = _make_menu_button(I18n.t("menu.start"), Vector2(120, 420))
 	_start_button.pressed.connect(_on_start_pressed)
