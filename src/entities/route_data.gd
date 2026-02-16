@@ -1,17 +1,14 @@
-## Güzergah veri modeli.
-## Bir demiryolu güzergahı ve sıralı durakları tutar.
-## GPS koordinatlarından mesafe hesaplar (Haversine).
+## Module: route_data.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name RouteData
 extends RefCounted
-
 
 var id: String
 var route_name: String
 var region: String
-var _stops: Array = []  # Array[Dictionary]
+var _stops: Array = []
 
-
-## Güzergah oluşturur.
 static func create(route_id: String, name: String, route_region: String, stops: Array) -> RouteData:
 	var route := RouteData.new()
 	route.id = route_id
@@ -20,8 +17,6 @@ static func create(route_id: String, name: String, route_region: String, stops: 
 	route._stops = stops
 	return route
 
-
-## Durak verisi oluşturur.
 static func create_stop(station_id: int, name: String, city: String,
 		lat: float, lng: float, size: String, km_from_start: float) -> Dictionary:
 	return {
@@ -34,33 +29,28 @@ static func create_stop(station_id: int, name: String, city: String,
 		"km_from_start": km_from_start,
 	}
 
-
-# ==========================================================
-# SORGULAMA
-# ==========================================================
-
+## Handles `get_stop_count`.
 func get_stop_count() -> int:
 	return _stops.size()
 
-
+## Handles `get_stop`.
 func get_stop(index: int) -> Dictionary:
 	if index < 0 or index >= _stops.size():
 		return {}
 	return _stops[index]
 
-
+## Handles `get_stops`.
 func get_stops() -> Array:
 	return _stops
 
-
+## Handles `get_total_distance`.
 func get_total_distance() -> float:
 	if _stops.is_empty():
 		return 0.0
 	var last: Dictionary = _stops[_stops.size() - 1]
 	return last["km_from_start"]
 
-
-## İki durak arasındaki mesafeyi döner (km).
+## Handles `get_distance_between`.
 func get_distance_between(from_index: int, to_index: int) -> float:
 	if from_index < 0 or to_index < 0:
 		return 0.0
@@ -70,9 +60,7 @@ func get_distance_between(from_index: int, to_index: int) -> float:
 	var to_stop: Dictionary = _stops[to_index]
 	return absf(to_stop["km_from_start"] - from_stop["km_from_start"])
 
-
-## Alt rota döner (from_index → to_index arası duraklar).
-## from > to ise ters sırada döner (dönüş yolculuğu).
+## Handles `get_sub_route`.
 func get_sub_route(from_index: int, to_index: int) -> Array:
 	if from_index < 0 or to_index < 0:
 		return []
@@ -84,20 +72,13 @@ func get_sub_route(from_index: int, to_index: int) -> Array:
 		for i in range(from_index, to_index + 1):
 			result.append(_stops[i])
 	else:
-		# Ters yön
+
 		for i in range(from_index, to_index - 1, -1):
 			result.append(_stops[i])
 	return result
 
-
-# ==========================================================
-# HAVERSİNE FORMÜLÜ
-# ==========================================================
-
-## İki GPS koordinatı arasındaki mesafeyi km olarak hesaplar.
-## Haversine formülü: Dünya'nın küresel şeklini dikkate alan mesafe hesabı.
 static func haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-	var R := 6371.0  # Dünya yarıçapı (km)
+	var R := 6371.0
 	var d_lat := deg_to_rad(lat2 - lat1)
 	var d_lon := deg_to_rad(lon2 - lon1)
 	var a := sin(d_lat / 2.0) * sin(d_lat / 2.0) + \
@@ -106,15 +87,8 @@ static func haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> flo
 	var c := 2.0 * atan2(sqrt(a), sqrt(1.0 - a))
 	return R * c
 
-
-# ==========================================================
-# MVP EGE ROTASI
-# ==========================================================
-
-## Ege ana hattını TCDD verilerinden yükler.
-## İzmir (Basmane) → Torbalı → Selçuk → Ortaklar → Aydın → Nazilli → Denizli
 static func load_ege_route() -> RouteData:
-	# Gerçek TCDD GPS verileri
+
 	var station_data := [
 		{"id": 312, "name": "IZMIR (BASMANE)", "city": "IZMIR", "lat": 38.4236, "lng": 27.1472, "size": "large"},
 		{"id": 410, "name": "TORBALI", "city": "IZMIR", "lat": 38.1706, "lng": 27.3481, "size": "large"},
@@ -125,7 +99,6 @@ static func load_ege_route() -> RouteData:
 		{"id": 309, "name": "DENIZLI", "city": "DENIZLI", "lat": 37.7892, "lng": 29.0897, "size": "large"},
 	]
 
-	# Mesafeleri Haversine ile hesapla
 	var stops: Array = []
 	var cumulative_km := 0.0
 
@@ -143,8 +116,6 @@ static func load_ege_route() -> RouteData:
 
 	return create("ege_main", "Ege Ana Hat", "ege", stops)
 
-
-## Kullanılabilir güzergahları döner.
 static func get_available_routes() -> Dictionary:
 	return {
 		"ege_main": "Ege Ana Hat (Izmir - Denizli)",

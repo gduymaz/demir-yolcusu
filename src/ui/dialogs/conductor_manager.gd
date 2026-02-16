@@ -1,3 +1,6 @@
+## Module: conductor_manager.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 extends CanvasLayer
 
 const VIEWPORT_W := 540
@@ -10,13 +13,13 @@ var _hide_timer: float = 0.0
 var _pending_messages: Array[String] = []
 var _last_scene_path: String = ""
 
-
+## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	layer = 95
 	_build_ui()
 	set_process(true)
 
-
+## Lifecycle/helper logic for `_process`.
 func _process(delta: float) -> void:
 	if _hide_timer > 0.0:
 		_hide_timer -= delta
@@ -28,7 +31,7 @@ func _process(delta: float) -> void:
 		_last_scene_path = scene.scene_file_path
 		_on_scene_changed(scene.scene_file_path)
 
-
+## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
 	if not (event is InputEventScreenTouch or event is InputEventMouseButton):
 		return
@@ -46,7 +49,7 @@ func _input(event: InputEvent) -> void:
 	if _bubble.visible and _in_rect(pos, _bubble.position, _bubble.size):
 		_bubble.visible = false
 
-
+## Lifecycle/helper logic for `_build_ui`.
 func _build_ui() -> void:
 	_mascot = Control.new()
 	_mascot.position = Vector2(VIEWPORT_W - 78, VIEWPORT_H - 124)
@@ -92,7 +95,7 @@ func _build_ui() -> void:
 	_bubble_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_bubble.add_child(_bubble_label)
 
-
+## Lifecycle/helper logic for `_on_scene_changed`.
 func _on_scene_changed(scene_path: String) -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm and gm.should_show_intro() and scene_path.contains("garage_scene"):
@@ -102,7 +105,7 @@ func _on_scene_changed(scene_path: String) -> void:
 
 	_show_context_hint(false)
 
-
+## Lifecycle/helper logic for `_show_next_pending`.
 func _show_next_pending() -> void:
 	if _pending_messages.is_empty():
 		var gm: Node = get_node_or_null("/root/GameManager")
@@ -111,14 +114,14 @@ func _show_next_pending() -> void:
 		return
 	_show_tip_text(_pending_messages.pop_front())
 
-
+## Lifecycle/helper logic for `_show_context_hint`.
 func _show_context_hint(force: bool) -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	var scene := get_tree().current_scene
 	if gm == null or scene == null:
 		return
 
-	var next_stop := "sonraki durak"
+	var next_stop := I18n.t("conductor.next_stop_fallback")
 	if gm.trip_planner:
 		var n: Dictionary = gm.trip_planner.get_next_stop()
 		next_stop = n.get("name", next_stop)
@@ -133,40 +136,43 @@ func _show_context_hint(force: bool) -> void:
 	gm.mark_tip_shown(key)
 	_show_tip_text(text)
 
-
-func get_context_hint(scene_path: String, next_stop_name: String = "sonraki durak") -> Dictionary:
+## Handles `get_context_hint`.
+func get_context_hint(scene_path: String, next_stop_name: String = "") -> Dictionary:
+	if next_stop_name.is_empty():
+		next_stop_name = I18n.t("conductor.next_stop_fallback")
 	if scene_path.contains("garage_scene"):
 		return {
 			"key": "tip_garage",
-			"text": "Vagonlari surukleyerek trene ekle. Sefere hazir olunca butona bas!",
+			"text": I18n.t("conductor.tip.garage"),
 		}
 	if scene_path.contains("map_scene"):
 		return {
 			"key": "tip_map",
-			"text": "Baslangic ve bitis duragini sec. Yakit maliyetine dikkat et!",
+			"text": I18n.t("conductor.tip.map"),
 		}
 	if scene_path.contains("station_scene"):
 		return {
 			"key": "tip_station_first",
-			"text": "Yolculari surukleyip dogru vagona birak. Mavi yolcular ekonomi vagona biner.",
+			"text": I18n.t("conductor.tip.station_first"),
 		}
 	if scene_path.contains("travel_scene"):
 		return {
 			"key": "tip_travel",
-			"text": "Guzel manzara degil mi? Bir sonraki durak: %s" % next_stop_name,
+			"text": I18n.t("conductor.tip.travel", [next_stop_name]),
 		}
 	return {}
 
-
-func get_intro_messages() -> Array:
-	return [
-		"Hos geldin Makinist! Ben konduktor amcan. Sana yardim edecegim.",
-		"Hos geldin Makinist! Deden sana eski bir lokomotif birakti.",
-		"Bu 'Kara Duman' - komurlu, eski ama sadik bir lokomotif.",
-		"Haydi, ilk seferine cikalim! Garajda trenini hazirla.",
+## Handles `get_intro_messages`.
+func get_intro_messages() -> Array[String]:
+	var messages: Array[String] = [
+		I18n.t("conductor.intro.1"),
+		I18n.t("conductor.intro.2"),
+		I18n.t("conductor.intro.3"),
+		I18n.t("conductor.intro.4"),
 	]
+	return messages
 
-
+## Handles `show_runtime_tip`.
 func show_runtime_tip(key: String, text: String) -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm == null:
@@ -176,13 +182,13 @@ func show_runtime_tip(key: String, text: String) -> void:
 	gm.mark_tip_shown(key)
 	_show_tip_text(text)
 
-
+## Lifecycle/helper logic for `_show_tip_text`.
 func _show_tip_text(text: String) -> void:
 	_bubble_label.text = text
 	_bubble.visible = true
 	_hide_timer = 5.0
 
-
+## Lifecycle/helper logic for `_get_pos`.
 func _get_pos(event: InputEvent) -> Vector2:
 	if event is InputEventScreenTouch:
 		return event.position
@@ -190,7 +196,7 @@ func _get_pos(event: InputEvent) -> Vector2:
 		return event.position
 	return Vector2.ZERO
 
-
+## Lifecycle/helper logic for `_is_pressed`.
 func _is_pressed(event: InputEvent) -> bool:
 	if event is InputEventScreenTouch:
 		return event.pressed
@@ -198,7 +204,7 @@ func _is_pressed(event: InputEvent) -> bool:
 		return event.pressed and event.button_index == MOUSE_BUTTON_LEFT
 	return false
 
-
+## Lifecycle/helper logic for `_in_rect`.
 func _in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y

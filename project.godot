@@ -23,6 +23,8 @@ run/main_scene="res://src/scenes/garage/garage_scene.tscn"
 [autoload]
 
 EventBus="*res://src/events/event_bus.gd"
+DebugLogger="*res://src/utils/debug_logger.gd"
+I18n="*res://src/utils/i18n.gd"
 GameManager="*res://src/managers/game_manager.gd"
 GlobalHUD="*res://src/ui/hud/global_hud.gd"
 ConductorManager="*res://src/ui/dialogs/conductor_manager.gd"

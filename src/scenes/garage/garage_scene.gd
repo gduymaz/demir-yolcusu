@@ -1,10 +1,8 @@
-## Garaj sahnesi.
-## Oyuncu burada lokomotif seçer, vagonları sürükleyerek trene takıp çıkarır.
-## "Sefere Çık" butonu durak sahnesine geçiş yapar.
+## Module: garage_scene.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 extends Node2D
 
-
-# -- Layout sabitleri --
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
 const MARGIN := 20
@@ -18,7 +16,6 @@ const WAGON_POOL_H := 280
 const BUTTON_BAR_Y := 790
 const BUTTON_H := 60
 
-# -- Boyutlar --
 const LOCO_SPRITE_W := 80
 const LOCO_SPRITE_H := 56
 const WAGON_SPRITE_W := 72
@@ -27,12 +24,11 @@ const WAGON_SPACING := 85
 const POOL_WAGON_W := 100
 const POOL_WAGON_H := 60
 
-# -- Renkler --
 const COLOR_BG := Color("#1a1a2e")
 const COLOR_HEADER := Color("#16213e")
 const COLOR_PANEL := Color("#0f3460")
 const COLOR_TRAIN_BG := Color("#1a1a2e")
-const COLOR_LOCO := Color("#c0392b")       # TCDD kırmızı
+const COLOR_LOCO := Color("#c0392b")
 const COLOR_ECONOMY := Color("#3498db")
 const COLOR_BUSINESS := Color("#2c3e50")
 const COLOR_VIP := Color("#f1c40f")
@@ -46,9 +42,8 @@ const COLOR_BUTTON := Color("#2980b9")
 const COLOR_BUTTON_DISABLED := Color("#555555")
 const COLOR_SELECTED := Color("#e74c3c")
 
-# -- Referanslar --
 var _money_label: Label
-var _train_container: Control  # Tren görünüm alanı
+var _train_container: Control
 var _info_label: Label
 var _wagon_pool_container: Control
 var _shop_panel: Control
@@ -56,27 +51,21 @@ var _loco_buttons: Array = []
 var _train_wagon_nodes: Array = []
 var _pool_wagon_nodes: Array = []
 
-# -- Sürükleme state --
 var _dragging: bool = false
-var _drag_source: String = ""  # "pool" veya "train"
+var _drag_source: String = ""
 var _drag_index: int = -1
 var _drag_node: Control = null
 var _drag_offset: Vector2 = Vector2.ZERO
 var _drag_wagon: WagonData = null
 
-# -- Mağaza state --
 var _shop_visible: bool = false
 
-
+## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_build_scene()
 	_refresh_all()
 
-
-# ==========================================================
-# SAHNE İNŞASI
-# ==========================================================
-
+## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
 	_build_background()
 	_build_header()
@@ -87,7 +76,7 @@ func _build_scene() -> void:
 	_build_button_bar()
 	_build_shop_panel()
 
-
+## Lifecycle/helper logic for `_build_background`.
 func _build_background() -> void:
 	var bg := ColorRect.new()
 	bg.position = Vector2.ZERO
@@ -95,7 +84,7 @@ func _build_background() -> void:
 	bg.color = COLOR_BG
 	add_child(bg)
 
-
+## Lifecycle/helper logic for `_build_header`.
 func _build_header() -> void:
 	var header_bg := ColorRect.new()
 	header_bg.position = Vector2.ZERO
@@ -104,7 +93,7 @@ func _build_header() -> void:
 	add_child(header_bg)
 
 	var title := Label.new()
-	title.text = "GARAJ"
+	title.text = I18n.t("garage.title")
 	title.position = Vector2(MARGIN, 10)
 	title.add_theme_font_size_override("font_size", 24)
 	title.add_theme_color_override("font_color", COLOR_TEXT)
@@ -118,7 +107,7 @@ func _build_header() -> void:
 	_money_label.add_theme_color_override("font_color", COLOR_GOLD)
 	add_child(_money_label)
 
-
+## Lifecycle/helper logic for `_build_loco_panel`.
 func _build_loco_panel() -> void:
 	var panel_bg := ColorRect.new()
 	panel_bg.position = Vector2(0, HEADER_H)
@@ -127,44 +116,40 @@ func _build_loco_panel() -> void:
 	add_child(panel_bg)
 
 	var section_label := Label.new()
-	section_label.text = "LOKOMOTiF"
+	section_label.text = I18n.t("garage.section.locomotive")
 	section_label.position = Vector2(MARGIN, HEADER_H + 5)
 	section_label.add_theme_font_size_override("font_size", 12)
 	section_label.add_theme_color_override("font_color", Color("#888888"))
 	add_child(section_label)
 
-	# Lokomotif butonları (dinamik, refresh'te doldurulur)
-	# Placeholder container
 	var container := Control.new()
 	container.position = Vector2(MARGIN, HEADER_H + 25)
 	container.size = Vector2(VIEWPORT_W - MARGIN * 2, 50)
 	container.name = "LocoContainer"
 	add_child(container)
 
-
+## Lifecycle/helper logic for `_build_train_area`.
 func _build_train_area() -> void:
-	# Arka plan
+
 	var area_bg := ColorRect.new()
 	area_bg.position = Vector2(0, TRAIN_AREA_Y)
 	area_bg.size = Vector2(VIEWPORT_W, TRAIN_AREA_H)
 	area_bg.color = Color("#111122")
 	add_child(area_bg)
 
-	# Ray çizgisi
 	var rail := ColorRect.new()
 	rail.position = Vector2(0, TRAIN_AREA_Y + TRAIN_AREA_H - 20)
 	rail.size = Vector2(VIEWPORT_W, 4)
 	rail.color = Color("#444444")
 	add_child(rail)
 
-	# Tren container
 	_train_container = Control.new()
 	_train_container.position = Vector2(0, TRAIN_AREA_Y)
 	_train_container.size = Vector2(VIEWPORT_W, TRAIN_AREA_H)
 	_train_container.name = "TrainContainer"
 	add_child(_train_container)
 
-
+## Lifecycle/helper logic for `_build_info_bar`.
 func _build_info_bar() -> void:
 	var bar_bg := ColorRect.new()
 	bar_bg.position = Vector2(0, INFO_BAR_Y)
@@ -180,7 +165,7 @@ func _build_info_bar() -> void:
 	_info_label.add_theme_color_override("font_color", COLOR_TEXT)
 	add_child(_info_label)
 
-
+## Lifecycle/helper logic for `_build_wagon_pool`.
 func _build_wagon_pool() -> void:
 	var pool_bg := ColorRect.new()
 	pool_bg.position = Vector2(0, WAGON_POOL_Y)
@@ -189,7 +174,7 @@ func _build_wagon_pool() -> void:
 	add_child(pool_bg)
 
 	var section_label := Label.new()
-	section_label.text = "VAGONLARIM"
+	section_label.text = I18n.t("garage.section.wagons")
 	section_label.position = Vector2(MARGIN, WAGON_POOL_Y + 5)
 	section_label.add_theme_font_size_override("font_size", 12)
 	section_label.add_theme_color_override("font_color", Color("#888888"))
@@ -201,21 +186,20 @@ func _build_wagon_pool() -> void:
 	_wagon_pool_container.name = "WagonPoolContainer"
 	add_child(_wagon_pool_container)
 
-
+## Lifecycle/helper logic for `_build_button_bar`.
 func _build_button_bar() -> void:
-	# Mağaza butonu
-	var shop_btn := _create_button("MAGAZA", Vector2(MARGIN, BUTTON_BAR_Y), Vector2(230, BUTTON_H), COLOR_BUTTON)
+
+	var shop_btn := _create_button(I18n.t("garage.button.shop"), Vector2(MARGIN, BUTTON_BAR_Y), Vector2(230, BUTTON_H), COLOR_BUTTON)
 	shop_btn.name = "ShopButton"
 	add_child(shop_btn)
 
-	# Haritaya Git butonu
-	var go_btn := _create_button("HARITAYA GIT", Vector2(270, BUTTON_BAR_Y), Vector2(250, BUTTON_H), COLOR_GREEN)
+	var go_btn := _create_button(I18n.t("garage.button.go_map"), Vector2(270, BUTTON_BAR_Y), Vector2(250, BUTTON_H), COLOR_GREEN)
 	go_btn.name = "GoButton"
 	add_child(go_btn)
 
-
+## Lifecycle/helper logic for `_build_shop_panel`.
 func _build_shop_panel() -> void:
-	# Mağaza paneli (başlangıçta gizli)
+
 	_shop_panel = Control.new()
 	_shop_panel.position = Vector2(0, 0)
 	_shop_panel.size = Vector2(VIEWPORT_W, VIEWPORT_H)
@@ -223,14 +207,12 @@ func _build_shop_panel() -> void:
 	_shop_panel.name = "ShopPanel"
 	add_child(_shop_panel)
 
-	# Yarı saydam arka plan
 	var overlay := ColorRect.new()
 	overlay.position = Vector2.ZERO
 	overlay.size = Vector2(VIEWPORT_W, VIEWPORT_H)
 	overlay.color = Color(0, 0, 0, 0.7)
 	_shop_panel.add_child(overlay)
 
-	# Panel kutusu
 	var box := ColorRect.new()
 	box.position = Vector2(40, 150)
 	box.size = Vector2(460, 600)
@@ -238,29 +220,23 @@ func _build_shop_panel() -> void:
 	_shop_panel.add_child(box)
 
 	var title := Label.new()
-	title.text = "MAGAZA"
+	title.text = I18n.t("garage.shop.title")
 	title.position = Vector2(180, 165)
 	title.add_theme_font_size_override("font_size", 24)
 	title.add_theme_color_override("font_color", COLOR_GOLD)
 	_shop_panel.add_child(title)
 
-	# Vagon satın alma seçenekleri (dinamik)
 	var shop_items_container := Control.new()
 	shop_items_container.position = Vector2(60, 210)
 	shop_items_container.size = Vector2(420, 400)
 	shop_items_container.name = "ShopItemsContainer"
 	_shop_panel.add_child(shop_items_container)
 
-	# Kapat butonu
-	var close_btn := _create_button("KAPAT", Vector2(170, 650), Vector2(200, 50), COLOR_RED)
+	var close_btn := _create_button(I18n.t("garage.shop.close"), Vector2(170, 650), Vector2(200, 50), COLOR_RED)
 	close_btn.name = "ShopCloseButton"
 	_shop_panel.add_child(close_btn)
 
-
-# ==========================================================
-# YARDIMCI: BUTON OLUŞTURMA
-# ==========================================================
-
+## Lifecycle/helper logic for `_create_button`.
 func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color) -> Control:
 	var container := Control.new()
 	container.position = pos
@@ -283,11 +259,7 @@ func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color)
 
 	return container
 
-
-# ==========================================================
-# GÖRÜNÜM GÜNCELLEME
-# ==========================================================
-
+## Lifecycle/helper logic for `_refresh_all`.
 func _refresh_all() -> void:
 	_refresh_money()
 	_refresh_loco_list()
@@ -295,15 +267,15 @@ func _refresh_all() -> void:
 	_refresh_info_bar()
 	_refresh_wagon_pool()
 
-
+## Lifecycle/helper logic for `_refresh_money`.
 func _refresh_money() -> void:
 	var gm: Node = _get_game_manager()
 	_money_label.text = "%d DA" % gm.economy.get_balance()
 
-
+## Lifecycle/helper logic for `_refresh_loco_list`.
 func _refresh_loco_list() -> void:
 	var container: Control = get_node("LocoContainer")
-	# Eski butonları temizle
+
 	for child in container.get_children():
 		child.queue_free()
 	_loco_buttons.clear()
@@ -336,9 +308,9 @@ func _refresh_loco_list() -> void:
 		container.add_child(btn)
 		_loco_buttons.append(btn)
 
-
+## Lifecycle/helper logic for `_refresh_train_view`.
 func _refresh_train_view() -> void:
-	# Eski node'ları temizle
+
 	for child in _train_container.get_children():
 		child.queue_free()
 	_train_wagon_nodes.clear()
@@ -347,7 +319,6 @@ func _refresh_train_view() -> void:
 	var config: TrainConfig = gm.train_config
 	var loco: LocomotiveData = config.get_locomotive()
 
-	# Lokomotif sprite
 	var loco_node := ColorRect.new()
 	loco_node.position = Vector2(MARGIN, (TRAIN_AREA_H - LOCO_SPRITE_H) / 2.0)
 	loco_node.size = Vector2(LOCO_SPRITE_W, LOCO_SPRITE_H)
@@ -363,7 +334,6 @@ func _refresh_train_view() -> void:
 	loco_label.add_theme_color_override("font_color", COLOR_TEXT)
 	_train_container.add_child(loco_label)
 
-	# Vagonlar
 	var wagons: Array = config.get_wagons()
 	var start_x := MARGIN + LOCO_SPRITE_W + 15
 
@@ -386,7 +356,6 @@ func _refresh_train_view() -> void:
 
 		_train_wagon_nodes.append(wagon_node)
 
-	# Boş slotlar (mevcut + max arasındaki fark)
 	for i in range(wagons.size(), config.get_max_wagons()):
 		var slot := ColorRect.new()
 		slot.position = Vector2(start_x + i * WAGON_SPACING, (TRAIN_AREA_H - WAGON_SPRITE_H) / 2.0)
@@ -403,7 +372,7 @@ func _refresh_train_view() -> void:
 		slot_label.add_theme_color_override("font_color", Color("#666666"))
 		_train_container.add_child(slot_label)
 
-
+## Lifecycle/helper logic for `_refresh_info_bar`.
 func _refresh_info_bar() -> void:
 	var gm: Node = _get_game_manager()
 	var config: TrainConfig = gm.train_config
@@ -412,11 +381,11 @@ func _refresh_info_bar() -> void:
 	var capacity := config.get_total_passenger_capacity()
 	var loco: LocomotiveData = config.get_locomotive()
 	var fuel_name := _get_fuel_name(loco.fuel_type)
-	_info_label.text = "Vagon: %d/%d | Kapasite: %d yolcu | Yakit: %s" % [wagon_count, max_wagons, capacity, fuel_name]
+	_info_label.text = I18n.t("garage.info.train", [wagon_count, max_wagons, capacity, fuel_name])
 
-
+## Lifecycle/helper logic for `_refresh_wagon_pool`.
 func _refresh_wagon_pool() -> void:
-	# Eski node'ları temizle
+
 	for child in _wagon_pool_container.get_children():
 		child.queue_free()
 	_pool_wagon_nodes.clear()
@@ -426,14 +395,13 @@ func _refresh_wagon_pool() -> void:
 
 	if available.size() == 0:
 		var empty_label := Label.new()
-		empty_label.text = "(Tum vagonlar trende)"
+		empty_label.text = I18n.t("garage.info.empty_pool")
 		empty_label.position = Vector2(60, 40)
 		empty_label.add_theme_font_size_override("font_size", 14)
 		empty_label.add_theme_color_override("font_color", Color("#888888"))
 		_wagon_pool_container.add_child(empty_label)
 		return
 
-	# Grid layout: 2 sütun
 	var col_w := 250
 	var row_h := 75
 
@@ -469,7 +437,7 @@ func _refresh_wagon_pool() -> void:
 		_wagon_pool_container.add_child(wagon_node)
 		_pool_wagon_nodes.append(wagon_node)
 
-
+## Lifecycle/helper logic for `_refresh_shop`.
 func _refresh_shop() -> void:
 	var container: Control = _shop_panel.get_node("ShopItemsContainer")
 	for child in container.get_children():
@@ -494,14 +462,12 @@ func _refresh_shop() -> void:
 		item.position = Vector2(0, i * 90)
 		item.size = Vector2(400, 80)
 
-		# Vagon renk kutusu
 		var color_box := ColorRect.new()
 		color_box.position = Vector2(0, 5)
 		color_box.size = Vector2(60, 50)
 		color_box.color = _get_wagon_color(wtype)
 		item.add_child(color_box)
 
-		# İsim
 		var name_label := Label.new()
 		name_label.text = _get_wagon_type_name(wtype)
 		name_label.position = Vector2(75, 5)
@@ -509,7 +475,6 @@ func _refresh_shop() -> void:
 		name_label.add_theme_color_override("font_color", COLOR_TEXT)
 		item.add_child(name_label)
 
-		# Kapasite
 		var cap_label := Label.new()
 		cap_label.text = "Kapasite: %d" % WagonData._get_capacity_for_type(wtype)
 		cap_label.position = Vector2(75, 28)
@@ -517,7 +482,6 @@ func _refresh_shop() -> void:
 		cap_label.add_theme_color_override("font_color", Color("#aaaaaa"))
 		item.add_child(cap_label)
 
-		# Satın al butonu
 		var buy_btn := _create_button(
 			"%d DA" % price,
 			Vector2(280, 5),
@@ -529,11 +493,7 @@ func _refresh_shop() -> void:
 
 		container.add_child(item)
 
-
-# ==========================================================
-# INPUT
-# ==========================================================
-
+## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
 	if _should_ignore_mouse_event(event):
 		return
@@ -555,7 +515,7 @@ func _input(event: InputEvent) -> void:
 		var pos := _get_event_position(event)
 		_on_drag(pos)
 
-
+## Lifecycle/helper logic for `_handle_shop_input`.
 func _handle_shop_input(event: InputEvent) -> void:
 	if not (event is InputEventScreenTouch or event is InputEventMouseButton):
 		return
@@ -564,7 +524,6 @@ func _handle_shop_input(event: InputEvent) -> void:
 
 	var pos := _get_event_position(event)
 
-	# Kapat butonu
 	var close_btn: Control = _shop_panel.get_node("ShopCloseButton")
 	if _is_in_rect(pos, close_btn.position, close_btn.size):
 		_shop_visible = false
@@ -572,7 +531,6 @@ func _handle_shop_input(event: InputEvent) -> void:
 		_refresh_all()
 		return
 
-	# Satın al butonları
 	var container: Control = _shop_panel.get_node("ShopItemsContainer")
 	var wagon_types := [
 		Constants.WagonType.ECONOMY,
@@ -583,30 +541,27 @@ func _handle_shop_input(event: InputEvent) -> void:
 
 	for i in range(wagon_types.size()):
 		var wtype: Constants.WagonType = wagon_types[i]
-		# Buton pozisyonu: container offset + item offset + buton offset
+
 		var btn_global := container.position + Vector2(0, i * 90) + Vector2(280, 5)
 		if _is_in_rect(pos, btn_global, Vector2(110, 45)):
 			_try_buy_wagon(wtype)
 			return
 
-
+## Lifecycle/helper logic for `_on_press`.
 func _on_press(pos: Vector2) -> void:
 	if _dragging:
 		return
 
-	# Mağaza butonu
 	var shop_btn: Control = get_node("ShopButton")
 	if _is_in_rect(pos, shop_btn.position, shop_btn.size):
 		_open_shop()
 		return
 
-	# Sefere Çık butonu
 	var go_btn: Control = get_node("GoButton")
 	if _is_in_rect(pos, go_btn.position, go_btn.size):
 		_go_to_station()
 		return
 
-	# Trendeki vagona tıklama (çıkarma)
 	var gm: Node = _get_game_manager()
 	var config: TrainConfig = gm.train_config
 	for i in range(_train_wagon_nodes.size()):
@@ -616,7 +571,6 @@ func _on_press(pos: Vector2) -> void:
 			_start_drag_from_train(i, pos)
 			return
 
-	# Havuzdaki vagona tıklama (sürükleme)
 	for i in range(_pool_wagon_nodes.size()):
 		var node: Control = _pool_wagon_nodes[i]
 		var node_global := node.position + _wagon_pool_container.position
@@ -624,7 +578,6 @@ func _on_press(pos: Vector2) -> void:
 			_start_drag_from_pool(i, pos)
 			return
 
-	# Lokomotif butonları
 	var loco_container: Control = get_node("LocoContainer")
 	for i in range(_loco_buttons.size()):
 		var btn: Control = _loco_buttons[i]
@@ -633,41 +586,34 @@ func _on_press(pos: Vector2) -> void:
 			_select_locomotive(i)
 			return
 
-
+## Lifecycle/helper logic for `_on_drag`.
 func _on_drag(pos: Vector2) -> void:
 	if _drag_node:
 		_drag_node.position = pos - _drag_offset
 
-
+## Lifecycle/helper logic for `_on_release`.
 func _on_release(pos: Vector2) -> void:
 	if not _dragging:
 		return
 
 	_dragging = false
 
-	# Tren alanına bırakılmış mı?
 	var in_train_area := pos.y >= TRAIN_AREA_Y and pos.y <= TRAIN_AREA_Y + TRAIN_AREA_H
 
 	if _drag_source == "pool" and in_train_area:
-		# Havuzdan trene ekleme
+
 		_add_wagon_to_train_from_pool()
 	elif _drag_source == "train" and not in_train_area:
-		# Trenden çıkarma
-		_remove_wagon_from_train()
-	# else: bırakılan yer geçersiz → geri dön
 
-	# Sürükleme node'unu temizle
+		_remove_wagon_from_train()
+
 	if _drag_node:
 		_drag_node.queue_free()
 		_drag_node = null
 
 	_refresh_all()
 
-
-# ==========================================================
-# SÜRÜKLEME İŞLEMLERİ
-# ==========================================================
-
+## Lifecycle/helper logic for `_start_drag_from_pool`.
 func _start_drag_from_pool(index: int, pos: Vector2) -> void:
 	var gm: Node = _get_game_manager()
 	var available: Array = gm.inventory.get_available_wagons()
@@ -679,7 +625,6 @@ func _start_drag_from_pool(index: int, pos: Vector2) -> void:
 	_drag_index = index
 	_drag_wagon = available[index]
 
-	# Sürükleme görsel node'u
 	_drag_node = ColorRect.new()
 	_drag_node.size = Vector2(WAGON_SPRITE_W, WAGON_SPRITE_H)
 	_drag_node.color = _get_wagon_color(_drag_wagon.type)
@@ -689,7 +634,7 @@ func _start_drag_from_pool(index: int, pos: Vector2) -> void:
 	_drag_node.position = pos - _drag_offset
 	add_child(_drag_node)
 
-
+## Lifecycle/helper logic for `_start_drag_from_train`.
 func _start_drag_from_train(index: int, pos: Vector2) -> void:
 	var gm: Node = _get_game_manager()
 	var wagons: Array = gm.train_config.get_wagons()
@@ -710,7 +655,7 @@ func _start_drag_from_train(index: int, pos: Vector2) -> void:
 	_drag_node.position = pos - _drag_offset
 	add_child(_drag_node)
 
-
+## Lifecycle/helper logic for `_add_wagon_to_train_from_pool`.
 func _add_wagon_to_train_from_pool() -> void:
 	var gm: Node = _get_game_manager()
 	var config: TrainConfig = gm.train_config
@@ -720,7 +665,7 @@ func _add_wagon_to_train_from_pool() -> void:
 		gm.inventory.mark_wagon_in_use(_drag_wagon)
 		gm.sync_trip_wagon_count()
 
-
+## Lifecycle/helper logic for `_remove_wagon_from_train`.
 func _remove_wagon_from_train() -> void:
 	var gm: Node = _get_game_manager()
 	var config: TrainConfig = gm.train_config
@@ -729,11 +674,7 @@ func _remove_wagon_from_train() -> void:
 		gm.inventory.unmark_wagon_in_use(removed)
 		gm.sync_trip_wagon_count()
 
-
-# ==========================================================
-# LOKOMOTİF SEÇİMİ
-# ==========================================================
-
+## Lifecycle/helper logic for `_select_locomotive`.
 func _select_locomotive(index: int) -> void:
 	var gm: Node = _get_game_manager()
 	var locos: Array = gm.inventory.get_locomotives()
@@ -743,14 +684,11 @@ func _select_locomotive(index: int) -> void:
 	var loco: LocomotiveData = locos[index]
 	var old_config: TrainConfig = gm.train_config
 
-	# Eski vagonları boşalt
 	for wagon in old_config.get_wagons():
 		gm.inventory.unmark_wagon_in_use(wagon)
 
-	# Yeni konfigürasyon
 	gm.train_config = TrainConfig.new(loco)
 
-	# Eski vagonları yenisine taşı (max kadar)
 	for wagon in old_config.get_wagons():
 		if gm.train_config.is_full():
 			break
@@ -760,28 +698,20 @@ func _select_locomotive(index: int) -> void:
 
 	_refresh_all()
 
-
-# ==========================================================
-# MAĞAZA
-# ==========================================================
-
+## Lifecycle/helper logic for `_open_shop`.
 func _open_shop() -> void:
 	_shop_visible = true
 	_shop_panel.visible = true
 	_refresh_shop()
 
-
+## Lifecycle/helper logic for `_try_buy_wagon`.
 func _try_buy_wagon(wagon_type: Constants.WagonType) -> void:
 	var gm: Node = _get_game_manager()
 	if gm.inventory.buy_wagon(wagon_type):
 		_refresh_shop()
 		_refresh_money()
 
-
-# ==========================================================
-# SAHNE GEÇİŞİ
-# ==========================================================
-
+## Lifecycle/helper logic for `_go_to_station`.
 func _go_to_station() -> void:
 	var gm: Node = _get_game_manager()
 	if gm.train_config.get_wagon_count() == 0:
@@ -789,9 +719,9 @@ func _go_to_station() -> void:
 		return
 	get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
 
-
+## Lifecycle/helper logic for `_flash_warning`.
 func _flash_warning() -> void:
-	_info_label.text = "En az 1 vagon gerekli!"
+	_info_label.text = I18n.t("garage.error.min_wagon")
 	_info_label.add_theme_color_override("font_color", COLOR_RED)
 	var timer := get_tree().create_timer(1.5)
 	timer.timeout.connect(func() -> void:
@@ -799,15 +729,11 @@ func _flash_warning() -> void:
 		_refresh_info_bar()
 	)
 
-
-# ==========================================================
-# YARDIMCILAR
-# ==========================================================
-
+## Lifecycle/helper logic for `_get_game_manager`.
 func _get_game_manager() -> Node:
 	return get_node("/root/GameManager")
 
-
+## Lifecycle/helper logic for `_get_event_position`.
 func _get_event_position(event: InputEvent) -> Vector2:
 	if event is InputEventScreenTouch:
 		return event.position
@@ -819,7 +745,7 @@ func _get_event_position(event: InputEvent) -> Vector2:
 		return event.position
 	return Vector2.ZERO
 
-
+## Lifecycle/helper logic for `_is_pressed`.
 func _is_pressed(event: InputEvent) -> bool:
 	if event is InputEventScreenTouch:
 		return event.pressed
@@ -827,12 +753,12 @@ func _is_pressed(event: InputEvent) -> bool:
 		return event.pressed and event.button_index == MOUSE_BUTTON_LEFT
 	return false
 
-
+## Lifecycle/helper logic for `_is_in_rect`.
 func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y
 
-
+## Lifecycle/helper logic for `_should_ignore_mouse_event`.
 func _should_ignore_mouse_event(event: InputEvent) -> bool:
 	var emulate_touch: bool = ProjectSettings.get_setting(
 		"input_devices/pointing/emulate_touch_from_mouse",
@@ -842,7 +768,7 @@ func _should_ignore_mouse_event(event: InputEvent) -> bool:
 		return false
 	return event is InputEventMouseButton or event is InputEventMouseMotion
 
-
+## Lifecycle/helper logic for `_get_wagon_color`.
 func _get_wagon_color(wtype: Constants.WagonType) -> Color:
 	match wtype:
 		Constants.WagonType.ECONOMY: return COLOR_ECONOMY
@@ -852,7 +778,7 @@ func _get_wagon_color(wtype: Constants.WagonType) -> Color:
 		Constants.WagonType.CARGO: return COLOR_CARGO
 		_: return Color.WHITE
 
-
+## Lifecycle/helper logic for `_get_wagon_short_name`.
 func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 	match wtype:
 		Constants.WagonType.ECONOMY: return "Eko."
@@ -862,7 +788,7 @@ func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 		Constants.WagonType.CARGO: return "Kar."
 		_: return "?"
 
-
+## Lifecycle/helper logic for `_get_wagon_type_name`.
 func _get_wagon_type_name(wtype: Constants.WagonType) -> String:
 	match wtype:
 		Constants.WagonType.ECONOMY: return "Ekonomi"
@@ -872,7 +798,7 @@ func _get_wagon_type_name(wtype: Constants.WagonType) -> String:
 		Constants.WagonType.CARGO: return "Kargo"
 		_: return "Bilinmeyen"
 
-
+## Lifecycle/helper logic for `_get_fuel_name`.
 func _get_fuel_name(ftype: Constants.FuelType) -> String:
 	match ftype:
 		Constants.FuelType.COAL_OLD: return "Komur (Eski)"

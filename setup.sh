@@ -2,30 +2,30 @@
 # ============================================
 # 🚂 Demir Yolcusu — Otomatik Proje Kurulumu
 # ============================================
-# Bu scripti çalıştır: bash setup.sh
-# Proje klasöründe tüm yapıyı oluşturur.
+# Run this script: bash setup.sh
+# Creates the full project structure in the current folder.
 
 set -e
 
 echo "🚂 Demir Yolcusu proje yapısı kuruluyor..."
 echo ""
 
-# ---- Temel klasörler ----
+# ---- Core directories ----
 echo "📁 Klasör yapısı oluşturuluyor..."
 
-# Claude Code yapısı
+# Claude Code structure
 mkdir -p .claude/commands
 mkdir -p .claude/skills/godot-basics
 mkdir -p .claude/skills/game-tdd
 mkdir -p .claude/skills/pixel-art-gen
 mkdir -p .claude/agents
 
-# Dokümanlar
+# Documentation
 mkdir -p docs/design
 mkdir -p docs/technical
 mkdir -p docs/art
 
-# Asset'ler
+# Assets
 mkdir -p assets/sprites/placeholder
 mkdir -p assets/sprites/trains
 mkdir -p assets/sprites/passengers
@@ -37,7 +37,7 @@ mkdir -p assets/audio/sfx
 mkdir -p assets/fonts
 mkdir -p assets/reference
 
-# Kaynak kod
+# Source code
 mkdir -p src/entities
 mkdir -p src/components
 mkdir -p src/systems
@@ -56,7 +56,7 @@ mkdir -p src/events
 mkdir -p src/utils
 mkdir -p src/config
 
-# Testler
+# Tests
 mkdir -p tests/entities
 mkdir -p tests/systems
 mkdir -p tests/utils
@@ -71,7 +71,7 @@ cat > .gitignore << 'GITIGNORE'
 *.import
 export_presets.cfg
 
-# Claude Code kişisel
+# Claude Code personal
 .claude/settings.local.json
 
 # OS
@@ -91,7 +91,7 @@ echo "✅ .gitignore oluşturuldu"
 # ---- CLAUDE.md ----
 echo "📄 CLAUDE.md oluşturuluyor..."
 cat > CLAUDE.md << 'CLAUDEMD'
-# Demir Yolcusu — Proje Bağlamı
+# Demir Yolcusu - Project Context
 
 ## Proje Nedir?
 Türkiye'nin gerçek TCDD demiryolu hatlarında geçen, isometrik pixel art, mobil tren yönetim oyunu.
@@ -105,7 +105,7 @@ Türkiye'nin gerçek TCDD demiryolu hatlarında geçen, isometrik pixel art, mob
 - **Platform:** iOS / Android (portrait)
 - **Tile:** 32x32 isometrik pixel art (2:1 oran)
 
-## Proje Yapısı
+## Project Structure
 ```
 src/
 ├── entities/        # Oyun nesneleri (Passenger, Locomotive, Wagon, Station, Cargo)
@@ -133,23 +133,23 @@ docs/                # GDD, mimari, stil rehberi
 7. **Tek Sorumluluk**: Bir script = bir iş
 8. **Magic Number YOK**: Tüm sayılar config/balance.gd veya config/constants.gd içinde
 
-## Test Kuralları
+## Testing Rules
 - Framework: GdUnit4
 - Konum: `tests/` klasörü (`src/` yapısını aynalar)
 - İsimlendirme: `test_[Entity]_[Method]_[Senaryo]_[BeklenenSonuç]`
 - Yapı: Arrange → Act → Assert
 - Test EDİLMEZ: Render çıktısı, motor iç işlevleri, ses çalma
 
-## Godot Komutları
+## Godot Commands
 ```bash
-# Projeyi çalıştır
+# Run the project
 godot --path . --main-run
 
-# Testleri çalıştır (GdUnit4 kurulduktan sonra)
+# Run tests (after GdUnit4 is installed)
 godot --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd --run-tests
 ```
 
-## Geliştirme Akışı (HER ÖZELLİK İÇİN)
+## Development Workflow (FOR EVERY FEATURE)
 1. Özelliğin teknik spec'ini yaz (kısa, 5-10 satır)
 2. Testleri yaz (RED — başarısız olmalı)
 3. Minimum kodu yaz (GREEN — testler geçmeli)
@@ -163,13 +163,13 @@ Demir Altını (DA) — oyun içi tek para birimi
 ## Mevcut Durum
 Proje YENİ başlıyor. Henüz kod yok. Sıfırdan kurulacak.
 
-## Önemli Dokümanlar (MUTLAKA OKU)
+## Important Documents (MUST READ)
 - `docs/design/GDD.md` — Tam oyun tasarım belgesi
 - `docs/technical/ARCHITECTURE.md` — Teknik mimari
 - `docs/art/STYLE_GUIDE.md` — Görsel stil rehberi
 - `assets/reference/` — Referans görseller
 
-## Uyarılar
+## Warnings
 - Bu proje sahibi oyun geliştirme deneyimi YOKTUR — her adımı açıkla
 - Godot bilgisi YOKTUR — Godot kavramlarını kısaca açıkla
 - ASLA varsayım yapma — belirsiz bir şey varsa sor
@@ -187,7 +187,7 @@ name: godot-basics
 description: "Godot 4 motor bilgisi. GDScript sözdizimi, Node/Scene sistemi, Signal kullanımı, TileMap, AnimatedSprite2D, isometrik kurulum."
 ---
 
-# Godot 4 Temelleri — Demir Yolcusu İçin
+# Godot 4 Basics - For Demir Yolcusu
 
 ## Godot Konseptleri
 - **Node**: Her şeyin temel yapı taşı
@@ -196,7 +196,7 @@ description: "Godot 4 motor bilgisi. GDScript sözdizimi, Node/Scene sistemi, Si
 - **Autoload**: Oyun boyunca aktif tekil script (singleton)
 - **GDScript**: Godot'un kendi dili, Python'a benzer
 
-## project.godot Ayarları
+## project.godot Settings
 ```ini
 [display]
 window/size/viewport_width=540
@@ -212,7 +212,7 @@ textures/canvas_textures/default_texture_filter=0
 EventBus="*res://src/events/event_bus.gd"
 ```
 
-## İsometrik TileMap
+## Isometric TileMap
 - Tile boyutu: 32x32
 - Layout: Isometric, Cell size: Vector2i(32, 16)
 
@@ -228,7 +228,7 @@ func _ready() -> void:
     pass
 ```
 
-## Signal Kullanımı
+## Signal Usage
 ```gdscript
 signal passenger_boarded(passenger, wagon)
 passenger_boarded.emit(passenger, wagon)
@@ -242,9 +242,9 @@ name: game-tdd
 description: "GdUnit4 ile test-driven game development. Test yazma, mock/stub, state machine testi, ekonomi testi."
 ---
 
-# GdUnit4 ile Oyun TDD
+# Game TDD with GdUnit4
 
-## Test Şablonu
+## Test Template
 ```gdscript
 extends GdUnitTestSuite
 
@@ -284,7 +284,7 @@ description: "Kod ile placeholder pixel art üretimi. Renkli dikdörtgen, geomet
 | Yolcu (VIP) | Daire + "V" | Altın | 16x24 |
 | Durak | Kutu + isim | #7F8C8D | Değişken |
 
-## Godot ile Oluşturma
+## Creation With Godot
 ```gdscript
 func create_placeholder(w: int, h: int, color: Color) -> Sprite2D:
     var image = Image.create(w, h, false, Image.FORMAT_RGBA8)
@@ -295,7 +295,7 @@ func create_placeholder(w: int, h: int, color: Color) -> Sprite2D:
     return sprite
 ```
 
-## Referans: `assets/reference/` klasöründeki retro pixel art dosyaları
+## Reference: retro pixel art files under `assets/reference/`
 SKILL3
 
 echo "✅ Skills oluşturuldu"
@@ -402,7 +402,7 @@ if [ ! -d ".git" ]; then
     echo "✅ Git başlatıldı"
 fi
 
-# ---- ÖZET ----
+# ---- SUMMARY ----
 echo ""
 echo "=========================================="
 echo "🚂 Demir Yolcusu proje yapısı hazır!"

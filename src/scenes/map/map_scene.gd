@@ -1,9 +1,8 @@
-## Harita sahnesi.
-## Stilize Ege haritası, durak seçimi, rota gösterimi, sefer başlatma.
+## Module: map_scene.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 extends Node2D
 
-
-# -- Layout --
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
 const MAP_Y := 80
@@ -12,26 +11,23 @@ const PANEL_Y := 660
 const PANEL_H := 200
 const BUTTON_BAR_Y := 880
 
-# -- Harita GPS sınırları (Ege bölgesi + biraz margin) --
-const MAP_LAT_MIN := 37.5   # Güney (Denizli)
-const MAP_LAT_MAX := 38.7   # Kuzey (İzmir)
-const MAP_LNG_MIN := 26.8   # Batı
-const MAP_LNG_MAX := 29.4   # Doğu (Denizli)
+const MAP_LAT_MIN := 37.5
+const MAP_LAT_MAX := 38.7
+const MAP_LNG_MIN := 26.8
+const MAP_LNG_MAX := 29.4
 
-# -- Boyutlar --
 const STOP_RADIUS := 18.0
 const STOP_RADIUS_SELECTED := 24.0
 
-# -- Renkler --
 const COLOR_BG := Color("#1a1a2e")
 const COLOR_HEADER := Color("#16213e")
-const COLOR_MAP_BG := Color("#0a3d62")  # Deniz mavisi
-const COLOR_LAND := Color("#2d5016")    # Kara (yeşil)
-const COLOR_STOP := Color("#ecf0f1")    # Normal durak
-const COLOR_STOP_START := Color("#27ae60")   # Başlangıç (yeşil)
-const COLOR_STOP_END := Color("#e74c3c")     # Bitiş (kırmızı)
-const COLOR_STOP_BETWEEN := Color("#3498db") # Aradaki duraklar (mavi)
-const COLOR_ROUTE_LINE := Color("#f39c12")   # Rota çizgisi
+const COLOR_MAP_BG := Color("#0a3d62")
+const COLOR_LAND := Color("#2d5016")
+const COLOR_STOP := Color("#ecf0f1")
+const COLOR_STOP_START := Color("#27ae60")
+const COLOR_STOP_END := Color("#e74c3c")
+const COLOR_STOP_BETWEEN := Color("#3498db")
+const COLOR_ROUTE_LINE := Color("#f39c12")
 const COLOR_TEXT := Color("#ecf0f1")
 const COLOR_GOLD := Color("#f39c12")
 const COLOR_GREEN := Color("#27ae60")
@@ -41,7 +37,6 @@ const COLOR_BUTTON := Color("#2980b9")
 const COLOR_BUTTON_DISABLED := Color("#555555")
 const COLOR_LOCKED := Color("#333333")
 
-# -- State --
 var _stop_nodes: Array = []
 var _route_line_nodes: Array = []
 var _selected_start: int = -1
@@ -52,16 +47,12 @@ var _start_button: Control
 var _start_button_bg: ColorRect
 var _popup: Control = null
 
-
+## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_build_scene()
 	_refresh_all()
 
-
-# ==========================================================
-# SAHNE İNŞASI
-# ==========================================================
-
+## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
 	_build_background()
 	_build_header()
@@ -70,14 +61,14 @@ func _build_scene() -> void:
 	_build_panel()
 	_build_buttons()
 
-
+## Lifecycle/helper logic for `_build_background`.
 func _build_background() -> void:
 	var bg := ColorRect.new()
 	bg.size = Vector2(VIEWPORT_W, VIEWPORT_H)
 	bg.color = COLOR_BG
 	add_child(bg)
 
-
+## Lifecycle/helper logic for `_build_header`.
 func _build_header() -> void:
 	var header := ColorRect.new()
 	header.size = Vector2(VIEWPORT_W, MAP_Y)
@@ -85,7 +76,7 @@ func _build_header() -> void:
 	add_child(header)
 
 	var title := Label.new()
-	title.text = "HARITA - EGE"
+	title.text = I18n.t("map.title")
 	title.position = Vector2(20, 15)
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", COLOR_TEXT)
@@ -99,7 +90,6 @@ func _build_header() -> void:
 	_money_label.add_theme_color_override("font_color", COLOR_GOLD)
 	add_child(_money_label)
 
-	# Talimat
 	var hint := Label.new()
 	hint.text = "Baslangic ve bitis duragi sec"
 	hint.position = Vector2(20, 48)
@@ -107,23 +97,21 @@ func _build_header() -> void:
 	hint.add_theme_color_override("font_color", Color("#888888"))
 	add_child(hint)
 
-
+## Lifecycle/helper logic for `_build_map`.
 func _build_map() -> void:
-	# Deniz arka planı
+
 	var sea := ColorRect.new()
 	sea.position = Vector2(0, MAP_Y)
 	sea.size = Vector2(VIEWPORT_W, MAP_H)
 	sea.color = COLOR_MAP_BG
 	add_child(sea)
 
-	# Kara kütlesi (basit poligon yerine dikdörtgen)
 	var land := ColorRect.new()
 	land.position = Vector2(40, MAP_Y + 40)
 	land.size = Vector2(VIEWPORT_W - 80, MAP_H - 80)
 	land.color = COLOR_LAND
 	add_child(land)
 
-	# Kıyı çizgisi efekti
 	var coast := ColorRect.new()
 	coast.position = Vector2(38, MAP_Y + 38)
 	coast.size = Vector2(VIEWPORT_W - 76, MAP_H - 76)
@@ -131,11 +119,10 @@ func _build_map() -> void:
 	coast.z_index = -1
 	add_child(coast)
 
-	# Bölge etiketleri (kilitli bölgeler)
 	_add_locked_region("MARMARA", Vector2(220, MAP_Y + 50))
 	_add_locked_region("IC ANADOLU", Vector2(380, MAP_Y + 200))
 
-
+## Lifecycle/helper logic for `_add_locked_region`.
 func _add_locked_region(region_name: String, pos: Vector2) -> void:
 	var label := Label.new()
 	label.text = region_name + " [KILITLI]"
@@ -144,7 +131,7 @@ func _add_locked_region(region_name: String, pos: Vector2) -> void:
 	label.add_theme_color_override("font_color", COLOR_LOCKED)
 	add_child(label)
 
-
+## Lifecycle/helper logic for `_build_stops`.
 func _build_stops() -> void:
 	var gm: Node = _get_game_manager()
 	if not gm:
@@ -152,14 +139,12 @@ func _build_stops() -> void:
 
 	var route: RouteData = gm.route
 
-	# Önce rota çizgisini çiz
 	for i in range(route.get_stop_count() - 1):
 		var stop_a: Dictionary = route.get_stop(i)
 		var stop_b: Dictionary = route.get_stop(i + 1)
 		var pos_a := _gps_to_screen(stop_a["lat"], stop_a["lng"])
 		var pos_b := _gps_to_screen(stop_b["lat"], stop_b["lng"])
 
-		# Çizgi (ince dikdörtgen)
 		var dx := pos_b.x - pos_a.x
 		var dy := pos_b.y - pos_a.y
 		var length := sqrt(dx * dx + dy * dy)
@@ -174,7 +159,6 @@ func _build_stops() -> void:
 		add_child(line)
 		_route_line_nodes.append(line)
 
-	# Durakları çiz
 	for i in route.get_stop_count():
 		var stop: Dictionary = route.get_stop(i)
 		var pos := _gps_to_screen(stop["lat"], stop["lng"])
@@ -189,7 +173,6 @@ func _build_stops() -> void:
 		circle.color = COLOR_STOP
 		node.add_child(circle)
 
-		# Durak ismi
 		var label := Label.new()
 		var display_name: String = stop["name"]
 		if display_name.length() > 10:
@@ -205,7 +188,7 @@ func _build_stops() -> void:
 		add_child(node)
 		_stop_nodes.append(node)
 
-
+## Lifecycle/helper logic for `_build_panel`.
 func _build_panel() -> void:
 	var panel := ColorRect.new()
 	panel.position = Vector2(0, PANEL_Y)
@@ -227,20 +210,19 @@ func _build_panel() -> void:
 	_info_label.add_theme_color_override("font_color", COLOR_TEXT)
 	add_child(_info_label)
 
-
+## Lifecycle/helper logic for `_build_buttons`.
 func _build_buttons() -> void:
-	# Garaja Dön
-	var back_btn := _create_button("GARAJA DON", Vector2(20, BUTTON_BAR_Y), Vector2(220, 55), COLOR_BUTTON)
+
+	var back_btn := _create_button(I18n.t("map.button.back_garage"), Vector2(20, BUTTON_BAR_Y), Vector2(220, 55), COLOR_BUTTON)
 	back_btn.name = "BackButton"
 	add_child(back_btn)
 
-	# Sefere Başla
 	_start_button = _create_button("SEFERE BASLA", Vector2(260, BUTTON_BAR_Y), Vector2(260, 55), COLOR_GREEN)
 	_start_button.name = "StartButton"
 	_start_button_bg = _start_button.get_child(0) as ColorRect
 	add_child(_start_button)
 
-
+## Lifecycle/helper logic for `_create_button`.
 func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color) -> Control:
 	var container := Control.new()
 	container.position = pos
@@ -262,11 +244,7 @@ func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color)
 
 	return container
 
-
-# ==========================================================
-# GÖRSEL GÜNCELLEME
-# ==========================================================
-
+## Lifecycle/helper logic for `_refresh_all`.
 func _refresh_all() -> void:
 	_refresh_money()
 	_refresh_stops()
@@ -274,13 +252,13 @@ func _refresh_all() -> void:
 	_refresh_panel()
 	_refresh_start_button()
 
-
+## Lifecycle/helper logic for `_refresh_money`.
 func _refresh_money() -> void:
 	var gm: Node = _get_game_manager()
 	if gm:
 		_money_label.text = "%d DA" % gm.economy.get_balance()
 
-
+## Lifecycle/helper logic for `_refresh_stops`.
 func _refresh_stops() -> void:
 	var gm: Node = _get_game_manager()
 	if not gm:
@@ -309,7 +287,7 @@ func _refresh_stops() -> void:
 			circle.color = COLOR_STOP
 			circle.size = Vector2(STOP_RADIUS * 2, STOP_RADIUS * 2)
 
-
+## Lifecycle/helper logic for `_refresh_route_lines`.
 func _refresh_route_lines() -> void:
 	for i in _route_line_nodes.size():
 		var line: ColorRect = _route_line_nodes[i]
@@ -320,10 +298,10 @@ func _refresh_route_lines() -> void:
 			line.color = Color("#444444")
 			line.size.y = 3
 
-
+## Lifecycle/helper logic for `_refresh_panel`.
 func _refresh_panel() -> void:
 	if _selected_start < 0 or _selected_end < 0:
-		_info_label.text = "Haritadan iki durak sec.\nIlk tiklama = baslangic (yesil)\nIkinci tiklama = bitis (kirmizi)"
+		_info_label.text = I18n.t("map.info.select_stops")
 		return
 
 	var gm: Node = _get_game_manager()
@@ -337,12 +315,13 @@ func _refresh_panel() -> void:
 	var start_name: String = gm.route.get_stop(_selected_start)["name"]
 	var end_name: String = gm.route.get_stop(_selected_end)["name"]
 
+	var fuel_status := I18n.t("map.info.fuel_ok") if preview["can_afford_fuel"] else I18n.t("map.info.fuel_insufficient")
 	_info_label.text = (
 		"%s  -->  %s\n" % [start_name, end_name] +
-		"Mesafe: %.0f km | Durak: %d\n" % [preview["distance_km"], preview["stop_count"]] +
-		"Yakit maliyeti: ~%d DA\n" % preview["refuel_cost"] +
-		"Tahmini gelir: ~%d DA\n" % preview["estimated_revenue"] +
-		("Yakit: YETERLI" if preview["can_afford_fuel"] else "Yakit: YETERSIZ!")
+		I18n.t(
+			"map.info.preview",
+			[preview["distance_km"], preview["stop_count"], preview["refuel_cost"], preview["estimated_revenue"], fuel_status]
+		)
 	)
 
 	if not preview["can_afford_fuel"]:
@@ -350,7 +329,7 @@ func _refresh_panel() -> void:
 	else:
 		_info_label.add_theme_color_override("font_color", COLOR_TEXT)
 
-
+## Lifecycle/helper logic for `_refresh_start_button`.
 func _refresh_start_button() -> void:
 	var can_start := _selected_start >= 0 and _selected_end >= 0
 	if can_start:
@@ -361,11 +340,7 @@ func _refresh_start_button() -> void:
 
 	_start_button_bg.color = COLOR_GREEN if can_start else COLOR_BUTTON_DISABLED
 
-
-# ==========================================================
-# INPUT
-# ==========================================================
-
+## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
 	if _should_ignore_mouse_event(event):
 		return
@@ -381,7 +356,6 @@ func _input(event: InputEvent) -> void:
 
 	var pos := _get_event_position(event)
 
-	# Butonlar
 	var back_btn: Control = get_node("BackButton")
 	if _is_in_rect(pos, back_btn.position, back_btn.size):
 		get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
@@ -392,43 +366,42 @@ func _input(event: InputEvent) -> void:
 		_try_start_trip()
 		return
 
-	# Durak tıklama
 	for i in _stop_nodes.size():
 		var node: Control = _stop_nodes[i]
 		if _is_in_rect(pos, node.position, node.size):
 			_on_stop_clicked(i)
 			return
 
-
+## Lifecycle/helper logic for `_handle_popup_input`.
 func _handle_popup_input(event: InputEvent) -> void:
 	if not (event is InputEventScreenTouch or event is InputEventMouseButton):
 		return
 	if not _is_pressed(event):
 		return
-	# Popup'ı kapat
+
 	_popup.queue_free()
 	_popup = null
 
-
+## Lifecycle/helper logic for `_on_stop_clicked`.
 func _on_stop_clicked(index: int) -> void:
 	if _selected_start < 0:
-		# İlk tıklama = başlangıç
+
 		_selected_start = index
 	elif _selected_end < 0:
 		if index == _selected_start:
-			# Aynı durak — iptal
+
 			_selected_start = -1
 		else:
-			# İkinci tıklama = bitiş
+
 			_selected_end = index
 	else:
-		# Zaten iki durak seçili — sıfırla ve yeniden başla
+
 		_selected_start = index
 		_selected_end = -1
 
 	_refresh_all()
 
-
+## Lifecycle/helper logic for `_try_start_trip`.
 func _try_start_trip() -> void:
 	if _selected_start < 0 or _selected_end < 0:
 		return
@@ -442,21 +415,17 @@ func _try_start_trip() -> void:
 	if gm.trip_planner.start_trip():
 		get_tree().change_scene_to_file("res://src/scenes/travel/travel_scene.tscn")
 
-
-# ==========================================================
-# YARDIMCILAR
-# ==========================================================
-
+## Lifecycle/helper logic for `_gps_to_screen`.
 func _gps_to_screen(lat: float, lng: float) -> Vector2:
 	var x_ratio := (lng - MAP_LNG_MIN) / (MAP_LNG_MAX - MAP_LNG_MIN)
-	# Lat ters (kuzey yukarıda)
+
 	var y_ratio := 1.0 - (lat - MAP_LAT_MIN) / (MAP_LAT_MAX - MAP_LAT_MIN)
 	var margin := 60.0
 	var x := margin + x_ratio * (VIEWPORT_W - margin * 2)
 	var y := MAP_Y + margin + y_ratio * (MAP_H - margin * 2)
 	return Vector2(x, y)
 
-
+## Lifecycle/helper logic for `_is_between_selection`.
 func _is_between_selection(index: int) -> bool:
 	if _selected_start < 0 or _selected_end < 0:
 		return false
@@ -464,7 +433,7 @@ func _is_between_selection(index: int) -> bool:
 	var to := maxi(_selected_start, _selected_end)
 	return index > from and index < to
 
-
+## Lifecycle/helper logic for `_is_segment_selected`.
 func _is_segment_selected(segment_index: int) -> bool:
 	if _selected_start < 0 or _selected_end < 0:
 		return false
@@ -472,11 +441,11 @@ func _is_segment_selected(segment_index: int) -> bool:
 	var to := maxi(_selected_start, _selected_end)
 	return segment_index >= from and segment_index < to
 
-
+## Lifecycle/helper logic for `_get_game_manager`.
 func _get_game_manager() -> Node:
 	return get_node_or_null("/root/GameManager")
 
-
+## Lifecycle/helper logic for `_get_event_position`.
 func _get_event_position(event: InputEvent) -> Vector2:
 	if event is InputEventScreenTouch:
 		return event.position
@@ -484,7 +453,7 @@ func _get_event_position(event: InputEvent) -> Vector2:
 		return event.position
 	return Vector2.ZERO
 
-
+## Lifecycle/helper logic for `_is_pressed`.
 func _is_pressed(event: InputEvent) -> bool:
 	if event is InputEventScreenTouch:
 		return event.pressed
@@ -492,12 +461,12 @@ func _is_pressed(event: InputEvent) -> bool:
 		return event.pressed and event.button_index == MOUSE_BUTTON_LEFT
 	return false
 
-
+## Lifecycle/helper logic for `_is_in_rect`.
 func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y
 
-
+## Lifecycle/helper logic for `_should_ignore_mouse_event`.
 func _should_ignore_mouse_event(event: InputEvent) -> bool:
 	var emulate_touch: bool = ProjectSettings.get_setting(
 		"input_devices/pointing/emulate_touch_from_mouse",

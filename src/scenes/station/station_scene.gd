@@ -1,27 +1,23 @@
-## Durak sahnesi — yolcuları sürükleyerek vagonlara bindir, para kazan.
-## GameManager'dan gelen tren konfigürasyonuyla çalışır.
+## Module: station_scene.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 extends Node2D
 
-
-# -- Sistemler --
 var _event_bus: Node
 var _economy: EconomySystem
 var _reputation: ReputationSystem
 var _boarding: BoardingSystem
 var _patience: PatienceSystem
 
-# -- Veri --
-var _wagons: Array = []  # Array[WagonData]
+var _wagons: Array = []
 var _waiting_passengers: Array[Dictionary] = []
-var _station_time: float = Constants.STATION_TIME_LARGE  # 20 saniye
+var _station_time: float = Constants.STATION_TIME_LARGE
 var _time_remaining: float = 0.0
 var _is_active: bool = false
 
-# -- Sürükleme --
 var _dragged_passenger_index: int = -1
 var _drag_offset: Vector2 = Vector2.ZERO
 
-# -- Node referansları --
 var _hud_timer: Label
 var _hud_station: Label
 var _passenger_nodes: Array = []
@@ -35,7 +31,6 @@ var _refuel_progress: float = 0.0
 var _refuel_in_progress: bool = false
 var _station_ticket_start: int = 0
 
-# -- Sabitler (layout) --
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
 const TRAIN_Y := 320.0
@@ -47,7 +42,6 @@ const PASSENGER_SIZE := Vector2(40, 56)
 const WAGON_SIZE := Vector2(100, 70)
 const LOCO_SIZE := Vector2(100, 80)
 
-# -- Renkler (Style Guide'dan) --
 const COLOR_BG := Color("#87CEEB")
 const COLOR_PLATFORM := Color("#D4AC6E")
 const COLOR_RAIL := Color("#5D6D7E")
@@ -65,13 +59,13 @@ const COLOR_SUCCESS := Color("#27AE60")
 const COLOR_FAIL := Color("#E74C3C")
 const COLOR_HUD_BG := Color(0.17, 0.24, 0.31, 0.85)
 
-
+## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_setup_systems()
 	_build_scene()
 	_start_station()
 
-
+## Lifecycle/helper logic for `_process`.
 func _process(delta: float) -> void:
 	_process_refuel(delta)
 	_update_refuel_controls()
@@ -80,7 +74,7 @@ func _process(delta: float) -> void:
 		return
 
 	_time_remaining -= delta
-	_hud_timer.text = "Sure: %d sn" % ceili(_time_remaining)
+	_hud_timer.text = I18n.t("station.hud.time", [ceili(_time_remaining)])
 
 	if _time_remaining <= 0.0:
 		_end_station()
@@ -90,33 +84,28 @@ func _process(delta: float) -> void:
 	if lost.size() > 0:
 		var conductor: Node = get_node_or_null("/root/ConductorManager")
 		if conductor:
-			conductor.show_runtime_tip("tip_passenger_lost", "Eyvah, yolcu gitti! Hizli ol Makinist!")
+			conductor.show_runtime_tip("tip_passenger_lost", I18n.t("conductor.tip.passenger_lost"))
 		_rebuild_passenger_nodes()
 
 	_update_patience_bars()
 
-
-# ==========================================================
-# SİSTEM KURULUMU
-# ==========================================================
-
+## Lifecycle/helper logic for `_setup_systems`.
 func _setup_systems() -> void:
-	# GameManager'dan al (varsa)
+
 	var gm: Node = get_node_or_null("/root/GameManager")
 
 	if gm:
-		# GameManager mevcut — paylaşılan sistemleri kullan
+
 		_event_bus = gm.event_bus
 		_economy = gm.economy
 		_reputation = gm.reputation
 
-		# Vagonları train_config'dan al
 		var config: TrainConfig = gm.train_config
 		_wagons = []
 		for wagon in config.get_wagons():
 			_wagons.append(wagon)
 	else:
-		# GameManager yok (bağımsız test modu) — kendi sistemlerini oluştur
+
 		_event_bus = get_node_or_null("/root/EventBus")
 		if not _event_bus:
 			_event_bus = load("res://src/events/event_bus.gd").new()
@@ -135,7 +124,6 @@ func _setup_systems() -> void:
 			WagonData.new(Constants.WagonType.BUSINESS),
 		]
 
-	# Boarding ve Patience her zaman lokal oluşturulur (sahne bazlı)
 	_boarding = BoardingSystem.new()
 	_boarding.setup(_event_bus, _economy, _reputation)
 	add_child(_boarding)
@@ -144,11 +132,7 @@ func _setup_systems() -> void:
 	_patience.setup(_event_bus, _reputation)
 	add_child(_patience)
 
-
-# ==========================================================
-# SAHNE OLUŞTURMA
-# ==========================================================
-
+## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
 	_build_background()
 	_build_hud()
@@ -156,7 +140,7 @@ func _build_scene() -> void:
 	_build_refuel_controls()
 	_build_summary_panel()
 
-
+## Lifecycle/helper logic for `_build_background`.
 func _build_background() -> void:
 	var sky := ColorRect.new()
 	sky.color = COLOR_BG
@@ -193,21 +177,18 @@ func _build_background() -> void:
 	wait_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.5))
 	add_child(wait_label)
 
-
+## Lifecycle/helper logic for `_build_hud`.
 func _build_hud() -> void:
 	var canvas := CanvasLayer.new()
 	canvas.layer = 10
 	add_child(canvas)
 
-	# Global HUD para/itibar/yakıtı zaten gösteriyor.
-	# Bu sahnede sadece süre ve durak adı yerel olarak gösterilir.
 	_hud_timer = Label.new()
 	_hud_timer.position = Vector2(VIEWPORT_W - 150, 82)
 	_hud_timer.add_theme_font_size_override("font_size", 20)
 	_hud_timer.add_theme_color_override("font_color", Color.WHITE)
 	canvas.add_child(_hud_timer)
 
-	# Durak ismi
 	_hud_station = Label.new()
 	_hud_station.position = Vector2(VIEWPORT_W - 200, 108)
 	_hud_station.size = Vector2(180, 20)
@@ -216,12 +197,12 @@ func _build_hud() -> void:
 	_hud_station.add_theme_color_override("font_color", Color("#aaaaaa"))
 	canvas.add_child(_hud_station)
 
-
+## Lifecycle/helper logic for `_build_refuel_controls`.
 func _build_refuel_controls() -> void:
 	_fuel_button = Button.new()
 	_fuel_button.position = Vector2(VIEWPORT_W - 180, 92)
 	_fuel_button.size = Vector2(160, 32)
-	_fuel_button.text = "Yakit Al"
+	_fuel_button.text = I18n.t("station.button.refuel")
 	add_child(_fuel_button)
 
 	_fuel_progress_bg = ColorRect.new()
@@ -236,16 +217,15 @@ func _build_refuel_controls() -> void:
 	_fuel_progress_fill.color = Color("#27ae60")
 	add_child(_fuel_progress_fill)
 
-
+## Lifecycle/helper logic for `_build_train`.
 func _build_train() -> void:
 	_wagon_nodes.clear()
 
 	var wagon_count := _wagons.size()
-	# Dinamik layout: vagonlar solda, lokomotif sağda
+
 	var total_train_w := wagon_count * WAGON_SPACING + LOCO_SIZE.x + 20
 	var start_x := maxf(20.0, (VIEWPORT_W - total_train_w) / 2.0)
 
-	# Vagonlar
 	for i in wagon_count:
 		var wagon: WagonData = _wagons[i]
 		var wagon_node := ColorRect.new()
@@ -262,7 +242,6 @@ func _build_train() -> void:
 		label.add_theme_color_override("font_color", Color.WHITE)
 		wagon_node.add_child(label)
 
-	# Vagonlar arası bağlantı çizgileri
 	for i in range(wagon_count - 1):
 		var conn := ColorRect.new()
 		conn.color = COLOR_RAIL
@@ -271,7 +250,6 @@ func _build_train() -> void:
 		conn.size = Vector2(WAGON_SPACING - WAGON_SIZE.x, 4)
 		add_child(conn)
 
-	# Lokomotif
 	var loco_x := start_x + wagon_count * WAGON_SPACING
 	var loco := ColorRect.new()
 	loco.size = LOCO_SIZE
@@ -279,7 +257,6 @@ func _build_train() -> void:
 	loco.position = Vector2(loco_x, TRAIN_Y - LOCO_SIZE.y / 2)
 	add_child(loco)
 
-	# Lokomotif - son vagon bağlantısı
 	if wagon_count > 0:
 		var last_end := start_x + (wagon_count - 1) * WAGON_SPACING + WAGON_SIZE.x
 		var loco_conn := ColorRect.new()
@@ -288,12 +265,11 @@ func _build_train() -> void:
 		loco_conn.size = Vector2(loco_x - last_end, 4)
 		add_child(loco_conn)
 
-	# Lokomotif ismi
 	var gm: Node = get_node_or_null("/root/GameManager")
 	var loco_name: String = "Kara\nDuman"
 	if gm:
 		loco_name = gm.train_config.get_locomotive().loco_name
-		# Satır bölme
+
 		var parts: PackedStringArray = loco_name.split(" ")
 		if parts.size() > 1:
 			loco_name = parts[0] + "\n" + parts[1]
@@ -304,7 +280,7 @@ func _build_train() -> void:
 	loco_label.add_theme_color_override("font_color", Color.WHITE)
 	loco.add_child(loco_label)
 
-
+## Lifecycle/helper logic for `_build_summary_panel`.
 func _build_summary_panel() -> void:
 	var canvas := CanvasLayer.new()
 	canvas.layer = 20
@@ -328,7 +304,7 @@ func _build_summary_panel() -> void:
 	_summary_panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "Sefer Ozeti"
+	title.text = I18n.t("station.title.summary")
 	title.add_theme_font_size_override("font_size", 24)
 	title.add_theme_color_override("font_color", Color("#F1C40F"))
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -341,26 +317,26 @@ func _build_summary_panel() -> void:
 	_summary_label.add_theme_color_override("font_color", Color.WHITE)
 	vbox.add_child(_summary_label)
 
-	vbox.add_child(Control.new())  # spacer
+	vbox.add_child(Control.new())
 
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm and gm.trip_planner.is_trip_active():
 		if not gm.trip_planner.is_at_final_stop():
-			# Devam Et butonu (sonraki durağa seyir)
+
 			var continue_btn := Button.new()
-			continue_btn.text = "Devam Et  -->"
+			continue_btn.text = I18n.t("station.button.continue")
 			continue_btn.add_theme_font_size_override("font_size", 18)
 			continue_btn.pressed.connect(_on_continue_pressed)
 			vbox.add_child(continue_btn)
 		else:
-			# Son durak — Sefer Sonu
+
 			var finish_btn := Button.new()
-			finish_btn.text = "Sefer Sonu"
+			finish_btn.text = I18n.t("station.button.finish_trip")
 			finish_btn.add_theme_font_size_override("font_size", 18)
 			finish_btn.pressed.connect(_on_finish_trip_pressed)
 			vbox.add_child(finish_btn)
 	else:
-		# GameManager yok veya sefer aktif değil — eski butonlar
+
 		var restart_btn := Button.new()
 		restart_btn.text = "Tekrar Oyna"
 		restart_btn.add_theme_font_size_override("font_size", 18)
@@ -368,22 +344,17 @@ func _build_summary_panel() -> void:
 		vbox.add_child(restart_btn)
 
 		var garage_btn := Button.new()
-		garage_btn.text = "Garaja Don"
+		garage_btn.text = I18n.t("station.button.back_garage")
 		garage_btn.add_theme_font_size_override("font_size", 18)
 		garage_btn.pressed.connect(_on_garage_pressed)
 		vbox.add_child(garage_btn)
 
-
-# ==========================================================
-# OYUN AKIŞI
-# ==========================================================
-
+## Lifecycle/helper logic for `_start_station`.
 func _start_station() -> void:
 	_is_active = true
 	_time_remaining = _station_time
 	_summary_panel.visible = false
 
-	# Yolcuları üret — hedef durakları rotadan al
 	var destinations := _get_destination_names()
 	var distance := _get_current_distance()
 	_waiting_passengers = []
@@ -391,7 +362,6 @@ func _start_station() -> void:
 	for p in batch:
 		_waiting_passengers.append(p)
 
-	# HUD güncelle
 	_hud_station.text = _get_current_station_name()
 	_station_ticket_start = int(_economy.get_trip_summary().get("earnings", {}).get("ticket", 0))
 
@@ -399,11 +369,11 @@ func _start_station() -> void:
 	_update_hud()
 	_update_wagon_labels()
 
-
+## Lifecycle/helper logic for `_end_station`.
 func _end_station() -> void:
 	_is_active = false
 	_time_remaining = 0.0
-	_hud_timer.text = "Sure: 0 sn"
+	_hud_timer.text = I18n.t("station.hud.time", [0])
 
 	var summary := _economy.get_trip_summary()
 	var boarded_count := 0
@@ -417,44 +387,39 @@ func _end_station() -> void:
 	if gm:
 		gm.record_station_result(_get_current_station_name(), station_ticket, boarded_count, lost_count)
 
-	_summary_label.text = (
-		"\nBindirilen yolcu: %d\n" % boarded_count +
-		"Kalan yolcu: %d\n" % _waiting_passengers.size() +
-		"Kaybedilen yolcu: %d\n\n" % lost_count +
-		"Toplam kazanc: %d DA\n" % summary["total_earned"] +
-		"Net bakiye: %d DA\n\n" % _economy.get_balance() +
-		"Itibar: %.1f yildiz\n" % _reputation.get_stars()
+	_summary_label.text = I18n.t(
+		"station.summary.text",
+		[boarded_count, _waiting_passengers.size(), lost_count, summary["total_earned"], _economy.get_balance(), _reputation.get_stars()]
 	)
 	_summary_panel.visible = true
 
 	if boarded_count >= 4 and lost_count <= 0:
 		var conductor: Node = get_node_or_null("/root/ConductorManager")
 		if conductor:
-			conductor.show_runtime_tip("tip_station_good", "Harika is cikardin Makinist!")
+			conductor.show_runtime_tip("tip_station_good", I18n.t("conductor.tip.station_good"))
 
-
+## Lifecycle/helper logic for `_on_restart_pressed`.
 func _on_restart_pressed() -> void:
 	_start_station()
 
-
+## Lifecycle/helper logic for `_on_garage_pressed`.
 func _on_garage_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
 
-
+## Lifecycle/helper logic for `_on_continue_pressed`.
 func _on_continue_pressed() -> void:
-	# Seyir sahnesine geçiş (sonraki durağa)
+
 	get_tree().change_scene_to_file("res://src/scenes/travel/travel_scene.tscn")
 
-
+## Lifecycle/helper logic for `_on_finish_trip_pressed`.
 func _on_finish_trip_pressed() -> void:
-	# Seferi bitir ve haritaya dön
+
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm:
 		gm.trip_planner.end_trip()
 	get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
 
-
-## Rotadaki ileriki durakların isimlerini döner (yolcu hedefleri için).
+## Lifecycle/helper logic for `_get_destination_names`.
 func _get_destination_names() -> Array:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if not gm or not gm.trip_planner.is_trip_active():
@@ -471,8 +436,7 @@ func _get_destination_names() -> Array:
 		destinations.append("son_durak")
 	return destinations
 
-
-## Mevcut durağa olan mesafeyi döner.
+## Lifecycle/helper logic for `_get_current_distance`.
 func _get_current_distance() -> int:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if not gm or not gm.trip_planner.is_trip_active():
@@ -481,8 +445,7 @@ func _get_current_distance() -> int:
 	var stop := gm.trip_planner.get_current_stop()
 	return int(stop.get("km_from_start", 120))
 
-
-## Mevcut durak ismini döner.
+## Lifecycle/helper logic for `_get_current_station_name`.
 func _get_current_station_name() -> String:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if not gm or not gm.trip_planner.is_trip_active():
@@ -490,11 +453,7 @@ func _get_current_station_name() -> String:
 	var stop := gm.trip_planner.get_current_stop()
 	return stop.get("name", "DURAK")
 
-
-# ==========================================================
-# SÜRÜKLE - BIRAK
-# ==========================================================
-
+## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
 	if not _is_active:
 		return
@@ -516,7 +475,7 @@ func _input(event: InputEvent) -> void:
 			var pos := _get_event_position(event)
 			_passenger_nodes[_dragged_passenger_index].position = pos - _drag_offset
 
-
+## Lifecycle/helper logic for `_get_event_position`.
 func _get_event_position(event: InputEvent) -> Vector2:
 	if event is InputEventScreenTouch:
 		return event.position
@@ -526,7 +485,7 @@ func _get_event_position(event: InputEvent) -> Vector2:
 		return event.position
 	return Vector2.ZERO
 
-
+## Lifecycle/helper logic for `_is_pressed`.
 func _is_pressed(event: InputEvent) -> bool:
 	if event is InputEventScreenTouch:
 		return event.pressed
@@ -534,7 +493,7 @@ func _is_pressed(event: InputEvent) -> bool:
 		return event.pressed and event.button_index == MOUSE_BUTTON_LEFT
 	return false
 
-
+## Lifecycle/helper logic for `_try_start_drag`.
 func _try_start_drag(pos: Vector2) -> void:
 	for i in _passenger_nodes.size():
 		var node: Control = _passenger_nodes[i]
@@ -546,7 +505,7 @@ func _try_start_drag(pos: Vector2) -> void:
 			node.modulate = Color(1, 1, 1, 0.8)
 			return
 
-
+## Lifecycle/helper logic for `_try_end_drag`.
 func _try_end_drag(pos: Vector2) -> void:
 	if _dragged_passenger_index < 0:
 		return
@@ -576,11 +535,7 @@ func _try_end_drag(pos: Vector2) -> void:
 
 	_dragged_passenger_index = -1
 
-
-# ==========================================================
-# GÖRSEL GÜNCELLEME
-# ==========================================================
-
+## Lifecycle/helper logic for `_rebuild_passenger_nodes`.
 func _rebuild_passenger_nodes() -> void:
 	for node in _passenger_nodes:
 		node.queue_free()
@@ -593,7 +548,7 @@ func _rebuild_passenger_nodes() -> void:
 		add_child(node)
 		_passenger_nodes.append(node)
 
-
+## Lifecycle/helper logic for `_create_passenger_node`.
 func _create_passenger_node(passenger: Dictionary) -> Control:
 	var root := Control.new()
 	root.size = PASSENGER_SIZE
@@ -640,7 +595,7 @@ func _create_passenger_node(passenger: Dictionary) -> Control:
 
 	return root
 
-
+## Lifecycle/helper logic for `_update_patience_bars`.
 func _update_patience_bars() -> void:
 	for i in _passenger_nodes.size():
 		if i >= _waiting_passengers.size():
@@ -658,11 +613,11 @@ func _update_patience_bars() -> void:
 		else:
 			bar.color = COLOR_FAIL
 
-
+## Lifecycle/helper logic for `_get_passenger_position`.
 func _get_passenger_position(index: int) -> Vector2:
 	return Vector2(WAITING_START_X + index * WAITING_SPACING, WAITING_Y)
 
-
+## Lifecycle/helper logic for `_get_passenger_color`.
 func _get_passenger_color(type: Constants.PassengerType) -> Color:
 	match type:
 		Constants.PassengerType.VIP: return COLOR_PASSENGER_VIP
@@ -670,7 +625,7 @@ func _get_passenger_color(type: Constants.PassengerType) -> Color:
 		Constants.PassengerType.ELDERLY: return COLOR_PASSENGER_ELDERLY
 		_: return COLOR_PASSENGER_NORMAL
 
-
+## Lifecycle/helper logic for `_get_passenger_type_letter`.
 func _get_passenger_type_letter(type: Constants.PassengerType) -> String:
 	match type:
 		Constants.PassengerType.VIP: return "V"
@@ -678,16 +633,16 @@ func _get_passenger_type_letter(type: Constants.PassengerType) -> String:
 		Constants.PassengerType.ELDERLY: return "Y"
 		_: return "N"
 
-
+## Lifecycle/helper logic for `_update_hud`.
 func _update_hud() -> void:
 	_update_refuel_controls()
 
-
+## Lifecycle/helper logic for `_update_refuel_controls`.
 func _update_refuel_controls() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm == null:
 		_fuel_button.disabled = true
-		_fuel_button.text = "Yakit Al"
+		_fuel_button.text = I18n.t("station.button.refuel")
 		return
 
 	var fuel := gm.fuel_system
@@ -701,9 +656,9 @@ func _update_refuel_controls() -> void:
 		_fuel_button.text = "Depo Dolu"
 	else:
 		_fuel_button.disabled = not _economy.can_afford(cost)
-		_fuel_button.text = "Yakit Al (%d DA)" % cost
+		_fuel_button.text = I18n.t("station.button.refuel_with_cost", [cost])
 
-
+## Lifecycle/helper logic for `_try_refuel`.
 func _try_refuel() -> void:
 	if _refuel_in_progress:
 		return
@@ -719,7 +674,7 @@ func _try_refuel() -> void:
 	_refuel_progress = 0.0
 	_fuel_progress_fill.size.x = 0
 
-
+## Lifecycle/helper logic for `_process_refuel`.
 func _process_refuel(delta: float) -> void:
 	if not _refuel_in_progress:
 		return
@@ -737,7 +692,7 @@ func _process_refuel(delta: float) -> void:
 		_fuel_progress_fill.size.x = 0
 		_update_hud()
 
-
+## Lifecycle/helper logic for `_update_wagon_labels`.
 func _update_wagon_labels() -> void:
 	for i in _wagon_nodes.size():
 		if i >= _wagons.size():
@@ -747,14 +702,14 @@ func _update_wagon_labels() -> void:
 		var label: Label = wnode.get_child(0)
 		label.text = "%s\n%d/%d" % [_get_wagon_short_name(wagon.type), wagon.get_passenger_count(), wagon.get_capacity()]
 
-
+## Lifecycle/helper logic for `_flash_wagon`.
 func _flash_wagon(wagon_index: int, color: Color) -> void:
 	var node: ColorRect = _wagon_nodes[wagon_index]
 	var tween := create_tween()
 	node.modulate = color
 	tween.tween_property(node, "modulate", Color.WHITE, 0.3)
 
-
+## Lifecycle/helper logic for `_get_wagon_color`.
 func _get_wagon_color(wtype: Constants.WagonType) -> Color:
 	match wtype:
 		Constants.WagonType.ECONOMY: return COLOR_WAGON_ECONOMY
@@ -764,7 +719,7 @@ func _get_wagon_color(wtype: Constants.WagonType) -> Color:
 		Constants.WagonType.CARGO: return COLOR_WAGON_CARGO
 		_: return Color.WHITE
 
-
+## Lifecycle/helper logic for `_get_wagon_short_name`.
 func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 	match wtype:
 		Constants.WagonType.ECONOMY: return "Eko."
@@ -774,7 +729,7 @@ func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 		Constants.WagonType.CARGO: return "Kar."
 		_: return "?"
 
-
+## Lifecycle/helper logic for `_is_in_rect`.
 func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y

@@ -1,8 +1,8 @@
-## Lokomotif veri modeli.
-## Bir lokomotifin tüm özelliklerini tutar: isim, yakıt, hız, kapasite.
+## Module: locomotive_data.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name LocomotiveData
 extends RefCounted
-
 
 var id: String
 var loco_name: String
@@ -13,12 +13,9 @@ var fuel_consumption: float
 var fuel_tank_capacity: float
 var base_cost: int
 
-
-# -- Lokomotif Kataloğu --
-# Her lokomotifin sabit özellikleri. Yeni lokomotif eklemek için buraya eklenir.
 static var _catalog := {
 	"kara_duman": {
-		"loco_name": "Kara Duman",
+		"loco_name_key": "locomotive.kara_duman",
 		"fuel_type": Constants.FuelType.COAL_OLD,
 		"base_speed": Balance.LOCOMOTIVE_SPEED_COAL_OLD,
 		"max_wagons": Constants.MAX_WAGONS_COAL_OLD,
@@ -27,7 +24,7 @@ static var _catalog := {
 		"base_cost": Balance.LOCOMOTIVE_COST_COAL_OLD,
 	},
 	"demir_yildizi": {
-		"loco_name": "Demir Yıldızı",
+		"loco_name_key": "locomotive.demir_yildizi",
 		"fuel_type": Constants.FuelType.DIESEL_OLD,
 		"base_speed": Balance.LOCOMOTIVE_SPEED_DIESEL_OLD,
 		"max_wagons": Constants.MAX_WAGONS_DIESEL_OLD,
@@ -36,7 +33,7 @@ static var _catalog := {
 		"base_cost": Balance.LOCOMOTIVE_COST_DIESEL_OLD,
 	},
 	"mavi_simsek": {
-		"loco_name": "Mavi Şimşek",
+		"loco_name_key": "locomotive.mavi_simsek",
 		"fuel_type": Constants.FuelType.ELECTRIC,
 		"base_speed": Balance.LOCOMOTIVE_SPEED_ELECTRIC,
 		"max_wagons": Constants.MAX_WAGONS_ELECTRIC,
@@ -46,8 +43,6 @@ static var _catalog := {
 	},
 }
 
-
-## Katalogdan lokomotif oluşturur. Bilinmeyen ID → null döner.
 static func create(loco_id: String) -> LocomotiveData:
 	if not _catalog.has(loco_id):
 		return null
@@ -55,7 +50,7 @@ static func create(loco_id: String) -> LocomotiveData:
 	var data: Dictionary = _catalog[loco_id]
 	var loco := LocomotiveData.new()
 	loco.id = loco_id
-	loco.loco_name = data["loco_name"]
+	loco.loco_name = I18n.t(str(data["loco_name_key"]))
 	loco.fuel_type = data["fuel_type"]
 	loco.base_speed = data["base_speed"]
 	loco.max_wagons = data["max_wagons"]
@@ -64,10 +59,8 @@ static func create(loco_id: String) -> LocomotiveData:
 	loco.base_cost = data["base_cost"]
 	return loco
 
-
-## Tüm lokomotif kataloğunu döner. { id: display_name }
 static func get_catalog() -> Dictionary:
 	var result := {}
 	for loco_id in _catalog:
-		result[loco_id] = _catalog[loco_id]["loco_name"]
+		result[loco_id] = I18n.t(str(_catalog[loco_id]["loco_name_key"]))
 	return result

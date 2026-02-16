@@ -20,3 +20,6 @@ export/
 
 # Test reports
 reports/
+
+# Runtime logs
+logs/

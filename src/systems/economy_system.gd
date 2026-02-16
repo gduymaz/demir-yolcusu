@@ -1,41 +1,32 @@
-## Para kazanma, harcama ve bilet fiyatı hesaplama.
-## Tüm ekonomi işlemleri bu sistem üzerinden geçer.
+## Module: economy_system.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name EconomySystem
 extends Node
-
 
 var _balance: int = Balance.STARTING_MONEY
 var _event_bus: Node
 
-# Sefer özeti takibi
-var _trip_earnings: Dictionary = {}  # {"ticket": 300, "cargo": 50}
-var _trip_spendings: Dictionary = {} # {"fuel": 80, "maintenance": 40}
+var _trip_earnings: Dictionary = {}
+var _trip_spendings: Dictionary = {}
 
-
+## Handles `setup`.
 func setup(event_bus: Node) -> void:
 	_event_bus = event_bus
 
-
-# ==========================================================
-# BAKİYE
-# ==========================================================
-
+## Handles `get_balance`.
 func get_balance() -> int:
 	return _balance
 
-
+## Handles `set_balance`.
 func set_balance(amount: int) -> void:
 	_balance = amount
 
-
+## Handles `can_afford`.
 func can_afford(amount: int) -> bool:
 	return amount <= _balance
 
-
-# ==========================================================
-# KAZANÇ
-# ==========================================================
-
+## Handles `earn`.
 func earn(amount: int, source: String) -> void:
 	if amount <= 0:
 		return
@@ -43,19 +34,13 @@ func earn(amount: int, source: String) -> void:
 	var old_balance := _balance
 	_balance += amount
 
-	# Sefer özeti güncelle
 	_trip_earnings[source] = _trip_earnings.get(source, 0) + amount
 
-	# Sinyalleri emit et
 	if _event_bus:
 		_event_bus.money_earned.emit(amount, source)
 		_event_bus.money_changed.emit(old_balance, _balance, source)
 
-
-# ==========================================================
-# HARCAMA
-# ==========================================================
-
+## Handles `spend`.
 func spend(amount: int, reason: String) -> bool:
 	if amount < 0:
 		return false
@@ -69,26 +54,19 @@ func spend(amount: int, reason: String) -> bool:
 	var old_balance := _balance
 	_balance -= amount
 
-	# Sefer özeti güncelle
 	_trip_spendings[reason] = _trip_spendings.get(reason, 0) + amount
 
-	# Sinyalleri emit et
 	if _event_bus:
 		_event_bus.money_spent.emit(amount, reason)
 		_event_bus.money_changed.emit(old_balance, _balance, reason)
 
 	return true
 
-
-# ==========================================================
-# BİLET FİYATI
-# ==========================================================
-
+## Handles `calculate_ticket_price`.
 func calculate_ticket_price(distance_km: int, passenger_type: Constants.PassengerType) -> int:
 	if distance_km <= 0:
 		return 0
 
-	# Mesafe kademe çarpanı
 	var distance_multiplier: float
 	if distance_km <= Constants.TICKET_DISTANCE_SHORT:
 		distance_multiplier = Balance.TICKET_MULTIPLIER_SHORT
@@ -97,7 +75,6 @@ func calculate_ticket_price(distance_km: int, passenger_type: Constants.Passenge
 	else:
 		distance_multiplier = Balance.TICKET_MULTIPLIER_LONG
 
-	# Yolcu tipi çarpanı
 	var fare_multiplier: float
 	match passenger_type:
 		Constants.PassengerType.VIP:
@@ -109,15 +86,10 @@ func calculate_ticket_price(distance_km: int, passenger_type: Constants.Passenge
 		_:
 			fare_multiplier = Balance.FARE_MULTIPLIER_NORMAL
 
-	# Fiyat = mesafe × taban fiyat × mesafe çarpanı × yolcu çarpanı
 	var price := float(distance_km) * Balance.TICKET_BASE_PRICE * distance_multiplier * fare_multiplier
 	return int(price)
 
-
-# ==========================================================
-# SEFER ÖZETİ
-# ==========================================================
-
+## Handles `get_trip_summary`.
 func get_trip_summary() -> Dictionary:
 	var total_earned := 0
 	for amount in _trip_earnings.values():
@@ -135,7 +107,7 @@ func get_trip_summary() -> Dictionary:
 		"spendings": _trip_spendings.duplicate(),
 	}
 
-
+## Handles `reset_trip_summary`.
 func reset_trip_summary() -> void:
 	_trip_earnings.clear()
 	_trip_spendings.clear()

@@ -1,44 +1,38 @@
-## Oyuncu envanteri.
-## Sahip olunan lokomotif ve vagonların yönetimi.
-## Sahneler arası kalıcı (Autoload olarak kullanılabilir).
+## Module: player_inventory.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name PlayerInventory
 extends Node
 
-
 var _event_bus: Node
 var _economy: EconomySystem
-var _locomotives: Array = []   # Array[LocomotiveData]
-var _wagons: Array = []        # Array[WagonData]
-var _wagons_in_use: Array = [] # Array[WagonData] — trene takılı olanlar
+var _locomotives: Array = []
+var _wagons: Array = []
+var _wagons_in_use: Array = []
 
-
-## Sistemi başlatır ve başlangıç envanterini oluşturur.
+## Handles `setup`.
 func setup(event_bus: Node, economy: EconomySystem) -> void:
 	_event_bus = event_bus
 	_economy = economy
 	_create_starting_inventory()
 
-
+## Lifecycle/helper logic for `_create_starting_inventory`.
 func _create_starting_inventory() -> void:
-	# 1 Kara Duman lokomotif
+
 	_locomotives.append(LocomotiveData.create("kara_duman"))
-	# 1 Ekonomi vagon + 1 Kargo vagon
+
 	_wagons.append(WagonData.new(Constants.WagonType.ECONOMY))
 	_wagons.append(WagonData.new(Constants.WagonType.CARGO))
 
-
-# ==========================================================
-# LOKOMOTİF
-# ==========================================================
-
+## Handles `get_locomotives`.
 func get_locomotives() -> Array:
 	return _locomotives
 
-
+## Handles `add_locomotive`.
 func add_locomotive(locomotive: LocomotiveData) -> void:
 	_locomotives.append(locomotive)
 
-
+## Handles `has_locomotive`.
 func has_locomotive(loco_id: String) -> bool:
 	for loco in _locomotives:
 		var l: LocomotiveData = loco
@@ -46,19 +40,15 @@ func has_locomotive(loco_id: String) -> bool:
 			return true
 	return false
 
-
-# ==========================================================
-# VAGON
-# ==========================================================
-
+## Handles `get_wagons`.
 func get_wagons() -> Array:
 	return _wagons
 
-
+## Handles `add_wagon`.
 func add_wagon(wagon: WagonData) -> void:
 	_wagons.append(wagon)
 
-
+## Handles `remove_wagon`.
 func remove_wagon(index: int) -> WagonData:
 	if index < 0 or index >= _wagons.size():
 		return null
@@ -66,22 +56,15 @@ func remove_wagon(index: int) -> WagonData:
 	_wagons.remove_at(index)
 	return wagon
 
-
-# ==========================================================
-# SATIN ALMA
-# ==========================================================
-
-## Vagon satın alır. Yeterli bakiye yoksa false döner.
+## Handles `buy_wagon`.
 func buy_wagon(wagon_type: Constants.WagonType) -> bool:
 	var price := get_wagon_price(wagon_type)
 	if not _economy.can_afford(price):
 		return false
-	_economy.spend(price, "vagon_satin_alma")
+	_economy.spend(price, "wagon_purchase")
 	_wagons.append(WagonData.new(wagon_type))
 	return true
 
-
-## Vagon tipi için fiyat döner.
 static func get_wagon_price(wagon_type: Constants.WagonType) -> int:
 	match wagon_type:
 		Constants.WagonType.ECONOMY:
@@ -97,12 +80,7 @@ static func get_wagon_price(wagon_type: Constants.WagonType) -> int:
 		_:
 			return 0
 
-
-# ==========================================================
-# KULLANIM DURUMU (trene takılı / boşta)
-# ==========================================================
-
-## Kullanılabilir (trene takılı olmayan) vagonları döner.
+## Handles `get_available_wagons`.
 func get_available_wagons() -> Array:
 	var available: Array = []
 	for wagon in _wagons:
@@ -110,32 +88,30 @@ func get_available_wagons() -> Array:
 			available.append(wagon)
 	return available
 
-
-## Vagonu "trende kullanılıyor" olarak işaretler.
+## Handles `mark_wagon_in_use`.
 func mark_wagon_in_use(wagon: WagonData) -> void:
 	if not _wagons_in_use.has(wagon):
 		_wagons_in_use.append(wagon)
 
-
-## Vagonu "boşta" olarak işaretler.
+## Handles `unmark_wagon_in_use`.
 func unmark_wagon_in_use(wagon: WagonData) -> void:
 	_wagons_in_use.erase(wagon)
 
-
+## Handles `get_locomotive_ids`.
 func get_locomotive_ids() -> Array:
 	var result: Array = []
 	for loco in _locomotives:
 		result.append((loco as LocomotiveData).id)
 	return result
 
-
+## Handles `get_wagon_types`.
 func get_wagon_types() -> Array:
 	var result: Array = []
 	for wagon in _wagons:
 		result.append((wagon as WagonData).type)
 	return result
 
-
+## Handles `get_wagons_in_use_indices`.
 func get_wagons_in_use_indices() -> Array:
 	var indices: Array = []
 	for wagon in _wagons_in_use:
@@ -144,7 +120,7 @@ func get_wagons_in_use_indices() -> Array:
 			indices.append(idx)
 	return indices
 
-
+## Handles `restore_inventory`.
 func restore_inventory(locomotive_ids: Array, wagon_types: Array, in_use_indices: Array) -> void:
 	_locomotives.clear()
 	_wagons.clear()

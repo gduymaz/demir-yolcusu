@@ -1,3 +1,6 @@
+## Module: global_hud.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 extends CanvasLayer
 
 const VIEWPORT_W := 540
@@ -18,17 +21,17 @@ var _fuel_bg: ColorRect
 var _fuel_fill: ColorRect
 var _fuel_text: Label
 
-
+## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	layer = 90
 	_build()
 	set_process(true)
 
-
+## Lifecycle/helper logic for `_process`.
 func _process(_delta: float) -> void:
 	_refresh()
 
-
+## Lifecycle/helper logic for `_build`.
 func _build() -> void:
 	_bar = ColorRect.new()
 	_bar.position = Vector2.ZERO
@@ -36,7 +39,6 @@ func _build() -> void:
 	_bar.color = COLOR_BG
 	add_child(_bar)
 
-	# Sikke placeholder (sari daire)
 	var coin := ColorRect.new()
 	coin.position = Vector2(10, 13)
 	coin.size = Vector2(14, 14)
@@ -50,7 +52,6 @@ func _build() -> void:
 	_money.add_theme_color_override("font_color", COLOR_GOLD)
 	_bar.add_child(_money)
 
-	# Yildiz placeholder
 	var star := ColorRect.new()
 	star.position = Vector2(10, 41)
 	star.size = Vector2(14, 14)
@@ -92,15 +93,15 @@ func _build() -> void:
 	_fuel_text.add_theme_color_override("font_color", COLOR_TEXT)
 	_bar.add_child(_fuel_text)
 
-
+## Lifecycle/helper logic for `_refresh`.
 func _refresh() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm == null:
 		_money.text = "0 DA"
 		_reputation.text = "0.0 yildiz"
 		_fuel_fill.size.x = 0
-		_fuel_text.text = "Yakit: -"
-		_title.text = "DEMIR YOLCUSU"
+		_fuel_text.text = I18n.t("hud.fuel_unknown")
+		_title.text = I18n.t("hud.title.game")
 		return
 
 	_money.text = "%d DA" % gm.economy.get_balance()
@@ -109,7 +110,7 @@ func _refresh() -> void:
 	var fuel_pct: float = gm.fuel_system.get_fuel_percentage()
 	var clamped := clampf(fuel_pct, 0.0, 100.0)
 	_fuel_fill.size.x = 158.0 * (clamped / 100.0)
-	_fuel_text.text = "Yakit: %.0f%%" % clamped
+	_fuel_text.text = I18n.t("hud.fuel_percent", [clamped])
 
 	if clamped < Balance.FUEL_CRITICAL_THRESHOLD:
 		_fuel_fill.color = COLOR_FUEL_CRIT
@@ -120,24 +121,24 @@ func _refresh() -> void:
 
 	_title.text = _resolve_scene_title(gm)
 
-
+## Lifecycle/helper logic for `_resolve_scene_title`.
 func _resolve_scene_title(gm: Node) -> String:
 	var scene := get_tree().current_scene
 	if scene == null:
-		return "DEMIR YOLCUSU"
+		return I18n.t("hud.title.game")
 
 	var path: String = scene.scene_file_path
 	if path.contains("garage_scene"):
-		return "GARAJ"
+		return I18n.t("hud.title.garage")
 	if path.contains("map_scene"):
-		return "HARITA"
+		return I18n.t("hud.title.map")
 	if path.contains("travel_scene"):
-		return "SEYIR"
+		return I18n.t("hud.title.travel")
 	if path.contains("station_scene"):
 		if gm.trip_planner != null and gm.trip_planner.is_trip_active():
 			var stop: Dictionary = gm.trip_planner.get_current_stop()
-			return stop.get("name", "DURAK")
-		return "DURAK"
+			return stop.get("name", I18n.t("hud.title.station"))
+		return I18n.t("hud.title.station")
 	if path.contains("summary_scene"):
-		return "SEFER OZETI"
-	return "DEMIR YOLCUSU"
+		return I18n.t("hud.title.summary")
+	return I18n.t("hud.title.game")

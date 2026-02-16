@@ -1,99 +1,84 @@
-## LocomotiveData testleri.
-## Lokomotif veri modeli: oluşturma, özellikler, katalog.
+## Test suite: test_locomotive_data.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name TestLocomotiveData
 extends GdUnitTestSuite
 
-
-# ==========================================================
-# OLUŞTURMA (Factory)
-# ==========================================================
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectId`.
 func test_Create_KaraDuman_ShouldHaveCorrectId() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_str(loco.id).is_equal("kara_duman")
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectName`.
 func test_Create_KaraDuman_ShouldHaveCorrectName() -> void:
 	var loco := LocomotiveData.create("kara_duman")
-	assert_str(loco.loco_name).is_equal("Kara Duman")
+	assert_str(loco.loco_name).is_equal(I18n.t("locomotive.kara_duman"))
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCoalOldFuelType`.
 func test_Create_KaraDuman_ShouldHaveCoalOldFuelType() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_int(loco.fuel_type).is_equal(Constants.FuelType.COAL_OLD)
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectSpeed`.
 func test_Create_KaraDuman_ShouldHaveCorrectSpeed() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_float(loco.base_speed).is_equal(Balance.LOCOMOTIVE_SPEED_COAL_OLD)
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectMaxWagons`.
 func test_Create_KaraDuman_ShouldHaveCorrectMaxWagons() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_int(loco.max_wagons).is_equal(Constants.MAX_WAGONS_COAL_OLD)
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectFuelConsumption`.
 func test_Create_KaraDuman_ShouldHaveCorrectFuelConsumption() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_float(loco.fuel_consumption).is_equal(Balance.FUEL_CONSUMPTION_COAL_OLD)
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectTankCapacity`.
 func test_Create_KaraDuman_ShouldHaveCorrectTankCapacity() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_float(loco.fuel_tank_capacity).is_equal(Balance.FUEL_TANK_COAL_OLD)
 
-
+## Handles `test_Create_KaraDuman_ShouldHaveCorrectCost`.
 func test_Create_KaraDuman_ShouldHaveCorrectCost() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	assert_int(loco.base_cost).is_equal(Balance.LOCOMOTIVE_COST_COAL_OLD)
 
-
-# ==========================================================
-# DİĞER LOKOMOTİFLER
-# ==========================================================
-
+## Handles `test_Create_DemirYildizi_ShouldBeDieselOld`.
 func test_Create_DemirYildizi_ShouldBeDieselOld() -> void:
 	var loco := LocomotiveData.create("demir_yildizi")
-	assert_str(loco.loco_name).is_equal("Demir Yıldızı")
+	assert_str(loco.loco_name).is_equal(I18n.t("locomotive.demir_yildizi"))
 	assert_int(loco.fuel_type).is_equal(Constants.FuelType.DIESEL_OLD)
 	assert_int(loco.max_wagons).is_equal(Constants.MAX_WAGONS_DIESEL_OLD)
 
-
+## Handles `test_Create_MaviSimsek_ShouldBeElectric`.
 func test_Create_MaviSimsek_ShouldBeElectric() -> void:
 	var loco := LocomotiveData.create("mavi_simsek")
-	assert_str(loco.loco_name).is_equal("Mavi Şimşek")
+	assert_str(loco.loco_name).is_equal(I18n.t("locomotive.mavi_simsek"))
 	assert_int(loco.fuel_type).is_equal(Constants.FuelType.ELECTRIC)
 	assert_int(loco.max_wagons).is_equal(Constants.MAX_WAGONS_ELECTRIC)
 
-
-# ==========================================================
-# GEÇERSİZ OLUŞTURMA
-# ==========================================================
-
+## Handles `test_Create_UnknownId_ShouldReturnNull`.
 func test_Create_UnknownId_ShouldReturnNull() -> void:
 	var loco := LocomotiveData.create("nonexistent")
 	assert_object(loco).is_null()
 
-
+## Handles `test_Create_EmptyId_ShouldReturnNull`.
 func test_Create_EmptyId_ShouldReturnNull() -> void:
 	var loco := LocomotiveData.create("")
 	assert_object(loco).is_null()
 
-
-# ==========================================================
-# KATALOG
-# ==========================================================
-
+## Handles `test_GetCatalog_ShouldContainKaraDuman`.
 func test_GetCatalog_ShouldContainKaraDuman() -> void:
 	var catalog := LocomotiveData.get_catalog()
 	assert_bool(catalog.has("kara_duman")).is_true()
 
-
+## Handles `test_GetCatalog_ShouldContainMultipleEntries`.
 func test_GetCatalog_ShouldContainMultipleEntries() -> void:
 	var catalog := LocomotiveData.get_catalog()
 	assert_int(catalog.size()).is_greater_equal(3)
 
-
+## Handles `test_GetCatalog_AllEntries_ShouldBeCreatable`.
 func test_GetCatalog_AllEntries_ShouldBeCreatable() -> void:
 	var catalog := LocomotiveData.get_catalog()
 	for loco_id in catalog:
@@ -101,7 +86,7 @@ func test_GetCatalog_AllEntries_ShouldBeCreatable() -> void:
 		assert_object(loco).is_not_null()
 		assert_str(loco.id).is_equal(loco_id)
 
-
+## Handles `test_GetCatalog_AllEntries_ShouldHaveValidProperties`.
 func test_GetCatalog_AllEntries_ShouldHaveValidProperties() -> void:
 	var catalog := LocomotiveData.get_catalog()
 	for loco_id in catalog:
@@ -113,17 +98,13 @@ func test_GetCatalog_AllEntries_ShouldHaveValidProperties() -> void:
 		assert_float(loco.fuel_tank_capacity).is_greater(0.0)
 		assert_int(loco.base_cost).is_greater(0)
 
-
-# ==========================================================
-# HIZ SIRASI
-# ==========================================================
-
+## Handles `test_Speed_ElectricShouldBeFasterThanDiesel`.
 func test_Speed_ElectricShouldBeFasterThanDiesel() -> void:
 	var electric := LocomotiveData.create("mavi_simsek")
 	var diesel := LocomotiveData.create("demir_yildizi")
 	assert_float(electric.base_speed).is_greater(diesel.base_speed)
 
-
+## Handles `test_Speed_DieselShouldBeFasterThanCoal`.
 func test_Speed_DieselShouldBeFasterThanCoal() -> void:
 	var diesel := LocomotiveData.create("demir_yildizi")
 	var coal := LocomotiveData.create("kara_duman")

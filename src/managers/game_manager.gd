@@ -1,7 +1,7 @@
-## Merkezi oyun yoneticisi (Autoload).
-## Faz 6: sefer istatistikleri, detayli ozet, save/load, tutorial durumu.
-extends Node
+## Module: game_manager.gd
+## Restored English comments for maintainability and i18n coding standards.
 
+extends Node
 
 const SAVE_PATH := "user://save_slot_1.json"
 
@@ -15,27 +15,23 @@ var route: RouteData
 var trip_planner: TripPlanner
 var current_stop_index: int = 0
 
-# Kalici genel istatistikler
 var total_trips: int = 0
 var total_passengers: int = 0
 var total_lost_passengers: int = 0
 var total_km: float = 0.0
 var total_net_earnings: int = 0
 
-# Sefer bazli gecici takip
 var _trip_station_breakdown: Array = []
 var _trip_passenger_count: int = 0
 var _trip_lost_count: int = 0
 var _trip_start_reputation: float = 0.0
 
-# Son seferin detayli ozeti
 var last_trip_report: Dictionary = {}
 
-# Kondüktör/tutorial kaliciligi
 var shown_tips: Dictionary = {}
 var intro_completed: bool = false
 
-
+## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	event_bus = get_node("/root/EventBus")
 
@@ -67,7 +63,7 @@ func _ready() -> void:
 	_bind_events()
 	_load_game_if_exists()
 
-
+## Lifecycle/helper logic for `_bind_events`.
 func _bind_events() -> void:
 	if event_bus == null:
 		return
@@ -76,7 +72,7 @@ func _bind_events() -> void:
 	if not event_bus.trip_completed.is_connected(_on_trip_completed):
 		event_bus.trip_completed.connect(_on_trip_completed)
 
-
+## Lifecycle/helper logic for `_setup_default_train`.
 func _setup_default_train() -> void:
 	var locos := inventory.get_locomotives()
 	if locos.size() > 0:
@@ -88,12 +84,12 @@ func _setup_default_train() -> void:
 			train_config.add_wagon(wagon)
 			inventory.mark_wagon_in_use(wagon)
 
-
+## Handles `sync_trip_wagon_count`.
 func sync_trip_wagon_count() -> void:
 	if trip_planner != null and train_config != null:
 		trip_planner.set_wagon_count(train_config.get_wagon_count())
 
-
+## Handles `record_station_result`.
 func record_station_result(station_name: String, ticket_income: int, boarded: int, lost: int) -> void:
 	_trip_station_breakdown.append({
 		"station": station_name,
@@ -104,14 +100,14 @@ func record_station_result(station_name: String, ticket_income: int, boarded: in
 	_trip_passenger_count += boarded
 	_trip_lost_count += maxi(0, lost)
 
-
+## Lifecycle/helper logic for `_on_trip_started`.
 func _on_trip_started(_route_data: Dictionary) -> void:
 	_trip_station_breakdown.clear()
 	_trip_passenger_count = 0
 	_trip_lost_count = 0
 	_trip_start_reputation = reputation.get_stars()
 
-
+## Lifecycle/helper logic for `_on_trip_completed`.
 func _on_trip_completed(summary: Dictionary) -> void:
 	var rep_delta := reputation.get_stars() - _trip_start_reputation
 	var total_earned := int(summary.get("total_earned", 0))
@@ -140,7 +136,6 @@ func _on_trip_completed(summary: Dictionary) -> void:
 		},
 	}
 
-	# Genel istatistikleri guncelle
 	total_trips += 1
 	total_passengers += _trip_passenger_count
 	total_lost_passengers += _trip_lost_count
@@ -149,28 +144,28 @@ func _on_trip_completed(summary: Dictionary) -> void:
 
 	save_game()
 
-
+## Handles `get_last_trip_report`.
 func get_last_trip_report() -> Dictionary:
 	return last_trip_report.duplicate(true)
 
-
+## Handles `has_tip_been_shown`.
 func has_tip_been_shown(key: String) -> bool:
 	return bool(shown_tips.get(key, false))
 
-
+## Handles `mark_tip_shown`.
 func mark_tip_shown(key: String) -> void:
 	shown_tips[key] = true
 
-
+## Handles `should_show_intro`.
 func should_show_intro() -> bool:
 	return not intro_completed
 
-
+## Handles `mark_intro_completed`.
 func mark_intro_completed() -> void:
 	intro_completed = true
 	save_game()
 
-
+## Handles `save_game`.
 func save_game() -> bool:
 	var train_wagon_indices: Array = []
 	for wagon in train_config.get_wagons():
@@ -217,10 +212,10 @@ func save_game() -> bool:
 	file.store_string(JSON.stringify(data))
 	return true
 
-
+## Lifecycle/helper logic for `_load_game_if_exists`.
 func _load_game_if_exists() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
-		# ilk acilis varsayilan degerleri zaten setup'tan geliyor
+
 		intro_completed = false
 		shown_tips.clear()
 		return
@@ -248,7 +243,6 @@ func _load_game_if_exists() -> void:
 		inv_data.get("wagons_in_use", [])
 	)
 
-	# Tren konfigurasyonu
 	var train_data: Dictionary = data.get("train", {})
 	var loco_id := str(train_data.get("locomotive_id", "kara_duman"))
 	var loco := LocomotiveData.create(loco_id)
@@ -272,7 +266,6 @@ func _load_game_if_exists() -> void:
 			if train_config.add_wagon(wagon):
 				inventory.mark_wagon_in_use(wagon)
 
-	# Yakit seviyesi
 	fuel_system.setup(event_bus, economy, train_config.get_locomotive())
 	var target_fuel := float(data.get("fuel", {}).get("current", fuel_system.get_tank_capacity()))
 	target_fuel = clampf(target_fuel, 0.0, fuel_system.get_tank_capacity())

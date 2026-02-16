@@ -1,22 +1,22 @@
-## GameManager testleri.
-## Faz 6: save/load, varsayilan acilis, sefer ozeti ve tip kaliciligi.
+## Test suite: test_game_manager.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name TestGameManager
 extends GdUnitTestSuite
 
-
 const SAVE_PATH := "user://save_slot_1.json"
 
-
+## Handles `before_test`.
 func before_test() -> void:
 	_clear_runtime_nodes()
 	_remove_save_file()
 
-
+## Handles `after_test`.
 func after_test() -> void:
 	_clear_runtime_nodes()
 	_remove_save_file()
 
-
+## Handles `test_Load_NoSave_ShouldUseDefaultsAndShowIntro`.
 func test_Load_NoSave_ShouldUseDefaultsAndShowIntro() -> void:
 	var gm := _create_manager()
 	assert_int(gm.economy.get_balance()).is_equal(Balance.STARTING_MONEY)
@@ -25,7 +25,7 @@ func test_Load_NoSave_ShouldUseDefaultsAndShowIntro() -> void:
 	assert_int(gm.inventory.get_locomotives().size()).is_equal(1)
 	assert_int(gm.inventory.get_wagons().size()).is_equal(2)
 
-
+## Handles `test_SaveLoad_ShouldRestoreEconomyReputationInventoryAndTips`.
 func test_SaveLoad_ShouldRestoreEconomyReputationInventoryAndTips() -> void:
 	var gm1 := _create_manager()
 	gm1.economy.set_balance(777)
@@ -53,7 +53,7 @@ func test_SaveLoad_ShouldRestoreEconomyReputationInventoryAndTips() -> void:
 	assert_bool(gm2.has_tip_been_shown("tip_map")).is_true()
 	assert_bool(gm2.should_show_intro()).is_false()
 
-
+## Handles `test_Load_InvalidSave_ShouldKeepDefaults`.
 func test_Load_InvalidSave_ShouldKeepDefaults() -> void:
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_string("not-json")
@@ -63,7 +63,7 @@ func test_Load_InvalidSave_ShouldKeepDefaults() -> void:
 	assert_float(gm.reputation.get_stars()).is_equal(Balance.REPUTATION_STARTING)
 	assert_bool(gm.should_show_intro()).is_true()
 
-
+## Handles `test_TripSummary_ShouldUseFuelConsumptionCostAndStationBreakdown`.
 func test_TripSummary_ShouldUseFuelConsumptionCostAndStationBreakdown() -> void:
 	var gm := _create_manager()
 	gm._on_trip_started({})
@@ -83,7 +83,7 @@ func test_TripSummary_ShouldUseFuelConsumptionCostAndStationBreakdown() -> void:
 	assert_int(report.get("net_profit", 0)).is_equal(160)
 	assert_int(report.get("stats", {}).get("stops_visited", 0)).is_equal(1)
 
-
+## Handles `test_TripSummary_MultipleStationsAndLoss_ShouldAggregateCorrectly`.
 func test_TripSummary_MultipleStationsAndLoss_ShouldAggregateCorrectly() -> void:
 	var gm := _create_manager()
 	gm._on_trip_started({})
@@ -105,7 +105,7 @@ func test_TripSummary_MultipleStationsAndLoss_ShouldAggregateCorrectly() -> void
 	assert_int(report.get("stats", {}).get("passengers_lost", 0)).is_equal(1)
 	assert_int(report.get("stats", {}).get("stops_visited", 0)).is_equal(2)
 
-
+## Handles `test_SaveLoad_ShouldPersistTipFlags`.
 func test_SaveLoad_ShouldPersistTipFlags() -> void:
 	var gm1 := _create_manager()
 	gm1.mark_tip_shown("tip_garage")
@@ -117,7 +117,7 @@ func test_SaveLoad_ShouldPersistTipFlags() -> void:
 	assert_bool(gm2.has_tip_been_shown("tip_garage")).is_true()
 	assert_bool(gm2.has_tip_been_shown("tip_map")).is_true()
 
-
+## Lifecycle/helper logic for `_create_manager`.
 func _create_manager() -> Node:
 	var bus: Node = load("res://src/events/event_bus.gd").new()
 	bus.name = "EventBus"
@@ -128,12 +128,12 @@ func _create_manager() -> Node:
 	get_tree().root.add_child(gm)
 	return gm
 
-
+## Lifecycle/helper logic for `_remove_save_file`.
 func _remove_save_file() -> void:
 	if FileAccess.file_exists(SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
 
-
+## Lifecycle/helper logic for `_clear_runtime_nodes`.
 func _clear_runtime_nodes() -> void:
 	var gm := get_tree().root.get_node_or_null("GameManager")
 	if gm:

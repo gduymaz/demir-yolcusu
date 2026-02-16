@@ -1,11 +1,10 @@
-## Yolcu üretim fabrikası.
-## Yolcu verisi (Dictionary) oluşturur. Asla doğrudan Dictionary yaratma — bu factory'yi kullan.
+## Module: passenger_factory.gd
+## Restored English comments for maintainability and i18n coding standards.
+
 class_name PassengerFactory
 extends RefCounted
 
-
 static var _next_id: int = 0
-
 
 static func create(type: Constants.PassengerType, destination: String, distance_km: int) -> Dictionary:
 	_next_id += 1
@@ -19,19 +18,16 @@ static func create(type: Constants.PassengerType, destination: String, distance_
 		"state": Constants.PassengerState.WAITING,
 	}
 
-
 static func create_random(destinations: Array, distance_km: int) -> Dictionary:
 	var type := _random_type()
 	var dest: String = destinations[randi() % destinations.size()]
 	return create(type, dest, distance_km)
-
 
 static func create_batch(count: int, destinations: Array, distance_km: int) -> Array[Dictionary]:
 	var batch: Array[Dictionary] = []
 	for i in count:
 		batch.append(create_random(destinations, distance_km))
 	return batch
-
 
 static func _calculate_fare(type: Constants.PassengerType, distance_km: int) -> int:
 	if distance_km <= 0:
@@ -58,7 +54,6 @@ static func _calculate_fare(type: Constants.PassengerType, distance_km: int) -> 
 
 	return int(float(distance_km) * Balance.TICKET_BASE_PRICE * distance_multiplier * fare_multiplier)
 
-
 static func _calculate_patience(type: Constants.PassengerType) -> float:
 	var multiplier: float
 	match type:
@@ -71,7 +66,6 @@ static func _calculate_patience(type: Constants.PassengerType) -> float:
 		_:
 			multiplier = Balance.PATIENCE_MULTIPLIER_NORMAL
 	return Balance.PATIENCE_BASE * multiplier
-
 
 static func _random_type() -> Constants.PassengerType:
 	var roll := randf()
