@@ -535,6 +535,9 @@ func _refresh_shop() -> void:
 # ==========================================================
 
 func _input(event: InputEvent) -> void:
+	if _should_ignore_mouse_event(event):
+		return
+
 	if _shop_visible:
 		_handle_shop_input(event)
 		return
@@ -588,6 +591,9 @@ func _handle_shop_input(event: InputEvent) -> void:
 
 
 func _on_press(pos: Vector2) -> void:
+	if _dragging:
+		return
+
 	# Mağaza butonu
 	var shop_btn: Control = get_node("ShopButton")
 	if _is_in_rect(pos, shop_btn.position, shop_btn.size):
@@ -815,13 +821,23 @@ func _is_pressed(event: InputEvent) -> bool:
 	if event is InputEventScreenTouch:
 		return event.pressed
 	elif event is InputEventMouseButton:
-		return event.pressed
+		return event.pressed and event.button_index == MOUSE_BUTTON_LEFT
 	return false
 
 
 func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y
+
+
+func _should_ignore_mouse_event(event: InputEvent) -> bool:
+	var emulate_touch: bool = ProjectSettings.get_setting(
+		"input_devices/pointing/emulate_touch_from_mouse",
+		false
+	)
+	if not emulate_touch:
+		return false
+	return event is InputEventMouseButton or event is InputEventMouseMotion
 
 
 func _get_wagon_color(wtype: Constants.WagonType) -> Color:
