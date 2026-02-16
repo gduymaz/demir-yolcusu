@@ -36,6 +36,7 @@ signal station_arrived(station_id: String)
 
 @warning_ignore("unused_signal")
 signal quest_started(quest_id: String)
+# Available for UI/achievement listeners.
 @warning_ignore("unused_signal")
 signal quest_progress(quest_id: String, current: int, target: int)
 @warning_ignore("unused_signal")
@@ -44,6 +45,7 @@ signal quest_completed(quest_id: String)
 @warning_ignore("unused_signal")
 signal random_event_triggered(event_data: Dictionary)
 
+# Available for UI/achievement listeners.
 @warning_ignore("unused_signal")
 signal cargo_loaded(cargo_data: Dictionary)
 @warning_ignore("unused_signal")
@@ -53,13 +55,17 @@ signal cargo_expired(cargo_data: Dictionary)
 
 @warning_ignore("unused_signal")
 signal shop_opened(station_id: String, shop_type: int)
+# Available for UI/achievement listeners.
 @warning_ignore("unused_signal")
 signal shop_upgraded(station_id: String, shop_type: int, level: int)
+# Available for UI/achievement listeners.
 @warning_ignore("unused_signal")
 signal shop_income_earned(amount: int, visited_stations: Array)
 
+# Available for UI/achievement listeners.
 @warning_ignore("unused_signal")
 signal locomotive_upgraded(loco_id: String, upgrade_type: int, level: int)
+# Available for UI/achievement listeners.
 @warning_ignore("unused_signal")
 signal wagon_upgraded(wagon_id: String, upgrade_type: int, level: int)
 

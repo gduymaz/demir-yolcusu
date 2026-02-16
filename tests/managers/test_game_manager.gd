@@ -4,7 +4,7 @@
 class_name TestGameManager
 extends GdUnitTestSuite
 
-const SAVE_PATH := "user://save_slot_1.json"
+const SAVE_PATH_TEMPLATE := "user://save_slot_%d.json"
 
 ## Handles `before_test`.
 func before_test() -> void:
@@ -55,7 +55,7 @@ func test_SaveLoad_ShouldRestoreEconomyReputationInventoryAndTips() -> void:
 
 ## Handles `test_Load_InvalidSave_ShouldKeepDefaults`.
 func test_Load_InvalidSave_ShouldKeepDefaults() -> void:
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(SAVE_PATH_TEMPLATE % 1, FileAccess.WRITE)
 	file.store_string("not-json")
 	_clear_runtime_nodes()
 	var gm := _create_manager()
@@ -197,6 +197,24 @@ func test_SaveLoad_LineCompletion_ShouldPersistAndAffectUpgradeLock() -> void:
 	var gm2 := _create_manager()
 	assert_bool(gm2.is_line_completed("ege_main")).is_true()
 
+func test_SaveLoad_DifferentSlots_ShouldRemainIndependent() -> void:
+	var gm := _create_manager()
+	gm.economy.set_balance(111)
+	assert_bool(gm.save_game(1)).is_true()
+	gm.economy.set_balance(222)
+	assert_bool(gm.save_game(2)).is_true()
+	gm.load_slot(1)
+	assert_int(gm.economy.get_balance()).is_equal(111)
+	gm.load_slot(2)
+	assert_int(gm.economy.get_balance()).is_equal(222)
+
+func test_StartNewGame_SecondSlot_ShouldSkipTutorial() -> void:
+	var gm := _create_manager()
+	gm.start_new_game(2)
+	assert_int(gm.get_active_save_slot()).is_equal(2)
+	assert_bool(gm.tutorial_manager.is_tutorial_complete()).is_true()
+	assert_int(gm.economy.get_balance()).is_equal(Balance.STARTING_MONEY)
+
 ## Lifecycle/helper logic for `_create_manager`.
 func _create_manager() -> Node:
 	var bus: Node = load("res://src/events/event_bus.gd").new()
@@ -210,8 +228,10 @@ func _create_manager() -> Node:
 
 ## Lifecycle/helper logic for `_remove_save_file`.
 func _remove_save_file() -> void:
-	if FileAccess.file_exists(SAVE_PATH):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+	for slot in range(1, 4):
+		var path := SAVE_PATH_TEMPLATE % slot
+		if FileAccess.file_exists(path):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 
 ## Lifecycle/helper logic for `_clear_runtime_nodes`.
 func _clear_runtime_nodes() -> void:

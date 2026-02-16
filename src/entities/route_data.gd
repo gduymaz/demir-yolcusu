@@ -116,7 +116,76 @@ static func load_ege_route() -> RouteData:
 
 	return create("ege_main", "Ege Ana Hat", "ege", stops)
 
+static func load_manisa_alasehir_route() -> RouteData:
+	var station_data := [
+		{"id": 281, "name": "MANISA", "city": "MANISA", "lat": 38.6191, "lng": 27.4289, "size": "large"},
+		{"id": 282, "name": "MURADIYE", "city": "MANISA", "lat": 38.6472, "lng": 27.3460, "size": "small"},
+		{"id": 283, "name": "TURGUTLU", "city": "MANISA", "lat": 38.5050, "lng": 27.6990, "size": "large"},
+		{"id": 284, "name": "AHMETLI", "city": "MANISA", "lat": 38.5172, "lng": 27.9374, "size": "small"},
+		{"id": 285, "name": "SALIHLI", "city": "MANISA", "lat": 38.4929, "lng": 28.1396, "size": "large"},
+		{"id": 286, "name": "KOPRUBASI", "city": "MANISA", "lat": 38.7467, "lng": 28.4007, "size": "small"},
+		{"id": 287, "name": "ALASEHIR", "city": "MANISA", "lat": 38.3508, "lng": 28.5172, "size": "large"},
+	]
+
+	var stops: Array = []
+	var cumulative_km := 0.0
+	for i in station_data.size():
+		var s: Dictionary = station_data[i]
+		if i > 0:
+			var prev: Dictionary = station_data[i - 1]
+			cumulative_km += haversine(prev["lat"], prev["lng"], s["lat"], s["lng"])
+		stops.append(create_stop(
+			s["id"], s["name"], s["city"],
+			s["lat"], s["lng"], s["size"],
+			snapped(cumulative_km, 0.01)
+		))
+	return create("manisa_alasehir", "Manisa - Alasehir", "ege_regional", stops)
+
+static func load_route_by_id(route_id: String) -> RouteData:
+	match route_id:
+		"manisa_alasehir":
+			return load_manisa_alasehir_route()
+		"ege_main":
+			return load_ege_route()
+		_:
+			return load_ege_route()
+
 static func get_available_routes() -> Dictionary:
 	return {
 		"ege_main": "Ege Ana Hat (Izmir - Denizli)",
+		"manisa_alasehir": "Manisa - Alasehir",
+	}
+
+static func get_route_progression_catalog() -> Dictionary:
+	return {
+		"regional": [
+			"manisa_alasehir",
+			"basmane_denizli",
+			"basmane_odemis",
+			"basmane_tire",
+			"basmane_usak",
+			"basmane_alasehir",
+			"basmane_nazilli",
+			"soke_denizli",
+			"soke_nazilli",
+		],
+		"mainline": [
+			"izmir_mavi_treni",
+			"konya_mavi_treni",
+			"ege_ekspresi",
+			"pamukkale_ekspresi",
+			"ankara_ekspresi",
+			"toros_ekspresi",
+		],
+		"yht": [
+			"ankara_istanbul_yht",
+			"ankara_eskisehir_yht",
+			"ankara_konya_yht",
+			"ankara_karaman_yht",
+			"istanbul_konya_yht",
+			"istanbul_karaman_yht",
+			"ankara_sivas_yht",
+			"sivas_istanbul_yht",
+		],
+		"starter_route_id": "manisa_alasehir",
 	}

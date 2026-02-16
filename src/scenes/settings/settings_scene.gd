@@ -156,6 +156,10 @@ func _on_slider_changed(_value: float) -> void:
 		return
 	gm.settings_system.set_music_volume(int(_music_slider.value))
 	gm.settings_system.set_sfx_volume(int(_sfx_slider.value))
+	var audio: Node = get_node_or_null("/root/AudioManager")
+	if audio:
+		audio.set_bgm_volume(gm.settings_system.get_music_volume())
+		audio.set_sfx_volume(gm.settings_system.get_sfx_volume())
 	gm.save_game()
 
 func _on_haptic_toggled() -> void:
@@ -202,18 +206,21 @@ func _on_delete_save_pressed() -> void:
 		_delete_armed = true
 		_delete_btn.text = I18n.t("settings.delete_save_confirm")
 		return
-	var save_path: String = ProjectSettings.globalize_path("user://save_slot_1.json")
-	if FileAccess.file_exists(save_path):
-		DirAccess.remove_absolute(save_path)
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm:
+		gm.delete_save_slot(gm.get_active_save_slot())
 	_delete_armed = false
 	_delete_btn.text = I18n.t("settings.delete_save_done")
 
 func _on_back_pressed() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm and gm.trip_planner and gm.trip_planner.is_trip_active():
-		get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/map/map_scene.tscn")
 		return
-	get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
+	if SceneTransition.get_last_scene_path().contains("main_menu"):
+		SceneTransition.transition_to("res://src/scenes/main_menu/main_menu.tscn")
+		return
+	SceneTransition.transition_to("res://src/scenes/garage/garage_scene.tscn")
 
 func _apply_accessibility_preview() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")

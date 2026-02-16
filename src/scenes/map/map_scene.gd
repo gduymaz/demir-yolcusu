@@ -79,7 +79,9 @@ func _build_header() -> void:
 	add_child(header)
 
 	var title := Label.new()
-	title.text = I18n.t("map.title")
+	var gm: Node = _get_game_manager()
+	var route_name: String = gm.route.route_name if gm and gm.route else I18n.t("map.route.default")
+	title.text = I18n.t("map.title", [route_name])
 	title.position = Vector2(20, 15)
 	title.add_theme_font_size_override("font_size", 22)
 	title.add_theme_color_override("font_color", COLOR_TEXT)
@@ -114,6 +116,24 @@ func _build_map() -> void:
 	land.size = Vector2(VIEWPORT_W - 80, MAP_H - 80)
 	land.color = COLOR_LAND
 	add_child(land)
+
+	var anatolia_shape := Polygon2D.new()
+	anatolia_shape.polygon = PackedVector2Array([
+		Vector2(75, MAP_Y + 210),
+		Vector2(120, MAP_Y + 120),
+		Vector2(210, MAP_Y + 90),
+		Vector2(320, MAP_Y + 96),
+		Vector2(430, MAP_Y + 160),
+		Vector2(452, MAP_Y + 245),
+		Vector2(420, MAP_Y + 340),
+		Vector2(322, MAP_Y + 420),
+		Vector2(222, MAP_Y + 442),
+		Vector2(138, MAP_Y + 410),
+		Vector2(94, MAP_Y + 332),
+		Vector2(72, MAP_Y + 260),
+	])
+	anatolia_shape.color = Color("#3f6b1f")
+	add_child(anatolia_shape)
 
 	var coast := ColorRect.new()
 	coast.position = Vector2(38, MAP_Y + 38)
@@ -473,17 +493,17 @@ func _input(event: InputEvent) -> void:
 
 	var back_btn: Control = get_node("BackButton")
 	if _is_in_rect(pos, back_btn.position, back_btn.size):
-		get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/garage/garage_scene.tscn")
 		return
 
 	var achievements_btn: Control = get_node("AchievementsButton")
 	if _is_in_rect(pos, achievements_btn.position, achievements_btn.size):
-		get_tree().change_scene_to_file("res://src/scenes/achievements/achievements_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/achievements/achievements_scene.tscn")
 		return
 
 	var settings_btn: Control = get_node("SettingsButton")
 	if _is_in_rect(pos, settings_btn.position, settings_btn.size):
-		get_tree().change_scene_to_file("res://src/scenes/settings/settings_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/settings/settings_scene.tscn")
 		return
 
 	var start_btn: Control = get_node("StartButton")
@@ -541,7 +561,7 @@ func _try_start_trip() -> void:
 	gm.sync_trip_wagon_count()
 	gm.trip_planner.select_stops(_selected_start, _selected_end)
 	if gm.trip_planner.start_trip():
-		get_tree().change_scene_to_file("res://src/scenes/travel/travel_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/travel/travel_scene.tscn")
 
 ## Lifecycle/helper logic for `_gps_to_screen`.
 func _gps_to_screen(lat: float, lng: float) -> Vector2:

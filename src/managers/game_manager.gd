@@ -3,6 +3,7 @@
 
 extends Node
 
+const SAVE_PATH_TEMPLATE := "user://save_slot_%d.json"
 const SAVE_PATH := "user://save_slot_1.json"
 
 var event_bus: Node
@@ -68,7 +69,9 @@ func _ready() -> void:
 	fuel_system.setup(event_bus, economy, train_config.get_locomotive())
 	add_child(fuel_system)
 
-	route = RouteData.load_ege_route()
+	var progression: Dictionary = RouteData.get_route_progression_catalog()
+	var starter_route_id: String = str(progression.get("starter_route_id", "ege_main"))
+	route = RouteData.load_route_by_id(starter_route_id)
 
 	trip_planner = TripPlanner.new()
 	trip_planner.setup(event_bus, economy, fuel_system, route)
@@ -115,7 +118,7 @@ func _ready() -> void:
 	_bind_events()
 	_apply_upgrade_effects()
 	_sync_cargo_capacity()
-	_load_game_if_exists()
+	_load_game_if_exists(save_slot)
 	_apply_dynamic_modifiers()
 
 ## Lifecycle/helper logic for `_bind_events`.
@@ -407,7 +410,9 @@ func mark_line_completed(line_id: String) -> void:
 	completed_lines[line_id] = true
 
 ## Handles `save_game`.
-func save_game() -> bool:
+func save_game(slot_id: int = -1) -> bool:
+	if slot_id > 0:
+		save_slot = clampi(slot_id, 1, 3)
 	var train_wagon_indices: Array = []
 	for wagon in train_config.get_wagons():
 		var idx := inventory.get_wagons().find(wagon)
@@ -458,21 +463,22 @@ func save_game() -> bool:
 		"upgrades": upgrade_system.get_save_data() if upgrade_system else {},
 	}
 
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(_get_save_path(save_slot), FileAccess.WRITE)
 	if file == null:
 		return false
 	file.store_string(JSON.stringify(data))
 	return true
 
 ## Lifecycle/helper logic for `_load_game_if_exists`.
-func _load_game_if_exists() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
-
-		intro_completed = false
-		shown_tips.clear()
+func _load_game_if_exists(slot_id: int = -1) -> void:
+	var target_slot: int = save_slot if slot_id <= 0 else clampi(slot_id, 1, 3)
+	save_slot = target_slot
+	var path: String = _get_save_path(target_slot)
+	if not FileAccess.file_exists(path):
+		_apply_default_state(target_slot)
 		return
 
-	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return
 
@@ -570,6 +576,106 @@ func _load_game_if_exists() -> void:
 
 	_apply_upgrade_effects()
 	sync_trip_wagon_count()
+	_apply_dynamic_modifiers()
+
+func load_slot(slot_id: int) -> void:
+	_load_game_if_exists(slot_id)
+
+func get_active_save_slot() -> int:
+	return save_slot
+
+func has_save_data(slot_id: int) -> bool:
+	return FileAccess.file_exists(_get_save_path(slot_id))
+
+func delete_save_slot(slot_id: int) -> bool:
+	var path: String = _get_save_path(slot_id)
+	if not FileAccess.file_exists(path):
+		return true
+	return DirAccess.remove_absolute(ProjectSettings.globalize_path(path)) == OK
+
+func start_new_game(slot_id: int) -> void:
+	var target_slot: int = clampi(slot_id, 1, 3)
+	delete_save_slot(target_slot)
+	_apply_default_state(target_slot)
+	save_game(target_slot)
+
+func get_save_slot_summaries() -> Array:
+	var summaries: Array = []
+	for slot in range(1, 4):
+		var path: String = _get_save_path(slot)
+		var summary := {
+			"slot_id": slot,
+			"has_save": false,
+			"balance": Balance.STARTING_MONEY,
+			"reputation": Balance.REPUTATION_STARTING,
+			"total_trips": 0,
+		}
+		if FileAccess.file_exists(path):
+			var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+			if file:
+				var parsed: Variant = JSON.parse_string(file.get_as_text())
+				if typeof(parsed) == TYPE_DICTIONARY:
+					var data: Dictionary = parsed
+					var econ: Dictionary = data.get("economy", {})
+					var rep: Dictionary = data.get("reputation", {})
+					var stats: Dictionary = data.get("stats", {})
+					summary["has_save"] = true
+					summary["balance"] = int(econ.get("balance", Balance.STARTING_MONEY))
+					summary["reputation"] = float(rep.get("stars", Balance.REPUTATION_STARTING))
+					summary["total_trips"] = int(stats.get("total_trips", 0))
+		summaries.append(summary)
+	return summaries
+
+func _get_save_path(slot_id: int) -> String:
+	return SAVE_PATH_TEMPLATE % clampi(slot_id, 1, 3)
+
+func _apply_default_state(slot_id: int) -> void:
+	save_slot = clampi(slot_id, 1, 3)
+	economy.set_balance(Balance.STARTING_MONEY)
+	reputation.set_reputation(Balance.REPUTATION_STARTING)
+	inventory.restore_inventory_with_ids(
+		["kara_duman"],
+		[Constants.WagonType.ECONOMY, Constants.WagonType.CARGO],
+		[],
+		[]
+	)
+	train_config = null
+	_setup_default_train()
+	fuel_system.setup(event_bus, economy, train_config.get_locomotive())
+	fuel_system.reset_price_multiplier()
+	fuel_system.begin_trip_tracking()
+	sync_trip_wagon_count()
+
+	total_trips = 0
+	total_passengers = 0
+	total_lost_passengers = 0
+	total_km = 0.0
+	total_net_earnings = 0
+	last_trip_report = {}
+	shown_tips.clear()
+	intro_completed = false
+	completed_lines.clear()
+
+	if tutorial_manager:
+		tutorial_manager.setup(save_slot)
+	if quest_system:
+		quest_system.setup(event_bus, economy, reputation)
+	if random_event_system:
+		random_event_system.setup(event_bus, economy, reputation)
+	if cargo_system:
+		cargo_system.setup(event_bus, economy)
+	if shop_system:
+		shop_system.load_save_data({})
+	if upgrade_system:
+		upgrade_system.load_save_data({})
+	if achievement_system:
+		achievement_system.setup(event_bus, economy)
+		achievement_system.set_inventory_snapshot_provider(Callable(self, "_get_inventory_snapshot"))
+		achievement_system.set_completed_quest_count_provider(Callable(self, "_get_completed_quest_count"))
+	if difficulty_system:
+		difficulty_system.load_save_data({})
+
+	_apply_upgrade_effects()
 	_apply_dynamic_modifiers()
 
 func _update_line_completion(route_data: Dictionary) -> void:

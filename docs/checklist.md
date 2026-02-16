@@ -1,8 +1,8 @@
 # Demir Yolcusu — Faz Checklist
 
 **Son Güncelleme:** 2026-02-16  
-**Aktif Faz:** 9 (devam ediyor)  
-**Toplam Test:** 359 / 359 PASSED
+**Aktif Faz:** 10 (devam ediyor)  
+**Toplam Test:** 366 / 366 PASSED
 
 > Bu dosyayı her faz sonunda güncelle. Codex/Claude Code'a "bu checklist'i kontrol et" diyerek durumu doğrulat.
 
@@ -20,8 +20,8 @@
 | 6 | Yakıt + Özet + Kayıt + Kondüktör | ✅ Tamamlandı | 20+ |
 | 7 | Görevler + Olaylar + Kargo | ✅ Tamamlandı | 24+ |
 | 8 | Dükkan + Yükseltmeler | ✅ Tamamlandı | 20+ |
-| 9 | Başarımlar + Zorluk + Tutorial | 🟨 Devam Ediyor | 22+ |
-| 10 | Ses + Görsel + MVP Final | ⬜ Başlanmadı | — |
+| 9 | Başarımlar + Zorluk + Tutorial | ✅ Tamamlandı | 22+ |
+| 10 | Ses + Görsel + MVP Final | 🟨 Devam Ediyor | 7+ |
 | 11 | Marmara Hattı (Post-MVP) | ⬜ Başlanmadı | — |
 | 12 | İç Anadolu Hattı (Post-MVP) | ⬜ Başlanmadı | — |
 | 13 | Ek İçerik + Yayın (Post-MVP) | ⬜ Başlanmadı | — |
@@ -350,7 +350,7 @@
 
 ---
 
-## Faz 9 — Başarımlar + Zorluk + Tutorial 🟨
+## Faz 9 — Başarımlar + Zorluk + Tutorial ✅
 
 ### 9.1 Başarım Sistemi (AchievementSystem)
 - [x] AchievementData veri modeli (id, category, title, description, condition, reward)
@@ -397,27 +397,27 @@
 
 ---
 
-## Faz 10 — Ses + Görsel + MVP Final ⬜
+## Faz 10 — Ses + Görsel + MVP Final 🟨
 
 ### 10.1 Ses Sistemi
-- [ ] AudioManager genişletme
+- [x] AudioManager genişletme
 - [ ] Müzik: Ege bölgesi teması (klarnet esintili)
-    - [ ] Garaj müziği
-    - [ ] Harita müziği
-    - [ ] Seyir müziği
-    - [ ] Durak müziği
+    - [x] Garaj müziği (altyapı + track mapping)
+    - [x] Harita müziği (altyapı + track mapping)
+    - [x] Seyir müziği (altyapı + track mapping)
+    - [x] Durak müziği (altyapı + track mapping)
 - [ ] SFX
-    - [ ] Tren düdüğü (kalkış/varış)
-    - [ ] Para kazanma sesi
-    - [ ] Yolcu bindirme/indirme
-    - [ ] Sürükle-bırak (tutma/bırakma)
-    - [ ] Başarı/hata sesi
-    - [ ] Timer uyarısı
-    - [ ] Yakıt ikmal
-    - [ ] Buton tıklama
+    - [x] Tren düdüğü (altyapı + track mapping)
+    - [x] Para kazanma sesi (EventBus tetikleyici)
+    - [x] Yolcu bindirme/indirme (EventBus tetikleyici)
+    - [x] Sürükle-bırak (tutma/bırakma) (track mapping hazır)
+    - [x] Başarı/hata sesi (track mapping hazır)
+    - [x] Timer uyarısı (track mapping hazır)
+    - [x] Yakıt ikmal (track mapping hazır)
+    - [x] Buton tıklama (track mapping hazır)
 - [ ] Türkçe durak anonsu ("Sayın yolcular, Selçuk istasyonuna...")
 - [ ] Kondüktör tepki sesleri ("hm", "aha", "oh")
-- [ ] Ayrı müzik/SFX ses seviyesi ayarı
+- [x] Ayrı müzik/SFX ses seviyesi ayarı
 
 ### 10.2 Placeholder → Gerçek Görsel Geçişi
 - [ ] Lokomotif sprite (8 yönlü + tekerlek animasyonu)
@@ -427,8 +427,8 @@
 - [ ] Harita görseli (stilize pixel art Türkiye)
 - [ ] Kondüktör sprite
 - [ ] UI ikonları (para, yıldız, yakıt, kargo)
-- [ ] Ekran geçiş animasyonları
-- [ ] Splash screen
+- [x] Ekran geçiş animasyonları (SceneTransition fade)
+- [x] Splash screen
 
 ### 10.3 Kozmetik Özelleştirme
 - [ ] Lokomotif/vagon renk değiştirme
@@ -436,9 +436,9 @@
 - [ ] Satın alma + başarım ödülü olarak açılma
 
 ### 10.4 MVP Final Test & Polish
-- [ ] Tüm testler geçiyor
+- [x] Tüm testler geçiyor (366/366)
 - [ ] Tam oyun akışı baştan sona oynanabilir
-- [ ] Save/load tam çalışıyor (3 slot)
+- [x] Save/load tam çalışıyor (3 slot)
 - [ ] İlk açılış → tutorial → ilk sefer → para kazan → yükselt → tekrar oyna
 - [ ] 15-20 dk oturum testi
 - [ ] Performans: 30 FPS sabit
@@ -489,7 +489,7 @@
 
 ## Faz 13 — Ek İçerik + Yayın ⬜
 
-- [ ] 3 slot save sistemi tam çalışıyor
+- [x] 3 slot save sistemi tam çalışıyor
 - [ ] İstatistik ekranı (toplam sefer/yolcu/km/kazanç)
 - [ ] Eğitici içerik: Duraklarda tıklanabilir bilgi (şehir/kültür/TCDD)
 - [ ] Teknoloji ağacı tam dallanma

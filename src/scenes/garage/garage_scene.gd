@@ -803,12 +803,12 @@ func _on_press(pos: Vector2) -> void:
 
 	var achievements_btn: Control = get_node("AchievementsButton")
 	if _is_in_rect(pos, achievements_btn.position, achievements_btn.size):
-		get_tree().change_scene_to_file("res://src/scenes/achievements/achievements_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/achievements/achievements_scene.tscn")
 		return
 
 	var settings_btn: Control = get_node("SettingsButton")
 	if _is_in_rect(pos, settings_btn.position, settings_btn.size):
-		get_tree().change_scene_to_file("res://src/scenes/settings/settings_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/settings/settings_scene.tscn")
 		return
 
 	var upgrade_btn: Control = get_node("UpgradeButton")
@@ -1157,7 +1157,7 @@ func _go_to_station() -> void:
 	if gm.train_config.get_wagon_count() == 0:
 		_flash_warning()
 		return
-	get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
+	SceneTransition.transition_to("res://src/scenes/map/map_scene.tscn")
 
 ## Lifecycle/helper logic for `_flash_warning`.
 func _flash_warning() -> void:

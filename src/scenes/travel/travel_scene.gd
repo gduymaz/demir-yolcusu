@@ -470,10 +470,10 @@ func _on_arrive_pressed() -> void:
 
 	if _from_label.text == I18n.t("travel.trip_complete"):
 		gm.trip_planner.end_trip()   
-		get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/summary/summary_scene.tscn")
 	else:
 
-		get_tree().change_scene_to_file("res://src/scenes/station/station_scene.tscn")
+		SceneTransition.transition_to("res://src/scenes/station/station_scene.tscn")
 
 ## Lifecycle/helper logic for `_get_game_manager`.
 func _get_game_manager() -> Node:

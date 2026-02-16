@@ -174,7 +174,9 @@ func _on_back_pressed() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm and gm.trip_planner and gm.trip_planner.is_trip_active():
 		previous = "res://src/scenes/map/map_scene.tscn"
-	get_tree().change_scene_to_file(previous)
+	elif SceneTransition.get_last_scene_path().contains("main_menu"):
+		previous = "res://src/scenes/main_menu/main_menu.tscn"
+	SceneTransition.transition_to(previous)
 
 func _category_key(category: int) -> String:
 	match category:

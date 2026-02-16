@@ -179,11 +179,25 @@ func _build_scene() -> void:
 
 ## Lifecycle/helper logic for `_build_background`.
 func _build_background() -> void:
-	var sky := ColorRect.new()
-	sky.color = COLOR_BG
-	sky.size = Vector2(VIEWPORT_W, VIEWPORT_H)
-	sky.z_index = -10
-	add_child(sky)
+	var sky_top := ColorRect.new()
+	sky_top.color = Color("#9dd5ff")
+	sky_top.size = Vector2(VIEWPORT_W, VIEWPORT_H * 0.45)
+	sky_top.z_index = -11
+	add_child(sky_top)
+
+	var sky_bottom := ColorRect.new()
+	sky_bottom.color = Color("#dbeeff")
+	sky_bottom.position = Vector2(0, VIEWPORT_H * 0.45)
+	sky_bottom.size = Vector2(VIEWPORT_W, VIEWPORT_H * 0.2)
+	sky_bottom.z_index = -11
+	add_child(sky_bottom)
+
+	var tree_line := ColorRect.new()
+	tree_line.color = Color("#4d8c3a")
+	tree_line.position = Vector2(0, TRAIN_Y + 20)
+	tree_line.size = Vector2(VIEWPORT_W, 12)
+	tree_line.z_index = -9
+	add_child(tree_line)
 
 	var platform := ColorRect.new()
 	platform.color = COLOR_PLATFORM
@@ -191,6 +205,13 @@ func _build_background() -> void:
 	platform.size = Vector2(VIEWPORT_W, 200)
 	platform.z_index = -5
 	add_child(platform)
+
+	var platform_edge := ColorRect.new()
+	platform_edge.color = Color("#f7e7b5")
+	platform_edge.position = Vector2(0, TRAIN_Y + 56)
+	platform_edge.size = Vector2(VIEWPORT_W, 4)
+	platform_edge.z_index = -4
+	add_child(platform_edge)
 
 	for i in 2:
 		var rail := ColorRect.new()
@@ -381,7 +402,24 @@ func _build_train() -> void:
 		add_child(wagon_node)
 		_wagon_nodes.append(wagon_node)
 
+		if wagon.type == Constants.WagonType.CARGO:
+			for x in [12.0, 34.0, 56.0, 78.0]:
+				var slash_a := ColorRect.new()
+				slash_a.position = Vector2(x, 10)
+				slash_a.size = Vector2(2, 50)
+				slash_a.rotation = deg_to_rad(38.0)
+				slash_a.color = Color("#d7ccc8")
+				wagon_node.add_child(slash_a)
+		else:
+			for w in range(3):
+				var window := ColorRect.new()
+				window.position = Vector2(8 + w * 30, 8)
+				window.size = Vector2(20, 18)
+				window.color = Color(1, 1, 1, 0.42)
+				wagon_node.add_child(window)
+
 		var label := Label.new()
+		label.name = "WagonLabel"
 		label.text = "%s\n0/%d" % [_get_wagon_short_name(wagon.type), wagon.get_capacity()]
 		label.position = Vector2(8, 12)
 		label.add_theme_font_size_override("font_size", 12)
@@ -402,6 +440,28 @@ func _build_train() -> void:
 	loco.color = COLOR_LOCO
 	loco.position = Vector2(loco_x, TRAIN_Y - LOCO_SIZE.y / 2)
 	add_child(loco)
+
+	var chimney := Polygon2D.new()
+	chimney.polygon = PackedVector2Array([
+		Vector2(64, 0),
+		Vector2(88, 0),
+		Vector2(80, -16),
+	])
+	chimney.color = Color("#2c3e50")
+	loco.add_child(chimney)
+
+	for wheel_x in [12.0, 38.0, 64.0]:
+		var wheel := ColorRect.new()
+		wheel.position = Vector2(wheel_x, LOCO_SIZE.y - 8)
+		wheel.size = Vector2(14, 14)
+		wheel.color = Color("#34495e")
+		loco.add_child(wheel)
+
+	var headlight := ColorRect.new()
+	headlight.position = Vector2(LOCO_SIZE.x - 12, 14)
+	headlight.size = Vector2(8, 8)
+	headlight.color = Color("#f1c40f")
+	loco.add_child(headlight)
 
 	if wagon_count > 0:
 		var last_end := start_x + (wagon_count - 1) * WAGON_SPACING + WAGON_SIZE.x
@@ -786,12 +846,12 @@ func _on_restart_pressed() -> void:
 
 ## Lifecycle/helper logic for `_on_garage_pressed`.
 func _on_garage_pressed() -> void:
-	get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
+	SceneTransition.transition_to("res://src/scenes/garage/garage_scene.tscn")
 
 ## Lifecycle/helper logic for `_on_continue_pressed`.
 func _on_continue_pressed() -> void:
 
-	get_tree().change_scene_to_file("res://src/scenes/travel/travel_scene.tscn")
+	SceneTransition.transition_to("res://src/scenes/travel/travel_scene.tscn")
 
 ## Lifecycle/helper logic for `_on_finish_trip_pressed`.
 func _on_finish_trip_pressed() -> void:
@@ -799,7 +859,7 @@ func _on_finish_trip_pressed() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm:
 		gm.trip_planner.end_trip()
-	get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
+	SceneTransition.transition_to("res://src/scenes/summary/summary_scene.tscn")
 
 ## Lifecycle/helper logic for `_on_cargo_load_pressed`.
 func _on_cargo_load_pressed(cargo_id: String) -> void:
@@ -965,15 +1025,28 @@ func _create_passenger_node(passenger: Dictionary) -> Control:
 	var root := Control.new()
 	root.size = PASSENGER_SIZE
 
-	var body := ColorRect.new()
-	body.size = PASSENGER_SIZE
-	body.color = _get_passenger_color(passenger["type"])
-	root.add_child(body)
+	var shadow := ColorRect.new()
+	shadow.size = Vector2(PASSENGER_SIZE.x - 8, 8)
+	shadow.position = Vector2(4, PASSENGER_SIZE.y - 6)
+	shadow.color = Color(0, 0, 0, 0.22)
+	root.add_child(shadow)
+
+	var torso := ColorRect.new()
+	torso.size = Vector2(22, 26)
+	torso.position = Vector2(9, 20)
+	torso.color = _get_passenger_color(passenger["type"])
+	root.add_child(torso)
+
+	var head := ColorRect.new()
+	head.size = Vector2(16, 16)
+	head.position = Vector2(12, 2)
+	head.color = Color("#f5d7b2")
+	root.add_child(head)
 
 	var type_label := Label.new()
 	type_label.text = _get_passenger_type_letter(passenger["type"])
-	type_label.position = Vector2(12, 8)
-	type_label.add_theme_font_size_override("font_size", 18)
+	type_label.position = Vector2(12, 22)
+	type_label.add_theme_font_size_override("font_size", 14)
 	type_label.add_theme_color_override("font_color", Color.WHITE)
 	root.add_child(type_label)
 
@@ -986,7 +1059,7 @@ func _create_passenger_node(passenger: Dictionary) -> Control:
 
 	var dest_label := Label.new()
 	dest_label.text = passenger["destination"].substr(0, 3).to_upper()
-	dest_label.position = Vector2(2, 42)
+	dest_label.position = Vector2(2, 45)
 	dest_label.add_theme_font_size_override("font_size", 9)
 	dest_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.7))
 	root.add_child(dest_label)
@@ -1153,7 +1226,9 @@ func _update_wagon_labels() -> void:
 			break
 		var wagon: WagonData = _wagons[i]
 		var wnode: ColorRect = _wagon_nodes[i]
-		var label: Label = wnode.get_child(0)
+		var label := wnode.get_node_or_null("WagonLabel") as Label
+		if label == null:
+			continue
 		if wagon.type == Constants.WagonType.CARGO:
 			label.text = "%s\n%s %d/%d" % [
 				_get_wagon_short_name(wagon.type),
