@@ -13,6 +13,7 @@ var _tank_capacity: float = 0.0
 var _consumption_rate: float = 0.0
 var _trip_consumed: float = 0.0
 var _price_multiplier: float = 1.0
+var _efficiency_multiplier: float = 1.0
 
 ## Handles `setup`.
 func setup(event_bus: Node, economy: EconomySystem, locomotive: LocomotiveData) -> void:
@@ -23,6 +24,13 @@ func setup(event_bus: Node, economy: EconomySystem, locomotive: LocomotiveData) 
 	_consumption_rate = locomotive.fuel_consumption
 	_current_fuel = _tank_capacity
 	_price_multiplier = 1.0
+	_efficiency_multiplier = 1.0
+
+func set_efficiency_multiplier(multiplier: float) -> void:
+	_efficiency_multiplier = clampf(multiplier, 0.2, 2.0)
+
+func get_efficiency_multiplier() -> float:
+	return _efficiency_multiplier
 
 ## Handles `get_current_fuel`.
 func get_current_fuel() -> float:
@@ -81,7 +89,7 @@ func get_trip_consumed_cost() -> int:
 ## Handles `calculate_fuel_cost`.
 func calculate_fuel_cost(distance_km: float, wagon_count: int) -> float:
 	var wagon_multiplier := 1.0 + (wagon_count * Balance.FUEL_PER_WAGON_MULTIPLIER)
-	return distance_km * _consumption_rate * wagon_multiplier
+	return distance_km * _consumption_rate * _efficiency_multiplier * wagon_multiplier
 
 ## Handles `can_travel`.
 func can_travel(distance_km: float, wagon_count: int) -> bool:

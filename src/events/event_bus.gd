@@ -52,6 +52,21 @@ signal cargo_delivered(cargo_data: Dictionary, station_id: String)
 signal cargo_expired(cargo_data: Dictionary)
 
 @warning_ignore("unused_signal")
+signal shop_opened(station_id: String, shop_type: int)
+@warning_ignore("unused_signal")
+signal shop_upgraded(station_id: String, shop_type: int, level: int)
+@warning_ignore("unused_signal")
+signal shop_income_earned(amount: int, visited_stations: Array)
+
+@warning_ignore("unused_signal")
+signal locomotive_upgraded(loco_id: String, upgrade_type: int, level: int)
+@warning_ignore("unused_signal")
+signal wagon_upgraded(wagon_id: String, upgrade_type: int, level: int)
+
+@warning_ignore("unused_signal")
+signal achievement_unlocked(achievement_data: Dictionary)
+
+@warning_ignore("unused_signal")
 signal hud_update_requested()
 @warning_ignore("unused_signal")
 signal dialog_requested(dialog_data: Dictionary)

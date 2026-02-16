@@ -9,10 +9,12 @@ var _event_bus: Node
 
 var _trip_earnings: Dictionary = {}
 var _trip_spendings: Dictionary = {}
+var _ticket_income_multiplier: float = 1.0
 
 ## Handles `setup`.
 func setup(event_bus: Node) -> void:
 	_event_bus = event_bus
+	_ticket_income_multiplier = 1.0
 
 ## Handles `get_balance`.
 func get_balance() -> int:
@@ -30,6 +32,10 @@ func can_afford(amount: int) -> bool:
 func earn(amount: int, source: String) -> void:
 	if amount <= 0:
 		return
+	if source == "ticket":
+		amount = int(round(float(amount) * _ticket_income_multiplier))
+		if amount <= 0:
+			return
 
 	var old_balance := _balance
 	_balance += amount
@@ -39,6 +45,12 @@ func earn(amount: int, source: String) -> void:
 	if _event_bus:
 		_event_bus.money_earned.emit(amount, source)
 		_event_bus.money_changed.emit(old_balance, _balance, source)
+
+func set_ticket_income_multiplier(value: float) -> void:
+	_ticket_income_multiplier = clampf(value, Balance.DIFFICULTY_CLAMP_MIN, Balance.DIFFICULTY_CLAMP_MAX)
+
+func get_ticket_income_multiplier() -> float:
+	return _ticket_income_multiplier
 
 ## Handles `spend`.
 func spend(amount: int, reason: String) -> bool:

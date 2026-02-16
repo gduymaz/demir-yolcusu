@@ -47,6 +47,10 @@ var _train_container: Control
 var _info_label: Label
 var _wagon_pool_container: Control
 var _shop_panel: Control
+var _shop_entries: Array = []
+var _upgrade_panel: Control
+var _upgrade_entries: Array = []
+var _upgrade_respec_rect: Rect2 = Rect2()
 var _loco_buttons: Array = []
 var _train_wagon_nodes: Array = []
 var _pool_wagon_nodes: Array = []
@@ -59,22 +63,28 @@ var _drag_offset: Vector2 = Vector2.ZERO
 var _drag_wagon: WagonData = null
 
 var _shop_visible: bool = false
+var _upgrade_visible: bool = false
+var _selected_upgrade_target: Dictionary = {"kind": "locomotive", "id": "kara_duman"}
 
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_build_scene()
 	_refresh_all()
+	_apply_accessibility()
+	_show_second_trip_reminder()
 
 ## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
 	_build_background()
 	_build_header()
+	_build_utility_buttons()
 	_build_loco_panel()
 	_build_train_area()
 	_build_info_bar()
 	_build_wagon_pool()
 	_build_button_bar()
 	_build_shop_panel()
+	_build_upgrade_panel()
 
 ## Lifecycle/helper logic for `_build_background`.
 func _build_background() -> void:
@@ -106,6 +116,15 @@ func _build_header() -> void:
 	_money_label.add_theme_font_size_override("font_size", 20)
 	_money_label.add_theme_color_override("font_color", COLOR_GOLD)
 	add_child(_money_label)
+
+func _build_utility_buttons() -> void:
+	var achievements_btn := _create_button(I18n.t("garage.button.achievements"), Vector2(VIEWPORT_W - 250, 52), Vector2(110, 34), Color("#9b59b6"))
+	achievements_btn.name = "AchievementsButton"
+	add_child(achievements_btn)
+
+	var settings_btn := _create_button(I18n.t("garage.button.settings"), Vector2(VIEWPORT_W - 130, 52), Vector2(110, 34), Color("#34495e"))
+	settings_btn.name = "SettingsButton"
+	add_child(settings_btn)
 
 ## Lifecycle/helper logic for `_build_loco_panel`.
 func _build_loco_panel() -> void:
@@ -189,11 +208,15 @@ func _build_wagon_pool() -> void:
 ## Lifecycle/helper logic for `_build_button_bar`.
 func _build_button_bar() -> void:
 
-	var shop_btn := _create_button(I18n.t("garage.button.shop"), Vector2(MARGIN, BUTTON_BAR_Y), Vector2(230, BUTTON_H), COLOR_BUTTON)
+	var shop_btn := _create_button(I18n.t("garage.button.shop"), Vector2(MARGIN, BUTTON_BAR_Y), Vector2(160, BUTTON_H), COLOR_BUTTON)
 	shop_btn.name = "ShopButton"
 	add_child(shop_btn)
 
-	var go_btn := _create_button(I18n.t("garage.button.go_map"), Vector2(270, BUTTON_BAR_Y), Vector2(250, BUTTON_H), COLOR_GREEN)
+	var upgrade_btn := _create_button(I18n.t("garage.button.upgrade"), Vector2(190, BUTTON_BAR_Y), Vector2(160, BUTTON_H), Color("#8e44ad"))
+	upgrade_btn.name = "UpgradeButton"
+	add_child(upgrade_btn)
+
+	var go_btn := _create_button(I18n.t("garage.button.go_map"), Vector2(360, BUTTON_BAR_Y), Vector2(160, BUTTON_H), COLOR_GREEN)
 	go_btn.name = "GoButton"
 	add_child(go_btn)
 
@@ -236,6 +259,43 @@ func _build_shop_panel() -> void:
 	close_btn.name = "ShopCloseButton"
 	_shop_panel.add_child(close_btn)
 
+func _build_upgrade_panel() -> void:
+	_upgrade_panel = Control.new()
+	_upgrade_panel.position = Vector2(0, 0)
+	_upgrade_panel.size = Vector2(VIEWPORT_W, VIEWPORT_H)
+	_upgrade_panel.visible = false
+	_upgrade_panel.name = "UpgradePanel"
+	add_child(_upgrade_panel)
+
+	var overlay := ColorRect.new()
+	overlay.position = Vector2.ZERO
+	overlay.size = Vector2(VIEWPORT_W, VIEWPORT_H)
+	overlay.color = Color(0, 0, 0, 0.7)
+	_upgrade_panel.add_child(overlay)
+
+	var box := ColorRect.new()
+	box.position = Vector2(35, 110)
+	box.size = Vector2(470, 690)
+	box.color = COLOR_PANEL
+	_upgrade_panel.add_child(box)
+
+	var title := Label.new()
+	title.text = I18n.t("garage.upgrade.title")
+	title.position = Vector2(145, 125)
+	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", COLOR_GOLD)
+	_upgrade_panel.add_child(title)
+
+	var content := Control.new()
+	content.position = Vector2(55, 170)
+	content.size = Vector2(430, 560)
+	content.name = "UpgradeContent"
+	_upgrade_panel.add_child(content)
+
+	var close_btn := _create_button(I18n.t("garage.shop.close"), Vector2(170, 740), Vector2(200, 50), COLOR_RED)
+	close_btn.name = "UpgradeCloseButton"
+	_upgrade_panel.add_child(close_btn)
+
 ## Lifecycle/helper logic for `_create_button`.
 func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color) -> Control:
 	var container := Control.new()
@@ -266,6 +326,8 @@ func _refresh_all() -> void:
 	_refresh_train_view()
 	_refresh_info_bar()
 	_refresh_wagon_pool()
+	if _upgrade_visible:
+		_refresh_upgrade_panel()
 
 ## Lifecycle/helper logic for `_refresh_money`.
 func _refresh_money() -> void:
@@ -442,6 +504,7 @@ func _refresh_shop() -> void:
 	var container: Control = _shop_panel.get_node("ShopItemsContainer")
 	for child in container.get_children():
 		child.queue_free()
+	_shop_entries.clear()
 
 	var gm: Node = _get_game_manager()
 	var balance: int = gm.economy.get_balance()
@@ -450,13 +513,15 @@ func _refresh_shop() -> void:
 		Constants.WagonType.ECONOMY,
 		Constants.WagonType.BUSINESS,
 		Constants.WagonType.VIP,
+		Constants.WagonType.DINING,
 		Constants.WagonType.CARGO,
 	]
 
 	for i in range(wagon_types.size()):
 		var wtype: Constants.WagonType = wagon_types[i]
 		var price := PlayerInventory.get_wagon_price(wtype)
-		var can_afford: bool = balance >= price
+		var required_rep: float = _wagon_required_reputation(wtype)
+		var can_afford: bool = balance >= price and gm.reputation.meets_requirement(required_rep)
 
 		var item := Control.new()
 		item.position = Vector2(0, i * 90)
@@ -476,11 +541,19 @@ func _refresh_shop() -> void:
 		item.add_child(name_label)
 
 		var cap_label := Label.new()
-		cap_label.text = "Kapasite: %d" % WagonData._get_capacity_for_type(wtype)
+		cap_label.text = I18n.t("garage.shop.capacity", [WagonData._get_capacity_for_type(wtype)])
 		cap_label.position = Vector2(75, 28)
 		cap_label.add_theme_font_size_override("font_size", 12)
 		cap_label.add_theme_color_override("font_color", Color("#aaaaaa"))
 		item.add_child(cap_label)
+
+		if required_rep > 0.0:
+			var req := Label.new()
+			req.text = I18n.t("garage.shop.rep_required", [required_rep])
+			req.position = Vector2(75, 48)
+			req.add_theme_font_size_override("font_size", 10)
+			req.add_theme_color_override("font_color", COLOR_RED if not gm.reputation.meets_requirement(required_rep) else Color("#95a5a6"))
+			item.add_child(req)
 
 		var buy_btn := _create_button(
 			"%d DA" % price,
@@ -492,6 +565,160 @@ func _refresh_shop() -> void:
 		item.add_child(buy_btn)
 
 		container.add_child(item)
+		_shop_entries.append({"kind": "wagon", "type": wtype, "rect": Rect2(container.position + Vector2(280, i * 90 + 5), Vector2(110, 45))})
+
+	var loco_header := Label.new()
+	loco_header.text = I18n.t("garage.shop.locomotives")
+	loco_header.position = Vector2(0, wagon_types.size() * 90 + 10)
+	loco_header.add_theme_font_size_override("font_size", 16)
+	loco_header.add_theme_color_override("font_color", Color("#f1c40f"))
+	container.add_child(loco_header)
+
+	var loco_defs := [
+		{"id": "demir_yurek", "price": Balance.LOCOMOTIVE_COST_DEMIR_YUREK, "rep": Balance.LOCOMOTIVE_REPUTATION_DEMIR_YUREK},
+		{"id": "boz_kaplan", "price": Balance.LOCOMOTIVE_COST_BOZ_KAPLAN, "rep": Balance.LOCOMOTIVE_REPUTATION_BOZ_KAPLAN},
+	]
+	for j in range(loco_defs.size()):
+		var def: Dictionary = loco_defs[j]
+		var row_y := wagon_types.size() * 90 + 40 + j * 90
+		var loco_item := Control.new()
+		loco_item.position = Vector2(0, row_y)
+		loco_item.size = Vector2(400, 80)
+
+		var tag := ColorRect.new()
+		tag.position = Vector2(0, 5)
+		tag.size = Vector2(60, 50)
+		tag.color = COLOR_LOCO
+		loco_item.add_child(tag)
+
+		var loco_name := Label.new()
+		loco_name.text = I18n.t("locomotive.%s" % str(def["id"]))
+		loco_name.position = Vector2(75, 5)
+		loco_name.add_theme_font_size_override("font_size", 16)
+		loco_name.add_theme_color_override("font_color", COLOR_TEXT)
+		loco_item.add_child(loco_name)
+
+		var loco_req := Label.new()
+		loco_req.text = I18n.t("garage.shop.rep_required", [float(def["rep"])])
+		loco_req.position = Vector2(75, 28)
+		loco_req.add_theme_font_size_override("font_size", 11)
+		loco_req.add_theme_color_override("font_color", COLOR_RED if not gm.reputation.meets_requirement(float(def["rep"])) else Color("#95a5a6"))
+		loco_item.add_child(loco_req)
+
+		var owned: bool = gm.inventory.has_locomotive(str(def["id"]))
+		var can_buy_loco: bool = (not owned) and balance >= int(def["price"]) and gm.reputation.meets_requirement(float(def["rep"]))
+		var loco_buy := _create_button(
+			I18n.t("garage.shop.owned") if owned else "%d DA" % int(def["price"]),
+			Vector2(280, 5),
+			Vector2(110, 45),
+			COLOR_GREEN if can_buy_loco else COLOR_BUTTON_DISABLED
+		)
+		loco_item.add_child(loco_buy)
+		container.add_child(loco_item)
+		_shop_entries.append({"kind": "locomotive", "id": str(def["id"]), "rep": float(def["rep"]), "rect": Rect2(container.position + Vector2(280, row_y + 5), Vector2(110, 45))})
+
+func _refresh_upgrade_panel() -> void:
+	var content: Control = _upgrade_panel.get_node("UpgradeContent")
+	for child in content.get_children():
+		child.queue_free()
+	_upgrade_entries.clear()
+	_upgrade_respec_rect = Rect2()
+
+	var gm: Node = _get_game_manager()
+	var target_kind: String = str(_selected_upgrade_target.get("kind", "locomotive"))
+	var target_id: String = str(_selected_upgrade_target.get("id", gm.train_config.get_locomotive().id))
+	if target_kind == "wagon" and _find_wagon_by_id(target_id) == null:
+		_set_upgrade_target_locomotive(gm.train_config.get_locomotive().id)
+		target_kind = "locomotive"
+		target_id = gm.train_config.get_locomotive().id
+	var target_title := Label.new()
+	target_title.text = I18n.t("garage.upgrade.target", [_get_upgrade_target_name()])
+	target_title.position = Vector2(0, 0)
+	target_title.size = Vector2(420, 30)
+	target_title.add_theme_font_size_override("font_size", 16)
+	target_title.add_theme_color_override("font_color", COLOR_TEXT)
+	content.add_child(target_title)
+
+	var info := Label.new()
+	info.text = I18n.t("garage.upgrade.select_hint")
+	info.position = Vector2(0, 28)
+	info.size = Vector2(420, 24)
+	info.add_theme_font_size_override("font_size", 11)
+	info.add_theme_color_override("font_color", Color("#95a5a6"))
+	content.add_child(info)
+
+	var row_y: int = 70
+	if target_kind == "locomotive":
+		var types := [
+			Constants.UpgradeType.SPEED,
+			Constants.UpgradeType.CAPACITY,
+			Constants.UpgradeType.FUEL_EFFICIENCY,
+			Constants.UpgradeType.DURABILITY,
+		]
+		for upgrade_type in types:
+			var can_state: Dictionary = gm.upgrade_system.can_upgrade_locomotive(target_id, upgrade_type)
+			var level: int = gm.upgrade_system.get_locomotive_level(target_id, upgrade_type)
+			var next_level: int = int(can_state.get("next_level", level))
+			var cost: int = int(can_state.get("cost", 0))
+			var row := _create_upgrade_row(
+				I18n.t(_loco_upgrade_name_key(upgrade_type)),
+				level,
+				next_level,
+				cost,
+				_loco_upgrade_effect_text(upgrade_type),
+				bool(can_state.get("ok", false))
+			)
+			row.position = Vector2(0, row_y)
+			content.add_child(row)
+			_upgrade_entries.append({"kind": "locomotive", "id": target_id, "upgrade_type": upgrade_type, "rect": Rect2(content.position + Vector2(300, row_y + 8), Vector2(110, 36))})
+			if not bool(can_state.get("ok", false)):
+				var reason_label := Label.new()
+				reason_label.text = I18n.t(_upgrade_reason_key(str(can_state.get("reason", ""))))
+				reason_label.position = Vector2(0, row_y + 58)
+				reason_label.size = Vector2(420, 18)
+				reason_label.add_theme_font_size_override("font_size", 10)
+				reason_label.add_theme_color_override("font_color", COLOR_RED)
+				content.add_child(reason_label)
+			row_y += 88
+	else:
+		var wagon_data: Variant = _find_wagon_by_id(target_id)
+		var wagon_type: int = Constants.WagonType.ECONOMY
+		if wagon_data != null:
+			wagon_type = int((wagon_data as WagonData).type)
+		var types := [
+			Constants.WagonUpgradeType.COMFORT,
+			Constants.WagonUpgradeType.CAPACITY,
+			Constants.WagonUpgradeType.MAINTENANCE,
+		]
+		for upgrade_type in types:
+			var can_state: Dictionary = gm.upgrade_system.can_upgrade_wagon(target_id, upgrade_type)
+			var level: int = gm.upgrade_system.get_wagon_level(target_id, upgrade_type)
+			var next_level: int = int(can_state.get("next_level", level))
+			var cost: int = int(can_state.get("cost", 0))
+			var row := _create_upgrade_row(
+				I18n.t(_wagon_upgrade_name_key(upgrade_type)),
+				level,
+				next_level,
+				cost,
+				_wagon_upgrade_effect_text(upgrade_type, wagon_type),
+				bool(can_state.get("ok", false))
+			)
+			row.position = Vector2(0, row_y)
+			content.add_child(row)
+			_upgrade_entries.append({"kind": "wagon", "id": target_id, "wagon_type": wagon_type, "upgrade_type": upgrade_type, "rect": Rect2(content.position + Vector2(300, row_y + 8), Vector2(110, 36))})
+			if not bool(can_state.get("ok", false)):
+				var reason_label := Label.new()
+				reason_label.text = I18n.t(_upgrade_reason_key(str(can_state.get("reason", ""))))
+				reason_label.position = Vector2(0, row_y + 58)
+				reason_label.size = Vector2(420, 18)
+				reason_label.add_theme_font_size_override("font_size", 10)
+				reason_label.add_theme_color_override("font_color", COLOR_RED)
+				content.add_child(reason_label)
+			row_y += 88
+
+	var respec_btn := _create_button(I18n.t("garage.upgrade.respec"), Vector2(0, 470), Vector2(180, 42), Color("#16a085"))
+	content.add_child(respec_btn)
+	_upgrade_respec_rect = Rect2(content.position + Vector2(0, 470), Vector2(180, 42))
 
 ## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
@@ -500,6 +727,9 @@ func _input(event: InputEvent) -> void:
 
 	if _shop_visible:
 		_handle_shop_input(event)
+		return
+	if _upgrade_visible:
+		_handle_upgrade_input(event)
 		return
 
 	if event is InputEventScreenTouch or event is InputEventMouseButton:
@@ -531,20 +761,34 @@ func _handle_shop_input(event: InputEvent) -> void:
 		_refresh_all()
 		return
 
-	var container: Control = _shop_panel.get_node("ShopItemsContainer")
-	var wagon_types := [
-		Constants.WagonType.ECONOMY,
-		Constants.WagonType.BUSINESS,
-		Constants.WagonType.VIP,
-		Constants.WagonType.CARGO,
-	]
+	for entry in _shop_entries:
+		var rect: Rect2 = entry.get("rect", Rect2())
+		if rect.has_point(pos):
+			if str(entry.get("kind", "")) == "wagon":
+				_try_buy_wagon(int(entry.get("type", 0)))
+			else:
+				_try_buy_locomotive(str(entry.get("id", "")), float(entry.get("rep", 0.0)))
+			return
 
-	for i in range(wagon_types.size()):
-		var wtype: Constants.WagonType = wagon_types[i]
-
-		var btn_global := container.position + Vector2(0, i * 90) + Vector2(280, 5)
-		if _is_in_rect(pos, btn_global, Vector2(110, 45)):
-			_try_buy_wagon(wtype)
+func _handle_upgrade_input(event: InputEvent) -> void:
+	if not (event is InputEventScreenTouch or event is InputEventMouseButton):
+		return
+	if not _is_pressed(event):
+		return
+	var pos := _get_event_position(event)
+	var close_btn: Control = _upgrade_panel.get_node("UpgradeCloseButton")
+	if _is_in_rect(pos, close_btn.position, close_btn.size):
+		_upgrade_visible = false
+		_upgrade_panel.visible = false
+		_refresh_all()
+		return
+	if _upgrade_respec_rect.has_point(pos):
+		_try_respec_selected_target()
+		return
+	for entry in _upgrade_entries:
+		var rect: Rect2 = entry.get("rect", Rect2())
+		if rect.has_point(pos):
+			_try_upgrade_entry(entry)
 			return
 
 ## Lifecycle/helper logic for `_on_press`.
@@ -555,6 +799,21 @@ func _on_press(pos: Vector2) -> void:
 	var shop_btn: Control = get_node("ShopButton")
 	if _is_in_rect(pos, shop_btn.position, shop_btn.size):
 		_open_shop()
+		return
+
+	var achievements_btn: Control = get_node("AchievementsButton")
+	if _is_in_rect(pos, achievements_btn.position, achievements_btn.size):
+		get_tree().change_scene_to_file("res://src/scenes/achievements/achievements_scene.tscn")
+		return
+
+	var settings_btn: Control = get_node("SettingsButton")
+	if _is_in_rect(pos, settings_btn.position, settings_btn.size):
+		get_tree().change_scene_to_file("res://src/scenes/settings/settings_scene.tscn")
+		return
+
+	var upgrade_btn: Control = get_node("UpgradeButton")
+	if _is_in_rect(pos, upgrade_btn.position, upgrade_btn.size):
+		_open_upgrade()
 		return
 
 	var go_btn: Control = get_node("GoButton")
@@ -624,6 +883,7 @@ func _start_drag_from_pool(index: int, pos: Vector2) -> void:
 	_drag_source = "pool"
 	_drag_index = index
 	_drag_wagon = available[index]
+	_set_upgrade_target_wagon(_drag_wagon)
 
 	_drag_node = ColorRect.new()
 	_drag_node.size = Vector2(WAGON_SPRITE_W, WAGON_SPRITE_H)
@@ -645,6 +905,7 @@ func _start_drag_from_train(index: int, pos: Vector2) -> void:
 	_drag_source = "train"
 	_drag_index = index
 	_drag_wagon = wagons[index]
+	_set_upgrade_target_wagon(_drag_wagon)
 
 	_drag_node = ColorRect.new()
 	_drag_node.size = Vector2(WAGON_SPRITE_W, WAGON_SPRITE_H)
@@ -664,6 +925,8 @@ func _add_wagon_to_train_from_pool() -> void:
 	if config.add_wagon(_drag_wagon):
 		gm.inventory.mark_wagon_in_use(_drag_wagon)
 		gm.sync_trip_wagon_count()
+		if gm.tutorial_manager:
+			gm.tutorial_manager.notify("wagon_added")
 
 ## Lifecycle/helper logic for `_remove_wagon_from_train`.
 func _remove_wagon_from_train() -> void:
@@ -682,6 +945,7 @@ func _select_locomotive(index: int) -> void:
 		return
 
 	var loco: LocomotiveData = locos[index]
+	_set_upgrade_target_locomotive(loco.id)
 	var old_config: TrainConfig = gm.train_config
 
 	for wagon in old_config.get_wagons():
@@ -704,12 +968,188 @@ func _open_shop() -> void:
 	_shop_panel.visible = true
 	_refresh_shop()
 
+func _open_upgrade() -> void:
+	_upgrade_visible = true
+	_upgrade_panel.visible = true
+	_refresh_upgrade_panel()
+
 ## Lifecycle/helper logic for `_try_buy_wagon`.
 func _try_buy_wagon(wagon_type: Constants.WagonType) -> void:
 	var gm: Node = _get_game_manager()
-	if gm.inventory.buy_wagon(wagon_type):
+	if gm.inventory.buy_wagon_with_requirement(wagon_type, _wagon_required_reputation(wagon_type), gm.reputation):
 		_refresh_shop()
 		_refresh_money()
+
+func _wagon_required_reputation(wagon_type: int) -> float:
+	match wagon_type:
+		Constants.WagonType.VIP:
+			return Balance.WAGON_REPUTATION_VIP
+		Constants.WagonType.DINING:
+			return Balance.WAGON_REPUTATION_DINING
+		_:
+			return 0.0
+
+func _try_buy_locomotive(loco_id: String, required_reputation: float) -> void:
+	var gm: Node = _get_game_manager()
+	if gm.inventory.buy_locomotive(loco_id, required_reputation, gm.reputation):
+		_refresh_shop()
+		_refresh_all()
+
+func _try_upgrade_entry(entry: Dictionary) -> void:
+	var gm: Node = _get_game_manager()
+	var kind: String = str(entry.get("kind", ""))
+	var target_id: String = str(entry.get("id", ""))
+	var upgrade_type: int = int(entry.get("upgrade_type", -1))
+	var success: bool = false
+	if kind == "locomotive":
+		success = gm.upgrade_system.upgrade_locomotive(target_id, upgrade_type)
+	else:
+		success = gm.upgrade_system.upgrade_wagon(target_id, int(entry.get("wagon_type", Constants.WagonType.ECONOMY)), upgrade_type)
+	if success:
+		gm.sync_trip_wagon_count()
+	_refresh_all()
+	_refresh_upgrade_panel()
+
+func _try_respec_selected_target() -> void:
+	var gm: Node = _get_game_manager()
+	var kind: String = str(_selected_upgrade_target.get("kind", "locomotive"))
+	var target_id: String = str(_selected_upgrade_target.get("id", gm.train_config.get_locomotive().id))
+	var success: bool = false
+	if kind == "locomotive":
+		success = gm.upgrade_system.respec_locomotive(target_id)
+	else:
+		success = gm.upgrade_system.respec_wagon(target_id)
+	if success:
+		gm.sync_trip_wagon_count()
+	_refresh_all()
+	_refresh_upgrade_panel()
+
+func _create_upgrade_row(title: String, level: int, next_level: int, cost: int, effect_text: String, can_upgrade: bool) -> Control:
+	var row := Control.new()
+	row.size = Vector2(420, 80)
+	var row_bg := ColorRect.new()
+	row_bg.position = Vector2.ZERO
+	row_bg.size = row.size
+	row_bg.color = Color("#123456")
+	row.add_child(row_bg)
+
+	var name_label := Label.new()
+	name_label.text = "%s (Lv.%d)" % [title, level]
+	name_label.position = Vector2(10, 8)
+	name_label.size = Vector2(260, 20)
+	name_label.add_theme_font_size_override("font_size", 14)
+	name_label.add_theme_color_override("font_color", COLOR_TEXT)
+	row.add_child(name_label)
+
+	var effect_label := Label.new()
+	effect_label.text = effect_text
+	effect_label.position = Vector2(10, 30)
+	effect_label.size = Vector2(280, 18)
+	effect_label.add_theme_font_size_override("font_size", 11)
+	effect_label.add_theme_color_override("font_color", Color("#95a5a6"))
+	row.add_child(effect_label)
+
+	var cost_label := Label.new()
+	cost_label.text = I18n.t("garage.upgrade.cost", [next_level, cost])
+	cost_label.position = Vector2(10, 52)
+	cost_label.size = Vector2(260, 18)
+	cost_label.add_theme_font_size_override("font_size", 11)
+	cost_label.add_theme_color_override("font_color", Color("#f1c40f"))
+	row.add_child(cost_label)
+
+	var upgrade_btn := _create_button(I18n.t("garage.upgrade.button"), Vector2(300, 8), Vector2(110, 36), COLOR_GREEN if can_upgrade else COLOR_BUTTON_DISABLED)
+	row.add_child(upgrade_btn)
+	return row
+
+func _set_upgrade_target_locomotive(loco_id: String) -> void:
+	_selected_upgrade_target = {"kind": "locomotive", "id": loco_id}
+
+func _set_upgrade_target_wagon(wagon: WagonData) -> void:
+	if wagon == null:
+		return
+	_selected_upgrade_target = {"kind": "wagon", "id": wagon.id}
+
+func _get_upgrade_target_name() -> String:
+	var gm: Node = _get_game_manager()
+	var kind: String = str(_selected_upgrade_target.get("kind", "locomotive"))
+	var target_id: String = str(_selected_upgrade_target.get("id", gm.train_config.get_locomotive().id))
+	if kind == "locomotive":
+		return I18n.t("locomotive.%s" % target_id)
+	var wagon_data: Variant = _find_wagon_by_id(target_id)
+	if wagon_data == null:
+		return I18n.t("garage.upgrade.unknown_target")
+	var wagon: WagonData = wagon_data as WagonData
+	return "%s #%s" % [_get_wagon_type_name(wagon.type), target_id.substr(0, mini(6, target_id.length()))]
+
+func _find_wagon_by_id(wagon_id: String):
+	var gm: Node = _get_game_manager()
+	for wagon in gm.inventory.get_wagons():
+		var w: WagonData = wagon
+		if w.id == wagon_id:
+			return w
+	return null
+
+func _loco_upgrade_name_key(upgrade_type: int) -> String:
+	match upgrade_type:
+		Constants.UpgradeType.SPEED:
+			return "garage.upgrade.loco.speed"
+		Constants.UpgradeType.CAPACITY:
+			return "garage.upgrade.loco.capacity"
+		Constants.UpgradeType.FUEL_EFFICIENCY:
+			return "garage.upgrade.loco.fuel"
+		Constants.UpgradeType.DURABILITY:
+			return "garage.upgrade.loco.durability"
+		_:
+			return "garage.upgrade.unknown_target"
+
+func _wagon_upgrade_name_key(upgrade_type: int) -> String:
+	match upgrade_type:
+		Constants.WagonUpgradeType.COMFORT:
+			return "garage.upgrade.wagon.comfort"
+		Constants.WagonUpgradeType.CAPACITY:
+			return "garage.upgrade.wagon.capacity"
+		Constants.WagonUpgradeType.MAINTENANCE:
+			return "garage.upgrade.wagon.maintenance"
+		_:
+			return "garage.upgrade.unknown_target"
+
+func _upgrade_reason_key(reason: String) -> String:
+	match reason:
+		"insufficient_money":
+			return "garage.upgrade.reason.money"
+		"insufficient_reputation":
+			return "garage.upgrade.reason.reputation"
+		"line_not_completed":
+			return "garage.upgrade.reason.line"
+		"max_level":
+			return "garage.upgrade.reason.max"
+		_:
+			return "garage.upgrade.reason.generic"
+
+func _loco_upgrade_effect_text(upgrade_type: int) -> String:
+	match upgrade_type:
+		Constants.UpgradeType.SPEED:
+			return I18n.t("garage.upgrade.effect.speed")
+		Constants.UpgradeType.CAPACITY:
+			return I18n.t("garage.upgrade.effect.capacity")
+		Constants.UpgradeType.FUEL_EFFICIENCY:
+			return I18n.t("garage.upgrade.effect.fuel")
+		Constants.UpgradeType.DURABILITY:
+			return I18n.t("garage.upgrade.effect.durability")
+		_:
+			return I18n.t("garage.upgrade.reason.generic")
+
+func _wagon_upgrade_effect_text(upgrade_type: int, wagon_type: int) -> String:
+	match upgrade_type:
+		Constants.WagonUpgradeType.COMFORT:
+			return I18n.t("garage.upgrade.effect.wagon.comfort")
+		Constants.WagonUpgradeType.CAPACITY:
+			var amount: int = Balance.UPGRADE_WAGON_CAPACITY_CARGO_PER_LEVEL if wagon_type == Constants.WagonType.CARGO else Balance.UPGRADE_WAGON_CAPACITY_PASSENGER_PER_LEVEL
+			return I18n.t("garage.upgrade.effect.wagon.capacity", [amount])
+		Constants.WagonUpgradeType.MAINTENANCE:
+			return I18n.t("garage.upgrade.effect.wagon.maintenance")
+		_:
+			return I18n.t("garage.upgrade.reason.generic")
 
 ## Lifecycle/helper logic for `_go_to_station`.
 func _go_to_station() -> void:
@@ -807,3 +1247,18 @@ func _get_fuel_name(ftype: Constants.FuelType) -> String:
 		Constants.FuelType.DIESEL_NEW: return I18n.t("fuel.type.diesel_new")
 		Constants.FuelType.ELECTRIC: return I18n.t("fuel.type.electric")
 		_: return "?"
+
+func _apply_accessibility() -> void:
+	var gm: Node = _get_game_manager()
+	if gm and gm.settings_system:
+		gm.settings_system.apply_font_scale_recursive(self)
+
+func _show_second_trip_reminder() -> void:
+	var gm: Node = _get_game_manager()
+	if gm == null:
+		return
+	if gm.total_trips != 1:
+		return
+	var conductor: Node = get_node_or_null("/root/ConductorManager")
+	if conductor:
+		conductor.show_runtime_tip("tip_tutorial_trip2_garage", I18n.t("tutorial.trip2.garage"))

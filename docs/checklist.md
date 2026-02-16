@@ -1,8 +1,8 @@
 # Demir Yolcusu — Faz Checklist
 
-**Son Güncelleme:** ___________  
-**Aktif Faz:** ___  
-**Toplam Test:** ___ / ___ PASSED
+**Son Güncelleme:** 2026-02-16  
+**Aktif Faz:** 9 (devam ediyor)  
+**Toplam Test:** 359 / 359 PASSED
 
 > Bu dosyayı her faz sonunda güncelle. Codex/Claude Code'a "bu checklist'i kontrol et" diyerek durumu doğrulat.
 
@@ -18,9 +18,9 @@
 | 4 | Garaj + Tren Yönetimi | ✅ Tamamlandı | — |
 | 5 | Harita + Seyir | ✅ Tamamlandı | 49 |
 | 6 | Yakıt + Özet + Kayıt + Kondüktör | ✅ Tamamlandı | 20+ |
-| 7 | Görevler + Olaylar + Kargo | 🔄 Devam ediyor | — |
-| 8 | Dükkan + Yükseltmeler | ⬜ Başlanmadı | — |
-| 9 | Başarımlar + Zorluk + Tutorial | ⬜ Başlanmadı | — |
+| 7 | Görevler + Olaylar + Kargo | ✅ Tamamlandı | 24+ |
+| 8 | Dükkan + Yükseltmeler | ✅ Tamamlandı | 20+ |
+| 9 | Başarımlar + Zorluk + Tutorial | 🟨 Devam Ediyor | 22+ |
 | 10 | Ses + Görsel + MVP Final | ⬜ Başlanmadı | — |
 | 11 | Marmara Hattı (Post-MVP) | ⬜ Başlanmadı | — |
 | 12 | İç Anadolu Hattı (Post-MVP) | ⬜ Başlanmadı | — |
@@ -208,191 +208,192 @@
 
 ---
 
-## Faz 7 — Görevler + Rastgele Olaylar + Kargo 🔄
+## Faz 7 — Görevler + Rastgele Olaylar + Kargo ✅
 
 ### 7.1 Görev Sistemi (QuestSystem)
-- [ ] QuestData veri modeli (id, title, type, conditions, rewards, status)
-- [ ] QuestSystem mantığı
-    - [ ] Durum geçişleri: LOCKED → AVAILABLE → ACTIVE → COMPLETED
-    - [ ] Zincir sistemi: Tamamla → sonraki açılsın
-    - [ ] Koşul kontrolü (TRANSPORT: yolcu say, EXPLORE: durak uğra, CARGO_DELIVERY: kargo teslim)
-    - [ ] Ödül dağıtımı (EconomySystem + ReputationSystem)
-    - [ ] EventBus sinyalleri (quest_started, quest_progress, quest_completed)
-- [ ] Ege görev zinciri (5 görev)
-    - [ ] ege_01: İlk Sefer (Torbalı'ya git) → 100 DA + 0.2 ★
-    - [ ] ege_02: Efes Yolcuları (10 yolcu Selçuk'a) → 150 DA + 0.3 ★
-    - [ ] ege_03: Aydın Zeytini (kargo teslim) → 200 DA + 0.3 ★
-    - [ ] ege_04: Nazilli Ekspresi (tek seferde 20 yolcu) → 250 DA + 0.5 ★
-    - [ ] ege_05: Denizli Yolu (tam sefer) → 500 DA + 1.0 ★
-- [ ] Görev UI
-    - [ ] Harita: aktif görev paneli (sol alt)
-    - [ ] Harita: hedef durağında "!" ikonu
-    - [ ] Durak: görev yolcusunda sarı vurgu
-    - [ ] Görev tamamlanma popup + kondüktör kutlama
-    - [ ] Özet: görev ödülü satırı
-- [ ] Görev save/load entegrasyonu
-- [ ] TDD testleri geçiyor
+- [x] QuestData veri modeli (id, title, type, conditions, rewards, status)
+- [x] QuestSystem mantığı
+    - [x] Durum geçişleri: LOCKED → AVAILABLE → ACTIVE → COMPLETED
+    - [x] Zincir sistemi: Tamamla → sonraki açılsın
+    - [x] Koşul kontrolü (TRANSPORT: yolcu say, EXPLORE: durak uğra, CARGO_DELIVERY: kargo teslim)
+    - [x] Ödül dağıtımı (EconomySystem + ReputationSystem)
+    - [x] EventBus sinyalleri (quest_started, quest_progress, quest_completed)
+- [x] Ege görev zinciri (5 görev)
+    - [x] ege_01: İlk Sefer (Torbalı'ya git) → 100 DA + 0.2 ★
+    - [x] ege_02: Efes Yolcuları (10 yolcu Selçuk'a) → 150 DA + 0.3 ★
+    - [x] ege_03: Aydın Zeytini (kargo teslim) → 200 DA + 0.3 ★
+    - [x] ege_04: Nazilli Ekspresi (tek seferde 20 yolcu) → 250 DA + 0.5 ★
+    - [x] ege_05: Denizli Yolu (tam sefer) → 500 DA + 1.0 ★
+- [x] Görev UI
+    - [x] Harita: aktif görev paneli (sol alt)
+    - [x] Harita: hedef durağında "!" ikonu
+    - [x] Durak: görev yolcusunda sarı vurgu
+    - [x] Görev tamamlanma popup + kondüktör kutlama
+    - [x] Özet: görev ödülü satırı
+- [x] Görev save/load entegrasyonu
+- [x] TDD testleri geçiyor
 
 ### 7.2 Rastgele Olay Sistemi (RandomEventSystem)
-- [ ] RandomEventData veri modeli (id, type, trigger, probability, effect)
-- [ ] RandomEventSystem mantığı
-    - [ ] Tetiklenme zamanları (ON_TRAVEL, ON_STATION_ARRIVE, ON_TRIP_START)
-    - [ ] Olasılık kontrolü (balance.gd'den)
-    - [ ] Max 2 olay per sefer
-    - [ ] Aynı tipten max 1 per sefer
-    - [ ] Geçici efektler (sadece mevcut durak/sefer)
-    - [ ] EventBus sinyali (random_event_triggered)
-- [ ] MVP olayları (6 adet)
-    - [ ] Motor Arızası → hız ×0.5
-    - [ ] Kapı Arızası → durak süresi -5 sn
-    - [ ] Sürpriz VIP → ekstra VIP yolcu
-    - [ ] Hasta Yolcu → indir = +0.5 ★
-    - [ ] Yakıt Zamı → yakıt fiyat ×1.5
-    - [ ] Festival → yolcu ×2
-- [ ] Olay UI
-    - [ ] Üst banner (3 sn, ikon + başlık)
-    - [ ] Kondüktör otomatik mesaj
-    - [ ] Aktif efekt ikonu HUD'da
-- [ ] Olay → sahne entegrasyonu
-    - [ ] Motor arızası → travel_scene hız değişimi
-    - [ ] Kapı arızası → station_scene timer azaltma
-    - [ ] Festival → station_scene yolcu çarpanı
-    - [ ] Sürpriz VIP → station_scene ekstra spawn
-    - [ ] Hasta yolcu → station_scene "İndir" butonu
-    - [ ] Yakıt zamı → fuel_system fiyat çarpanı
-- [ ] TDD testleri geçiyor
+- [x] RandomEventData veri modeli (id, type, trigger, probability, effect)
+- [x] RandomEventSystem mantığı
+    - [x] Tetiklenme zamanları (ON_TRAVEL, ON_STATION_ARRIVE, ON_TRIP_START)
+    - [x] Olasılık kontrolü (balance.gd'den)
+    - [x] Max 2 olay per sefer
+    - [x] Aynı tipten max 1 per sefer
+    - [x] Geçici efektler (sadece mevcut durak/sefer)
+    - [x] EventBus sinyali (random_event_triggered)
+- [x] MVP olayları (6 adet)
+    - [x] Motor Arızası → hız ×0.5
+    - [x] Kapı Arızası → durak süresi -5 sn
+    - [x] Sürpriz VIP → ekstra VIP yolcu
+    - [x] Hasta Yolcu → indir = +0.5 ★
+    - [x] Yakıt Zamı → yakıt fiyat ×1.5
+    - [x] Festival → yolcu ×2
+- [x] Olay UI
+    - [x] Üst banner (3 sn, ikon + başlık)
+    - [x] Kondüktör otomatik mesaj
+    - [x] Aktif efekt ikonu HUD'da
+- [x] Olay → sahne entegrasyonu
+    - [x] Motor arızası → travel_scene hız değişimi
+    - [x] Kapı arızası → station_scene timer azaltma
+    - [x] Festival → station_scene yolcu çarpanı
+    - [x] Sürpriz VIP → station_scene ekstra spawn
+    - [x] Hasta yolcu → station_scene "İndir" butonu
+    - [x] Yakıt zamı → fuel_system fiyat çarpanı
+- [x] TDD testleri geçiyor
 
 ### 7.3 Kargo Sistemi (CargoSystem)
-- [ ] CargoData veri modeli (id, name, origin, destination, reward, weight, deadline)
-- [ ] CargoSystem mantığı
-    - [ ] Kargo vagonu kontrolü (yoksa yüklenemez)
-    - [ ] Kapasite kontrolü
-    - [ ] Durakta rastgele kargo teklifi (0-2)
-    - [ ] Yükleme / boşaltma
-    - [ ] Hedef durağa varınca otomatik teslim + para
-    - [ ] Deadline azaltma + expire (ceza yok)
-    - [ ] EventBus sinyalleri (cargo_loaded, cargo_delivered, cargo_expired)
-- [ ] Ege kargoları (7 ürün havuzu)
-    - [ ] İzmir→Denizli: Elektronik Parça (80 DA)
-    - [ ] Selçuk→İzmir: Zeytin Yağı (60 DA)
-    - [ ] Aydın→İzmir: İncir Kutusu (50 DA)
-    - [ ] Denizli→Aydın: Tekstil Balya (70 DA)
-    - [ ] Torbalı→Nazilli: Tarım Malzemesi (40 DA)
-    - [ ] Nazilli→Selçuk: Pamuk Balyası (45 DA)
-    - [ ] İzmir→Aydın: Makine Yedek Parça (55 DA)
-- [ ] Kargo UI
-    - [ ] Durak: kargo teklif paneli + "Yükle" butonu
-    - [ ] Tren: kargo vagonunda kutu ikonu + sayı
-    - [ ] Seyir: kargo durumu bilgisi
-    - [ ] Teslim popup
-    - [ ] Özet: kargo geliri satırı
-- [ ] Kargo save/load entegrasyonu
-- [ ] TDD testleri geçiyor
+- [x] CargoData veri modeli (id, name, origin, destination, reward, weight, deadline)
+- [x] CargoSystem mantığı
+    - [x] Kargo vagonu kontrolü (yoksa yüklenemez)
+    - [x] Kapasite kontrolü
+    - [x] Durakta rastgele kargo teklifi (0-2)
+    - [x] Yükleme / boşaltma
+    - [x] Hedef durağa varınca otomatik teslim + para
+    - [x] Deadline azaltma + expire (ceza yok)
+    - [x] EventBus sinyalleri (cargo_loaded, cargo_delivered, cargo_expired)
+- [x] Ege kargoları (7 ürün havuzu)
+    - [x] İzmir→Denizli: Elektronik Parça (80 DA)
+    - [x] Selçuk→İzmir: Zeytin Yağı (60 DA)
+    - [x] Aydın→İzmir: İncir Kutusu (50 DA)
+    - [x] Denizli→Aydın: Tekstil Balya (70 DA)
+    - [x] Torbalı→Nazilli: Tarım Malzemesi (40 DA)
+    - [x] Nazilli→Selçuk: Pamuk Balyası (45 DA)
+    - [x] İzmir→Aydın: Makine Yedek Parça (55 DA)
+- [x] Kargo UI
+    - [x] Durak: kargo teklif paneli + "Yükle" butonu
+    - [x] Tren: kargo vagonunda kutu ikonu + sayı
+    - [x] Seyir: kargo durumu bilgisi
+    - [x] Teslim popup
+    - [x] Özet: kargo geliri satırı
+- [x] Kargo save/load entegrasyonu
+- [x] TDD testleri geçiyor
 
 ### 7.4 Entegrasyon
-- [ ] ege_03 görevi CargoSystem ile bağlı (Aydın Zeytini)
-- [ ] Sefer özeti genişletildi (kargo + görev + olay satırları)
-- [ ] Save/load genişletildi (görev + kargo + olay verileri)
-- [ ] Harita: durak ikonları ("!" görev, "📦" kargo)
-- [ ] Tüm eski testler hâlâ geçiyor
-- [ ] Tam akış testi: Garaj → Harita → Seyir (olay) → Durak (kargo+yolcu+görev) → Özet → Harita
+- [x] ege_03 görevi CargoSystem ile bağlı (Aydın Zeytini)
+- [x] Sefer özeti genişletildi (kargo + görev + olay satırları)
+- [x] Save/load genişletildi (görev + kargo + olay verileri)
+- [x] Harita: durak ikonları ("!" görev, "📦" kargo)
+- [x] Tüm eski testler hâlâ geçiyor
+- [x] Tam akış testi: Garaj → Harita → Seyir (olay) → Durak (kargo+yolcu+görev) → Özet → Harita
 
 ---
 
-## Faz 8 — Dükkan + Yükseltmeler ⬜
+## Faz 8 — Dükkan + Yükseltmeler ✅
 
 ### 8.1 Durak Dükkan Sistemi
-- [ ] ShopData veri modeli (station_id, shop_type, level, income_per_trip)
-- [ ] Dükkan tipleri
-    - [ ] Büfe/Kantin → yolcu memnuniyeti + pasif gelir
-    - [ ] Hediyelik Eşya → bölgesel pasif gelir
-    - [ ] Kargo Deposu → kargo kapasitesi artışı
-- [ ] Dükkan mantığı
-    - [ ] Aç (para + itibar koşulu)
-    - [ ] Yükselt (seviye 1-3)
-    - [ ] Pasif gelir (sefer sonunda otomatik)
-    - [ ] Sınırlı slot per durak
-- [ ] Dükkan UI
-    - [ ] Durak sahnesinde "Dükkan" butonu
-    - [ ] Dükkan paneli (mevcut + satın alınabilir)
-    - [ ] Seviye göstergesi
-- [ ] Dükkan geliri sefer özetine ekleme
-- [ ] Save/load: dükkan seviyeleri
-- [ ] TDD testleri
+- [x] ShopData veri modeli (station_id, shop_type, level, income_per_trip)
+- [x] Dükkan tipleri
+    - [x] Büfe/Kantin → yolcu memnuniyeti + pasif gelir
+    - [x] Hediyelik Eşya → bölgesel pasif gelir
+    - [x] Kargo Deposu → kargo teklifi artışı
+- [x] Dükkan mantığı
+    - [x] Aç (para + itibar koşulu)
+    - [x] Yükselt (seviye 1-3)
+    - [x] Pasif gelir (sefer sonunda otomatik)
+    - [x] Sınırlı slot per durak
+- [x] Dükkan UI
+    - [x] Durak sahnesinde "Dükkan" butonu
+    - [x] Dükkan paneli (mevcut + satın alınabilir)
+    - [x] Seviye göstergesi
+- [x] Dükkan geliri sefer özetine ekleme
+- [x] Save/load: dükkan seviyeleri
+- [x] TDD testleri
 
 ### 8.2 Lokomotif/Vagon Yükseltme
-- [ ] Upgrade veri modeli (entity_id, upgrade_type, level, cost)
-- [ ] Lokomotif upgrade'leri (4 eksen)
-    - [ ] Hız → daha hızlı seferler
-    - [ ] Kapasite → daha çok vagon çekme
-    - [ ] Yakıt Verimliliği → daha az tüketim
-    - [ ] Dayanıklılık → daha az arıza
-- [ ] Vagon upgrade'leri (4 eksen)
-    - [ ] Konfor → yolcu memnuniyeti bonusu
-    - [ ] Kapasite → daha çok koltuk
-    - [ ] Görsel → renk/desen seçimi
-    - [ ] Bakım Hızı → daha az temizlik
-- [ ] Upgrade UI (garaj sahnesinde)
-    - [ ] Lokomotif/vagon seçince upgrade paneli
-    - [ ] Seviye + maliyet + efekt gösterimi
-    - [ ] "Yükselt" butonu
-- [ ] Üçlü kilit: Para + İtibar + Hat tamamlama
-- [ ] Kısmi respec (son 1-2 upgrade geri alınabilir)
-- [ ] Save/load: upgrade seviyeleri
-- [ ] TDD testleri
+- [x] Upgrade veri modeli (entity_id, upgrade_type, level, cost)
+- [x] Lokomotif upgrade'leri (4 eksen)
+    - [x] Hız → daha hızlı seferler
+    - [x] Kapasite → daha çok vagon çekme
+    - [x] Yakıt Verimliliği → daha az tüketim
+    - [x] Dayanıklılık → daha az arıza
+- [x] Vagon upgrade'leri (3 eksen)
+    - [x] Konfor → yolcu memnuniyeti bonusu
+    - [x] Kapasite → daha çok koltuk/kutu
+    - [x] Bakım Hızı → daha az temizlik
+- [x] Upgrade UI (garaj sahnesinde)
+    - [x] Lokomotif/vagon seçince upgrade paneli
+    - [x] Seviye + maliyet + efekt gösterimi
+    - [x] "Yükselt" butonu
+- [x] Üçlü kilit: Para + İtibar + Hat tamamlama
+- [x] Kısmi respec (son 1-2 upgrade geri alınabilir)
+- [x] Save/load: upgrade seviyeleri
+- [x] TDD testleri
 
 ### 8.3 Garaj Mağaza Genişletme
-- [ ] Lokomotif satışı ekleme
-    - [ ] "Demir Yürek" (kömür, yeni) → daha iyi Kara Duman
-    - [ ] "Boz Kaplan" (dizel, eski) → itibar kilidi ile
-- [ ] Vagon: VIP + Yemekli vagon satışı ekleme
-- [ ] Fiyatlar balance.gd'den
-- [ ] İtibar kilidi kontrolü
+- [x] Lokomotif satışı ekleme
+    - [x] "Demir Yürek" (kömür, yeni) → daha iyi Kara Duman
+    - [x] "Boz Kaplan" (dizel, eski) → itibar kilidi ile
+- [x] Vagon: VIP + Yemekli vagon satışı ekleme
+- [x] Fiyatlar balance.gd'den
+- [x] İtibar kilidi kontrolü
 
 ---
 
-## Faz 9 — Başarımlar + Zorluk + Tutorial ⬜
+## Faz 9 — Başarımlar + Zorluk + Tutorial 🟨
 
 ### 9.1 Başarım Sistemi (AchievementSystem)
-- [ ] AchievementData veri modeli (id, category, title, description, condition, reward)
-- [ ] 4 kategori
-    - [ ] Sefer: "İlk Sefer", "10. Sefer", "100 km", "500 km", "1000 km"
-    - [ ] Yolcu: "100 Yolcu", "İlk VIP", "0 Kayıp Sefer", "50 VIP"
-    - [ ] Koleksiyon: "İlk Yükseltme", "2. Lokomotif", "Tüm Vagon Tipleri"
-    - [ ] Keşif: "Tüm Ege Durakları", "Gece Seferi", "Festival Deneyimi"
-- [ ] Otomatik takip (EventBus'tan dinle)
-- [ ] Kademeli görünürlük (kazandıkça sonraki açığa çıkar)
-- [ ] Ödül: Rozet + bonus para
-- [ ] Başarım popup (kondüktör kutlama + rozet animasyonu)
-- [ ] Başarım vitrini ekranı
-- [ ] Save/load: başarım durumları
-- [ ] TDD testleri
+- [x] AchievementData veri modeli (id, category, title, description, condition, reward)
+- [x] 4 kategori (Sefer/Yolcu/Koleksiyon/Keşif)
+- [x] 16 başarım tanımı eklendi (i18n anahtarları ile)
+- [x] Otomatik takip (EventBus dinleyicileri)
+- [x] Kademeli görünürlük (visible_after zinciri)
+- [x] Ödül: bonus para (EconomySystem.earn)
+- [x] Başarım popup (kondüktör mesajı + üst banner)
+- [x] Başarım vitrini ekranı (kategori sekmeleri + ilerleme)
+- [x] HUD'da toplam başarım sayacı (🏆 x/y)
+- [x] Save/load: başarım durumları + sayaçlar
+- [x] TDD testleri
 
 ### 9.2 Dinamik Zorluk Sistemi (DifficultySystem)
-- [ ] Son 3 sefer performansını takip et
-- [ ] 4 parametre otomatik ayarla
-    - [ ] Durak zaman limiti çarpanı
-    - [ ] Yolcu sabır çarpanı
-    - [ ] Arıza sıklığı çarpanı
-    - [ ] Bilet geliri çarpanı
-- [ ] Görünmez (oyuncu fark etmez)
-- [ ] Sınırlar: Çok kolay/çok zor olmayacak şekilde clamp
-- [ ] TDD testleri
+- [x] Son 3 sefer performansını takip et
+- [x] 4 parametre otomatik ayarla
+    - [x] Durak zaman limiti çarpanı
+    - [x] Yolcu sabır çarpanı
+    - [x] Arıza sıklığı çarpanı
+    - [x] Bilet geliri çarpanı
+- [x] Görünmez (oyuncuya açık menü yok)
+- [x] Clamp sınırları (0.7 - 1.5)
+- [x] Save/load: son 3 skor
+- [x] TDD testleri
 
 ### 9.3 Tutorial İyileştirme
-- [ ] Kondüktör rehberli ilk 2-3 sefer (adım adım)
-    - [ ] Garaj: "Şimdi vagonu buraya sürükle"
-    - [ ] Harita: "Torbalı'yı seç, ilk seferimiz kısa olsun"
-    - [ ] Durak: "Yolcuyu tut ve vagona bırak"
-    - [ ] Seyir: "Trenimiz yolda, manzaranın keyfini çıkar"
-- [ ] Akıllı atlama: 2. save slotunda tutorial otomatik atlanır
-- [ ] Tutorial durumu save'e yazılır
-- [ ] İpucu → butonu vurgulama efekti (glow/pulse)
+- [x] Kondüktör rehberli adım bazlı tutorial akışı (MVP 6 adım)
+    - [x] Garaj (vagon ekleme)
+    - [x] Harita (durak seçimi)
+    - [x] Durak (ilk bindirme + süre uyarısı)
+    - [x] Seyir (hız kontrolü)
+    - [x] Özet (sefer sonucu)
+- [x] Akıllı atlama: 2. save slotunda tutorial otomatik atlanır
+- [x] Tutorial durumu save'e yazılır
+- [x] Balonda "Atla >" ve "Devam >" kontrolleri
+- [x] Hedef alan vurgulama efekti (glow/pulse)
 
 ### 9.4 Erişilebilirlik
-- [ ] Font boyutu: 3 seviye (küçük/orta/büyük)
-- [ ] Yavaş mod: 2× zaman limitleri
-- [ ] Ayarlar ekranında toggle
+- [x] Font boyutu: 3 seviye (küçük/orta/büyük)
+- [x] Yavaş mod: 2× zaman limitleri
+- [x] Ayarlar ekranı (ses + oynanış + görünüm + kayıt sil)
+- [x] Ayarları save/load ile kalıcılaştırma
 
 ---
 
@@ -508,7 +509,7 @@
 Her faz sonunda bu komutu Codex/Claude Code'a ver:
 
 ```
-Bu checklist'i kontrol et: docs/CHECKLIST.md
+Bu checklist'i kontrol et: docs/checklist.md
 1. Mevcut faz için tüm maddeler tamamlandı mı?
 2. Tüm testler hâlâ geçiyor mu? (önceki fazlar dahil)
 3. Save/load çalışıyor mu? (kaydet → kapat → aç → aynı durum mu?)

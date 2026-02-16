@@ -146,6 +146,13 @@ func get_active_progress() -> Dictionary:
 		return {}
 	return get_quest_progress(_active_quest_id)
 
+func get_completed_count() -> int:
+	var count: int = 0
+	for quest_id in _quests.keys():
+		if _get_status(str(quest_id)) == Constants.QuestState.COMPLETED:
+			count += 1
+	return count
+
 ## Handles `process_station_arrived`.
 func process_station_arrived(station_id: String) -> void:
 	if _active_quest_id.is_empty():

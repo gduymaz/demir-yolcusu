@@ -6,6 +6,7 @@ extends RefCounted
 
 var _locomotive: LocomotiveData
 var _wagons: Array = []
+var _max_wagon_bonus: int = 0
 
 ## Lifecycle/helper logic for `_init`.
 func _init(locomotive: LocomotiveData) -> void:
@@ -18,8 +19,13 @@ func get_locomotive() -> LocomotiveData:
 ## Handles `set_locomotive`.
 func set_locomotive(locomotive: LocomotiveData) -> void:
 	_locomotive = locomotive
-	if _wagons.size() > _locomotive.max_wagons:
-		_wagons.resize(_locomotive.max_wagons)
+	if _wagons.size() > get_max_wagons():
+		_wagons.resize(get_max_wagons())
+
+func set_max_wagon_bonus(value: int) -> void:
+	_max_wagon_bonus = maxi(0, value)
+	if _wagons.size() > get_max_wagons():
+		_wagons.resize(get_max_wagons())
 
 ## Handles `get_wagons`.
 func get_wagons() -> Array:
@@ -31,11 +37,11 @@ func get_wagon_count() -> int:
 
 ## Handles `get_max_wagons`.
 func get_max_wagons() -> int:
-	return _locomotive.max_wagons
+	return _locomotive.max_wagons + _max_wagon_bonus
 
 ## Handles `is_full`.
 func is_full() -> bool:
-	return _wagons.size() >= _locomotive.max_wagons
+	return _wagons.size() >= get_max_wagons()
 
 ## Handles `add_wagon`.
 func add_wagon(wagon: WagonData) -> bool:

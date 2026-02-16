@@ -14,6 +14,8 @@ var _triggered_types: Dictionary = {}
 var _trip_event_count: int = 0
 var _trip_fuel_multiplier: float = 1.0
 var _roll_provider: Callable
+var _durability_multiplier: float = 1.0
+var _difficulty_breakdown_multiplier: float = 1.0
 
 ## Handles `setup`.
 func setup(event_bus: Node, economy: EconomySystem, reputation: ReputationSystem) -> void:
@@ -23,6 +25,14 @@ func setup(event_bus: Node, economy: EconomySystem, reputation: ReputationSystem
 	_setup_default_events()
 	_roll_provider = func() -> float:
 		return randf()
+	_durability_multiplier = 1.0
+	_difficulty_breakdown_multiplier = 1.0
+
+func set_durability_multiplier(multiplier: float) -> void:
+	_durability_multiplier = clampf(multiplier, 0.1, 1.0)
+
+func set_difficulty_breakdown_multiplier(multiplier: float) -> void:
+	_difficulty_breakdown_multiplier = clampf(multiplier, Balance.DIFFICULTY_CLAMP_MIN, Balance.DIFFICULTY_CLAMP_MAX)
 
 ## Lifecycle/helper logic for `_setup_default_events`.
 func _setup_default_events() -> void:
@@ -103,7 +113,12 @@ func try_trigger(trigger: int) -> Dictionary:
 		var event_data: Dictionary = _events[event_id]
 		if not _can_trigger_event(event_data):
 			continue
-		if _roll() < float(event_data.get("probability", 0.0)):
+		var probability: float = float(event_data.get("probability", 0.0))
+		if int(event_data.get("type", -1)) == Constants.RandomEventType.TECHNICAL:
+			probability *= _durability_multiplier
+			probability *= _difficulty_breakdown_multiplier
+			probability = clampf(probability, 0.0, 1.0)
+		if _roll() < probability:
 			return _apply_event(event_data)
 	return {}
 

@@ -32,6 +32,21 @@ func get_locomotives() -> Array:
 func add_locomotive(locomotive: LocomotiveData) -> void:
 	_locomotives.append(locomotive)
 
+func buy_locomotive(loco_id: String, required_reputation: float, reputation: ReputationSystem) -> bool:
+	if has_locomotive(loco_id):
+		return false
+	if reputation != null and not reputation.meets_requirement(required_reputation):
+		return false
+	var loco := LocomotiveData.create(loco_id)
+	if loco == null:
+		return false
+	if not _economy.can_afford(loco.base_cost):
+		return false
+	if not _economy.spend(loco.base_cost, "locomotive_purchase"):
+		return false
+	_locomotives.append(loco)
+	return true
+
 ## Handles `has_locomotive`.
 func has_locomotive(loco_id: String) -> bool:
 	for loco in _locomotives:
@@ -58,6 +73,11 @@ func remove_wagon(index: int) -> WagonData:
 
 ## Handles `buy_wagon`.
 func buy_wagon(wagon_type: Constants.WagonType) -> bool:
+	return buy_wagon_with_requirement(wagon_type, 0.0, null)
+
+func buy_wagon_with_requirement(wagon_type: Constants.WagonType, required_reputation: float, reputation: ReputationSystem) -> bool:
+	if reputation != null and not reputation.meets_requirement(required_reputation):
+		return false
 	var price := get_wagon_price(wagon_type)
 	if not _economy.can_afford(price):
 		return false
@@ -122,6 +142,9 @@ func get_wagons_in_use_indices() -> Array:
 
 ## Handles `restore_inventory`.
 func restore_inventory(locomotive_ids: Array, wagon_types: Array, in_use_indices: Array) -> void:
+	restore_inventory_with_ids(locomotive_ids, wagon_types, in_use_indices, [])
+
+func restore_inventory_with_ids(locomotive_ids: Array, wagon_types: Array, in_use_indices: Array, wagon_ids: Array) -> void:
 	_locomotives.clear()
 	_wagons.clear()
 	_wagons_in_use.clear()
@@ -131,8 +154,11 @@ func restore_inventory(locomotive_ids: Array, wagon_types: Array, in_use_indices
 		if loco != null:
 			_locomotives.append(loco)
 
-	for wagon_type in wagon_types:
-		_wagons.append(WagonData.new(int(wagon_type)))
+	for i in range(wagon_types.size()):
+		var wagon := WagonData.new(int(wagon_types[i]))
+		if i < wagon_ids.size():
+			wagon.set_persistent_id(str(wagon_ids[i]))
+		_wagons.append(wagon)
 
 	for idx in in_use_indices:
 		var i := int(idx)

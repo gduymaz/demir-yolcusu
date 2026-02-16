@@ -15,6 +15,8 @@ var _offer_pool: Array = []
 var _current_offers: Array = []
 var _loaded_cargos: Array = []
 var _last_delivery_summary: Dictionary = {"count": 0, "total_reward": 0}
+var _offer_min_per_station: int = Balance.CARGO_OFFERS_MIN_PER_STATION
+var _offer_max_per_station: int = Balance.CARGO_OFFERS_MAX_PER_STATION
 
 var _roll_provider: Callable
 
@@ -49,6 +51,10 @@ func set_cargo_wagon_available(value: bool) -> void:
 ## Handles `set_cargo_capacity`.
 func set_cargo_capacity(value: int) -> void:
 	_cargo_capacity = maxi(0, value)
+
+func set_offer_range(min_count: int, max_count: int) -> void:
+	_offer_min_per_station = maxi(0, min_count)
+	_offer_max_per_station = maxi(_offer_min_per_station, max_count)
 
 ## Handles `get_current_offers`.
 func get_current_offers() -> Array:
@@ -112,8 +118,8 @@ func generate_offers(station_name: String, guaranteed_offer: Dictionary = {}) ->
 	if not guaranteed_offer.is_empty():
 		_current_offers.append(_build_offer(guaranteed_offer))
 
-	var target_count: int = Balance.CARGO_OFFERS_MIN_PER_STATION + int(floor(_roll() * float(Balance.CARGO_OFFERS_MAX_PER_STATION + 1)))
-	target_count = clampi(target_count, Balance.CARGO_OFFERS_MIN_PER_STATION, Balance.CARGO_OFFERS_MAX_PER_STATION)
+	var target_count: int = _offer_min_per_station + int(floor(_roll() * float(_offer_max_per_station + 1)))
+	target_count = clampi(target_count, _offer_min_per_station, _offer_max_per_station)
 
 	while _current_offers.size() < target_count and not candidates.is_empty():
 		var index: int = int(floor(_roll() * candidates.size()))
@@ -192,6 +198,8 @@ func get_save_data() -> Dictionary:
 		"offer_seq": _offer_seq,
 		"current_offers": _current_offers.duplicate(true),
 		"loaded_cargos": _loaded_cargos.duplicate(true),
+		"offer_min_per_station": _offer_min_per_station,
+		"offer_max_per_station": _offer_max_per_station,
 	}
 
 ## Handles `load_save_data`.
@@ -199,6 +207,8 @@ func load_save_data(data: Dictionary) -> void:
 	_offer_seq = int(data.get("offer_seq", 0))
 	_current_offers = data.get("current_offers", []).duplicate(true)
 	_loaded_cargos = data.get("loaded_cargos", []).duplicate(true)
+	_offer_min_per_station = int(data.get("offer_min_per_station", Balance.CARGO_OFFERS_MIN_PER_STATION))
+	_offer_max_per_station = int(data.get("offer_max_per_station", Balance.CARGO_OFFERS_MAX_PER_STATION))
 	_last_delivery_summary = {"count": 0, "total_reward": 0}
 
 ## Handles `consume_last_delivery_summary`.

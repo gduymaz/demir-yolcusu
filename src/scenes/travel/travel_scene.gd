@@ -50,6 +50,7 @@ var _event_icon_label: Label
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_build_scene()
+	_apply_accessibility()
 	_start_travel()
 
 ## Lifecycle/helper logic for `_process`.
@@ -321,7 +322,11 @@ func _start_travel() -> void:
 		else:
 			_event_icon_label.visible = false
 
-	_travel_duration = maxf(1.5, distance / 30.0) / maxf(0.1, _segment_speed_multiplier)
+	var speed_upgrade_multiplier: float = gm.get_locomotive_speed_multiplier() if gm.has_method("get_locomotive_speed_multiplier") else 1.0
+	var time_multiplier: float = gm.get_travel_time_multiplier() if gm.has_method("get_travel_time_multiplier") else 1.0
+	_travel_duration = maxf(1.5, distance / 30.0) * speed_upgrade_multiplier * time_multiplier / maxf(0.1, _segment_speed_multiplier)
+	if gm.tutorial_manager:
+		gm.tutorial_manager.notify("travel_started")
 
 	_fuel_label.text = I18n.t("travel.fuel_percent", [gm.fuel_system.get_fuel_percentage()])
 	_speed_label.text = I18n.t("travel.speed", [int(_travel_speed)])
@@ -494,3 +499,8 @@ func _is_pressed(event: InputEvent) -> bool:
 func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y
+
+func _apply_accessibility() -> void:
+	var gm: Node = _get_game_manager()
+	if gm and gm.settings_system:
+		gm.settings_system.apply_font_scale_recursive(self)

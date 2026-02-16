@@ -53,6 +53,7 @@ var _popup: Control = null
 func _ready() -> void:
 	_build_scene()
 	_refresh_all()
+	_apply_accessibility()
 
 ## Lifecycle/helper logic for `_build_scene`.
 func _build_scene() -> void:
@@ -239,6 +240,14 @@ func _build_buttons() -> void:
 	_start_button_bg = _start_button.get_child(0) as ColorRect
 	add_child(_start_button)
 
+	var achievements_btn := _create_button(I18n.t("map.button.achievements"), Vector2(20, BUTTON_BAR_Y - 54), Vector2(160, 44), Color("#9b59b6"))
+	achievements_btn.name = "AchievementsButton"
+	add_child(achievements_btn)
+
+	var settings_btn := _create_button(I18n.t("map.button.settings"), Vector2(190, BUTTON_BAR_Y - 54), Vector2(160, 44), Color("#34495e"))
+	settings_btn.name = "SettingsButton"
+	add_child(settings_btn)
+
 ## Lifecycle/helper logic for `_create_button`.
 func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color) -> Control:
 	var container := Control.new()
@@ -397,7 +406,7 @@ func _refresh_stop_badges() -> void:
 	for i in _stop_nodes.size():
 		var node: Control = _stop_nodes[i]
 		for child in node.get_children():
-			if child is Label and (child.name == "QuestBadge" or child.name == "CargoBadge"):
+			if child is Label and (child.name == "QuestBadge" or child.name == "CargoBadge" or child.name == "ShopBadge"):
 				child.queue_free()
 
 		var stop: Dictionary = gm.route.get_stop(i)
@@ -419,6 +428,15 @@ func _refresh_stop_badges() -> void:
 			cargo_badge.add_theme_font_size_override("font_size", 12)
 			cargo_badge.add_theme_color_override("font_color", Color("#2ecc71"))
 			node.add_child(cargo_badge)
+
+		if gm.shop_system and not gm.shop_system.get_station_shops(stop_name).is_empty():
+			var shop_badge := Label.new()
+			shop_badge.name = "ShopBadge"
+			shop_badge.text = I18n.t("map.badge.shop")
+			shop_badge.position = Vector2(14, -10)
+			shop_badge.add_theme_font_size_override("font_size", 12)
+			shop_badge.add_theme_color_override("font_color", Color("#f1c40f"))
+			node.add_child(shop_badge)
 
 ## Lifecycle/helper logic for `_is_quest_target_stop`.
 func _is_quest_target_stop(stop_name: String, active_quest: Dictionary) -> bool:
@@ -458,6 +476,16 @@ func _input(event: InputEvent) -> void:
 		get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
 		return
 
+	var achievements_btn: Control = get_node("AchievementsButton")
+	if _is_in_rect(pos, achievements_btn.position, achievements_btn.size):
+		get_tree().change_scene_to_file("res://src/scenes/achievements/achievements_scene.tscn")
+		return
+
+	var settings_btn: Control = get_node("SettingsButton")
+	if _is_in_rect(pos, settings_btn.position, settings_btn.size):
+		get_tree().change_scene_to_file("res://src/scenes/settings/settings_scene.tscn")
+		return
+
 	var start_btn: Control = get_node("StartButton")
 	if _is_in_rect(pos, start_btn.position, start_btn.size):
 		_try_start_trip()
@@ -491,6 +519,9 @@ func _on_stop_clicked(index: int) -> void:
 		else:
 
 			_selected_end = index
+			var gm: Node = _get_game_manager()
+			if gm and gm.tutorial_manager:
+				gm.tutorial_manager.notify("map_selected")
 	else:
 
 		_selected_start = index
@@ -572,3 +603,8 @@ func _should_ignore_mouse_event(event: InputEvent) -> bool:
 	if not emulate_touch:
 		return false
 	return event is InputEventMouseButton
+
+func _apply_accessibility() -> void:
+	var gm: Node = _get_game_manager()
+	if gm and gm.settings_system:
+		gm.settings_system.apply_font_scale_recursive(self)

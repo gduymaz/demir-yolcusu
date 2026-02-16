@@ -82,6 +82,32 @@ enum CargoStatus {
 	EXPIRED,
 }
 
+enum ShopType {
+	BUFFET,
+	SOUVENIR,
+	CARGO_DEPOT,
+}
+
+enum UpgradeType {
+	SPEED,
+	CAPACITY,
+	FUEL_EFFICIENCY,
+	DURABILITY,
+}
+
+enum WagonUpgradeType {
+	COMFORT,
+	CAPACITY,
+	MAINTENANCE,
+}
+
+enum AchievementCategory {
+	TRIP,
+	PASSENGER,
+	COLLECTION,
+	DISCOVERY,
+}
+
 const TICKET_DISTANCE_SHORT := 100
 const TICKET_DISTANCE_MEDIUM := 300
 

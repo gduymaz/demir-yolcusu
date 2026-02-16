@@ -32,12 +32,18 @@ var _cargo_list: VBoxContainer
 var _cargo_note_label: Label
 var _cargo_info_label: Label
 var _cargo_button_map: Dictionary = {}
+var _shop_button: Button
+var _shop_panel: PanelContainer
+var _shop_rows: Array = []
 var _event_banner: Label
+var _event_icon_label: Label
 var _special_action_button: Button
 var _refuel_progress: float = 0.0
 var _refuel_in_progress: bool = false
 var _event_banner_timer: float = 0.0
 var _station_ticket_start: int = 0
+var _timer_half_notified: bool = false
+var _first_boarded_notified: bool = false
 
 const VIEWPORT_W := 540
 const VIEWPORT_H := 960
@@ -67,11 +73,13 @@ const COLOR_SUCCESS := Color("#27AE60")
 const COLOR_FAIL := Color("#E74C3C")
 const COLOR_HUD_BG := Color(0.17, 0.24, 0.31, 0.85)
 const COLOR_EVENT := Color("#f4d03f")
+const COLOR_QUEST_TARGET := Color("#f1c40f")
 
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_setup_systems()
 	_build_scene()
+	_apply_accessibility()
 	_start_station()
 
 ## Lifecycle/helper logic for `_process`.
@@ -89,8 +97,17 @@ func _process(delta: float) -> void:
 	if _time_remaining <= 0.0:
 		_end_station()
 		return
+	if not _timer_half_notified and _time_remaining <= (_station_time * 0.5):
+		_timer_half_notified = true
+		var gm_notify: Node = get_node_or_null("/root/GameManager")
+		if gm_notify and gm_notify.tutorial_manager:
+			gm_notify.tutorial_manager.notify("timer_half")
 
-	var lost := _patience.update(_waiting_passengers, delta)
+	var patience_delta: float = delta
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm and gm.has_method("get_station_patience_multiplier"):
+		patience_delta *= gm.get_station_patience_multiplier(_get_current_station_name())
+	var lost := _patience.update(_waiting_passengers, patience_delta)
 	if lost.size() > 0:
 		var conductor: Node = get_node_or_null("/root/ConductorManager")
 		if conductor:
@@ -217,6 +234,14 @@ func _build_hud() -> void:
 	_hud_station.add_theme_color_override("font_color", Color("#aaaaaa"))
 	canvas.add_child(_hud_station)
 
+	_event_icon_label = Label.new()
+	_event_icon_label.position = Vector2(VIEWPORT_W - 52, 128)
+	_event_icon_label.size = Vector2(32, 20)
+	_event_icon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_event_icon_label.add_theme_font_size_override("font_size", 16)
+	_event_icon_label.visible = false
+	canvas.add_child(_event_icon_label)
+
 ## Lifecycle/helper logic for `_build_refuel_controls`.
 func _build_refuel_controls() -> void:
 	_fuel_button = Button.new()
@@ -236,6 +261,55 @@ func _build_refuel_controls() -> void:
 	_fuel_progress_fill.size = Vector2(0, 8)
 	_fuel_progress_fill.color = Color("#27ae60")
 	add_child(_fuel_progress_fill)
+
+## Lifecycle/helper logic for `_build_shop_controls`.
+func _build_shop_controls() -> void:
+	_shop_button = Button.new()
+	_shop_button.position = Vector2(VIEWPORT_W - 180, 140)
+	_shop_button.size = Vector2(160, 28)
+	_shop_button.text = I18n.t("station.button.shop")
+	add_child(_shop_button)
+
+	_shop_panel = PanelContainer.new()
+	_shop_panel.position = Vector2(30, 180)
+	_shop_panel.size = Vector2(VIEWPORT_W - 60, 220)
+	_shop_panel.visible = false
+	add_child(_shop_panel)
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.08, 0.11, 0.2, 0.95)
+	style.border_color = Color("#f39c12")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	_shop_panel.add_theme_stylebox_override("panel", style)
+
+	var box := VBoxContainer.new()
+	_shop_panel.add_child(box)
+
+	var title := Label.new()
+	title.text = I18n.t("station.shop.title")
+	title.add_theme_font_size_override("font_size", 16)
+	box.add_child(title)
+
+	for shop_type in [Constants.ShopType.BUFFET, Constants.ShopType.SOUVENIR, Constants.ShopType.CARGO_DEPOT]:
+		var row := HBoxContainer.new()
+		var label := Label.new()
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.name = "Label"
+		row.add_child(label)
+		var btn := Button.new()
+		btn.name = "Action"
+		btn.pressed.connect(_on_shop_action_pressed.bind(shop_type))
+		row.add_child(btn)
+		box.add_child(row)
+		_shop_rows.append(row)
+
+	var close_btn := Button.new()
+	close_btn.text = I18n.t("station.shop.close")
+	close_btn.pressed.connect(func() -> void:
+		_shop_panel.visible = false
+	)
+	box.add_child(close_btn)
 
 ## Lifecycle/helper logic for `_build_cargo_panel`.
 func _build_cargo_panel() -> void:
@@ -426,10 +500,20 @@ func _start_station() -> void:
 	_is_active = true
 	_station_time = Constants.STATION_TIME_LARGE
 	_time_remaining = _station_time
+	_timer_half_notified = false
+	_first_boarded_notified = false
 	_summary_panel.visible = false
 	_event_banner.visible = false
+	if _event_icon_label:
+		_event_icon_label.visible = false
 
 	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm and gm.has_method("get_station_time_multiplier"):
+		var station_time_multiplier: float = gm.get_station_time_multiplier()
+		_station_time *= station_time_multiplier
+		_time_remaining = _station_time
+	if gm and gm.tutorial_manager:
+		gm.tutorial_manager.notify("station_opened")
 	var passenger_multiplier: float = 1.0
 	var extra_vip: int = 0
 	if gm and gm.random_event_system:
@@ -440,6 +524,7 @@ func _start_station() -> void:
 		var station_event: Dictionary = gm.consume_pending_station_event()
 		if not station_event.is_empty():
 			_show_event_banner(station_event)
+			_show_event_icon(str(station_event.get("id", "")))
 			_show_conductor_event_tip(station_event)
 	_setup_special_action(gm)
 
@@ -455,8 +540,11 @@ func _start_station() -> void:
 
 	_hud_station.text = _get_current_station_name()
 	_station_ticket_start = int(_economy.get_trip_summary().get("earnings", {}).get("ticket", 0))
+	_apply_dining_income(gm)
 	_refresh_cargo_offers(gm)
+	_refresh_shop_panel(gm)
 	_show_cargo_delivery_popup(gm)
+	_show_second_trip_station_reminders(gm)
 
 	_rebuild_passenger_nodes()
 	_update_hud()
@@ -548,6 +636,74 @@ func _refresh_cargo_offers(gm: Node) -> void:
 
 		_cargo_list.add_child(row)
 
+func _apply_dining_income(gm: Node) -> void:
+	if gm == null or not gm.has_method("get_dining_income_per_station"):
+		return
+	var dining_income: int = gm.get_dining_income_per_station()
+	if dining_income <= 0:
+		return
+	_economy.earn(dining_income, "dining")
+	_show_event_text(I18n.t("station.dining.income", [dining_income]))
+
+func _toggle_shop_panel() -> void:
+	if _shop_panel == null:
+		return
+	_shop_panel.visible = not _shop_panel.visible
+	if _shop_panel.visible:
+		_refresh_shop_panel(get_node_or_null("/root/GameManager"))
+
+func _refresh_shop_panel(gm: Node) -> void:
+	if _shop_rows.is_empty():
+		return
+	var station_name: String = _get_current_station_name()
+	for i in range(_shop_rows.size()):
+		var row: HBoxContainer = _shop_rows[i]
+		var shop_type: int = [Constants.ShopType.BUFFET, Constants.ShopType.SOUVENIR, Constants.ShopType.CARGO_DEPOT][i]
+		var level: int = 0
+		if gm and gm.shop_system:
+			level = gm.shop_system.get_station_shop_level(station_name, shop_type)
+		var label: Label = row.get_node("Label")
+		label.text = "%s  Lv.%d" % [_shop_type_name(shop_type), level]
+		var btn: Button = row.get_node("Action")
+		if level <= 0:
+			btn.text = I18n.t("station.shop.open")
+			btn.disabled = gm == null or gm.shop_system == null
+		elif level < Balance.SHOP_MAX_LEVEL:
+			btn.text = I18n.t("station.shop.upgrade")
+			btn.disabled = gm == null or gm.shop_system == null
+		else:
+			btn.text = I18n.t("station.shop.max")
+			btn.disabled = true
+
+func _on_shop_action_pressed(shop_type: int) -> void:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm == null or gm.shop_system == null:
+		return
+	var station_name: String = _get_current_station_name()
+	var level: int = gm.shop_system.get_station_shop_level(station_name, shop_type)
+	var ok: bool = false
+	if level <= 0:
+		ok = gm.shop_system.open_shop(station_name, shop_type)
+	else:
+		ok = gm.shop_system.upgrade_shop(station_name, shop_type)
+	if ok:
+		_show_event_text(I18n.t("station.shop.success"))
+	else:
+		_show_event_text(I18n.t("station.shop.failed"))
+	_refresh_shop_panel(gm)
+	_update_hud()
+
+func _shop_type_name(shop_type: int) -> String:
+	match shop_type:
+		Constants.ShopType.BUFFET:
+			return I18n.t("shop.type.buffet")
+		Constants.ShopType.SOUVENIR:
+			return I18n.t("shop.type.souvenir")
+		Constants.ShopType.CARGO_DEPOT:
+			return I18n.t("shop.type.cargo_depot")
+		_:
+			return "?"
+
 ## Lifecycle/helper logic for `_show_cargo_delivery_popup`.
 func _show_cargo_delivery_popup(gm: Node) -> void:
 	if gm == null:
@@ -595,6 +751,18 @@ func _show_event_banner(event_data: Dictionary) -> void:
 	if title_key.is_empty():
 		return
 	_show_event_text(I18n.t("station.event.banner", [I18n.t(title_key)]))
+
+## Lifecycle/helper logic for `_show_event_icon`.
+func _show_event_icon(event_id: String) -> void:
+	if _event_icon_label == null:
+		return
+	var icon_key: String = "travel.event.icon.%s" % event_id
+	var icon_text: String = I18n.t(icon_key)
+	if icon_text == icon_key:
+		_event_icon_label.visible = false
+		return
+	_event_icon_label.text = icon_text
+	_event_icon_label.visible = true
 
 ## Lifecycle/helper logic for `_show_event_text`.
 func _show_event_text(text: String) -> void:
@@ -692,6 +860,11 @@ func _input(event: InputEvent) -> void:
 		var pressed := _is_pressed(event)
 
 		if pressed:
+			if _shop_panel and _shop_panel.visible and _is_in_rect(pos, _shop_panel.position, _shop_panel.size):
+				return
+			if _shop_button and _is_in_rect(pos, _shop_button.position, _shop_button.size):
+				_toggle_shop_panel()
+				return
 			if _is_in_rect(pos, _fuel_button.position, _fuel_button.size):
 				_try_refuel()
 				return
@@ -749,6 +922,14 @@ func _try_end_drag(pos: Vector2) -> void:
 		var wagon_rect := Rect2(wnode.position, WAGON_SIZE)
 		if wagon_rect.has_point(pos):
 			if _boarding.board_passenger(passenger, _wagons[i]):
+				var gm: Node = get_node_or_null("/root/GameManager")
+				if gm and gm.has_method("get_wagon_comfort_bonus"):
+					var comfort_bonus: float = gm.get_wagon_comfort_bonus((_wagons[i] as WagonData).id)
+					if comfort_bonus > 0.0:
+						_reputation.add(comfort_bonus, "wagon_comfort")
+				if gm and gm.tutorial_manager and not _first_boarded_notified:
+					_first_boarded_notified = true
+					gm.tutorial_manager.notify("first_boarded")
 				boarded = true
 				_flash_wagon(i, COLOR_SUCCESS)
 				_waiting_passengers.remove_at(_dragged_passenger_index)
@@ -824,6 +1005,15 @@ func _create_passenger_node(passenger: Dictionary) -> Control:
 	bar_fill.name = "PatienceBarFill"
 	root.add_child(bar_fill)
 
+	if _is_quest_target_passenger(passenger):
+		var highlight := PanelContainer.new()
+		highlight.name = "QuestHighlight"
+		highlight.position = Vector2(-2, -2)
+		highlight.size = PASSENGER_SIZE + Vector2(4, 4)
+		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		highlight.add_theme_stylebox_override("panel", _make_quest_highlight_style())
+		root.add_child(highlight)
+
 	return root
 
 ## Lifecycle/helper logic for `_update_patience_bars`.
@@ -847,6 +1037,35 @@ func _update_patience_bars() -> void:
 ## Lifecycle/helper logic for `_get_passenger_position`.
 func _get_passenger_position(index: int) -> Vector2:
 	return Vector2(WAITING_START_X + index * WAITING_SPACING, WAITING_Y)
+
+## Lifecycle/helper logic for `_is_quest_target_passenger`.
+func _is_quest_target_passenger(passenger: Dictionary) -> bool:
+	var target_station: String = _get_active_transport_target_station()
+	if target_station.is_empty():
+		return false
+	var destination: String = str(passenger.get("destination", "")).to_lower()
+	return destination.find(target_station) >= 0
+
+## Lifecycle/helper logic for `_get_active_transport_target_station`.
+func _get_active_transport_target_station() -> String:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm == null or gm.quest_system == null:
+		return ""
+	var active_quest: Dictionary = gm.quest_system.get_active_quest()
+	if active_quest.is_empty():
+		return ""
+	if int(active_quest.get("type", -1)) != Constants.QuestType.TRANSPORT:
+		return ""
+	return str(active_quest.get("conditions", {}).get("destination", "")).to_lower()
+
+## Lifecycle/helper logic for `_make_quest_highlight_style`.
+func _make_quest_highlight_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0, 0, 0, 0)
+	style.border_color = COLOR_QUEST_TARGET
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	return style
 
 ## Lifecycle/helper logic for `_get_passenger_color`.
 func _get_passenger_color(type: Constants.PassengerType) -> Color:
@@ -976,3 +1195,21 @@ func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
 	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
 		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y
+
+func _apply_accessibility() -> void:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm and gm.settings_system:
+		gm.settings_system.apply_font_scale_recursive(self)
+
+func _show_second_trip_station_reminders(gm: Node) -> void:
+	if gm == null or gm.total_trips != 1:
+		return
+	var conductor: Node = get_node_or_null("/root/ConductorManager")
+	if conductor == null:
+		return
+	if gm.fuel_system and gm.fuel_system.is_fuel_low():
+		conductor.show_runtime_tip("tip_tutorial_trip2_fuel", I18n.t("tutorial.trip2.fuel_low"))
+	if gm.cargo_system:
+		var offers_exist: bool = _cargo_list != null and _cargo_list.get_child_count() > 0
+		if offers_exist and gm.cargo_system.is_cargo_wagon_available():
+			conductor.show_runtime_tip("tip_tutorial_trip2_cargo", I18n.t("tutorial.trip2.cargo"))

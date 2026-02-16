@@ -41,6 +41,24 @@ static var _catalog := {
 		"fuel_tank_capacity": Balance.FUEL_TANK_ELECTRIC,
 		"base_cost": Balance.LOCOMOTIVE_COST_ELECTRIC,
 	},
+	"demir_yurek": {
+		"loco_name_key": "locomotive.demir_yurek",
+		"fuel_type": Constants.FuelType.COAL_NEW,
+		"base_speed": Balance.LOCOMOTIVE_SPEED_COAL_NEW,
+		"max_wagons": Constants.MAX_WAGONS_COAL_NEW,
+		"fuel_consumption": Balance.FUEL_CONSUMPTION_COAL_NEW,
+		"fuel_tank_capacity": Balance.FUEL_TANK_COAL_NEW,
+		"base_cost": Balance.LOCOMOTIVE_COST_DEMIR_YUREK,
+	},
+	"boz_kaplan": {
+		"loco_name_key": "locomotive.boz_kaplan",
+		"fuel_type": Constants.FuelType.DIESEL_NEW,
+		"base_speed": Balance.LOCOMOTIVE_SPEED_DIESEL_NEW,
+		"max_wagons": Constants.MAX_WAGONS_DIESEL_OLD,
+		"fuel_consumption": Balance.FUEL_CONSUMPTION_DIESEL_NEW,
+		"fuel_tank_capacity": Balance.FUEL_TANK_DIESEL_NEW,
+		"base_cost": Balance.LOCOMOTIVE_COST_BOZ_KAPLAN,
+	},
 }
 
 static func create(loco_id: String) -> LocomotiveData:

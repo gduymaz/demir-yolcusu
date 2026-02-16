@@ -4,18 +4,40 @@
 class_name WagonData
 extends RefCounted
 
+static var _next_id: int = 1
+
+var id: String
 var type: Constants.WagonType
 var _passengers: Array[Dictionary] = []
-var _capacity: int
+var _base_capacity: int
+var _extra_capacity: int = 0
 
 ## Lifecycle/helper logic for `_init`.
 func _init(wagon_type: Constants.WagonType) -> void:
+	id = "wagon_%d" % _next_id
+	_next_id += 1
 	type = wagon_type
-	_capacity = _get_capacity_for_type(wagon_type)
+	_base_capacity = _get_capacity_for_type(wagon_type)
+
+func set_persistent_id(value: String) -> void:
+	id = value
+	if value.begins_with("wagon_"):
+		var suffix: String = value.trim_prefix("wagon_")
+		if suffix.is_valid_int():
+			_next_id = maxi(_next_id, int(suffix) + 1)
 
 ## Handles `get_capacity`.
 func get_capacity() -> int:
-	return _capacity
+	return _base_capacity + _extra_capacity
+
+func set_extra_capacity(value: int) -> void:
+	_extra_capacity = maxi(0, value)
+
+func get_extra_capacity() -> int:
+	return _extra_capacity
+
+func get_base_capacity() -> int:
+	return _base_capacity
 
 ## Handles `get_passenger_count`.
 func get_passenger_count() -> int:
@@ -23,7 +45,7 @@ func get_passenger_count() -> int:
 
 ## Handles `is_full`.
 func is_full() -> bool:
-	return _passengers.size() >= _capacity
+	return _passengers.size() >= get_capacity()
 
 ## Handles `can_accept`.
 func can_accept(passenger: Dictionary) -> bool:

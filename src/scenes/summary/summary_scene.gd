@@ -9,6 +9,10 @@ const VIEWPORT_H := 960
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
 	_build()
+	_apply_accessibility()
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm and gm.tutorial_manager:
+		gm.tutorial_manager.notify("summary_opened")
 
 ## Lifecycle/helper logic for `_build`.
 func _build() -> void:
@@ -46,6 +50,8 @@ func _build() -> void:
 	lines.append(I18n.t("summary.revenue.title"))
 	lines.append(I18n.t("summary.revenue.ticket", [int(revenue.get("ticket_total", 0))]))
 	lines.append(I18n.t("summary.revenue.cargo", [int(revenue.get("cargo_total", 0))]))
+	lines.append(I18n.t("summary.revenue.shop", [int(revenue.get("shop_total", 0))]))
+	lines.append(I18n.t("summary.revenue.dining", [int(revenue.get("dining_total", 0))]))
 	lines.append(I18n.t("summary.revenue.quest", [int(report.get("quest_reward_money", 0))]))
 	lines.append(I18n.t("summary.revenue.total", [int(revenue.get("total", 0))]))
 	lines.append("")
@@ -86,6 +92,7 @@ func _build() -> void:
 	add_child(body)
 
 	var net_label := Label.new()
+	net_label.name = "NetLabel"
 	net_label.position = Vector2(40, 610)
 	net_label.size = Vector2(VIEWPORT_W - 80, 34)
 	net_label.text = I18n.t("summary.net", [net])
@@ -105,3 +112,8 @@ func _build() -> void:
 		get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
 	)
 	add_child(map_btn)
+
+func _apply_accessibility() -> void:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm and gm.settings_system:
+		gm.settings_system.apply_font_scale_recursive(self)

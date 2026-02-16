@@ -16,6 +16,7 @@ const COLOR_FUEL_CRIT := Color("#e74c3c")
 var _bar: ColorRect
 var _money: Label
 var _reputation: Label
+var _achievement: Label
 var _title: Label
 var _fuel_bg: ColorRect
 var _fuel_fill: ColorRect
@@ -60,10 +61,17 @@ func _build() -> void:
 
 	_reputation = Label.new()
 	_reputation.position = Vector2(28, 36)
-	_reputation.size = Vector2(170, 22)
+	_reputation.size = Vector2(130, 22)
 	_reputation.add_theme_font_size_override("font_size", 14)
 	_reputation.add_theme_color_override("font_color", COLOR_TEXT)
 	_bar.add_child(_reputation)
+
+	_achievement = Label.new()
+	_achievement.position = Vector2(162, 36)
+	_achievement.size = Vector2(90, 22)
+	_achievement.add_theme_font_size_override("font_size", 13)
+	_achievement.add_theme_color_override("font_color", Color("#f7dc6f"))
+	_bar.add_child(_achievement)
 
 	_title = Label.new()
 	_title.position = Vector2(180, 8)
@@ -99,6 +107,7 @@ func _refresh() -> void:
 	if gm == null:
 		_money.text = "0 DA"
 		_reputation.text = "0.0 yildiz"
+		_achievement.text = I18n.t("hud.achievements", [0, 0])
 		_fuel_fill.size.x = 0
 		_fuel_text.text = I18n.t("hud.fuel_unknown")
 		_title.text = I18n.t("hud.title.game")
@@ -106,6 +115,12 @@ func _refresh() -> void:
 
 	_money.text = "%d DA" % gm.economy.get_balance()
 	_reputation.text = "%.1f yildiz" % gm.reputation.get_stars()
+	var unlocked_count: int = 0
+	var total_count: int = 0
+	if gm.achievement_system:
+		unlocked_count = gm.achievement_system.get_unlocked_count()
+		total_count = gm.achievement_system.get_total_count()
+	_achievement.text = I18n.t("hud.achievements", [unlocked_count, total_count])
 
 	var fuel_pct: float = gm.fuel_system.get_fuel_percentage()
 	var clamped := clampf(fuel_pct, 0.0, 100.0)
