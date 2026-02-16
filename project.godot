@@ -3,24 +3,25 @@
 ; since the parameters that go here are not all obvious.
 ;
 ; Format:
-;   [section] param=value
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="Demir Yolcusu"
 config/description="Türkiye'nin demiryollarında geçen isometrik pixel art tren yönetim oyunu"
 config/version="0.1.0"
-config/features=PackedStringArray("4.4", "Mobile")
+config/features=PackedStringArray("4.6", "Mobile")
 
 [autoload]
 
 EventBus="*res://src/events/event_bus.gd"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 
 [display]
 
@@ -28,9 +29,13 @@ window/size/viewport_width=540
 window/size/viewport_height=960
 window/size/window_width_override=540
 window/size/window_height_override=960
-window/handheld/orientation=1
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_width"
+window/handheld/orientation=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 
 [gui]
 
@@ -40,7 +45,8 @@ theme/default_font_size=12
 
 touch_tap={
 "deadzone": 0.5,
-"events": [Object(InputEventScreenTouch,"resource_local_to_scene":false,"resource_name":"","device":-1,"index":0,"position":Vector2(0, 0),"canceled":false,"pressed":true,"double_tap":false)]
+"events": [Object(InputEventScreenTouch,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"index":0,"position":Vector2(0, 0),"canceled":false,"pressed":true,"double_tap":false,"script":null)
+]
 }
 
 [internationalization]
