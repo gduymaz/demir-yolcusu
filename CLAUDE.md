@@ -5,7 +5,7 @@ Türkiye'nin gerçek TCDD demiryolu hatlarında geçen, isometrik pixel art, mob
 10+ yaş hedef kitle, tamamen ücretsiz, reklamsız. Eğitici macera hikayesi ile Türk coğrafyası/tarihi/kültürü öğretir.
 
 ## Teknoloji Stack
-- **Motor:** Godot 4.3+ Stable
+- **Motor:** Godot 4.6 Stable
 - **Dil:** GDScript
 - **Test:** GdUnit4
 - **Veri:** SQLite (save + game data) + Godot Resource (.tres, runtime)
@@ -49,11 +49,17 @@ docs/                # GDD, mimari, stil rehberi
 
 ## Godot Komutları
 ```bash
-# Projeyi çalıştır
-godot --path . --main-run
+# Godot yolu
+GODOT="/Users/splendour/Downloads/Godot.app/Contents/MacOS/Godot"
 
-# Testleri çalıştır (GdUnit4 kurulduktan sonra)
-godot --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd --run-tests
+# Projeyi çalıştır
+$GODOT --path .
+
+# Testleri çalıştır (GdUnit4)
+$GODOT --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a tests/ -c --ignoreHeadlessMode
+
+# Belirli test dosyasını çalıştır
+$GODOT --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a tests/events/test_event_bus.gd --ignoreHeadlessMode
 ```
 
 ## Geliştirme Akışı (HER ÖZELLİK İÇİN)

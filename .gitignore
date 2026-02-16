@@ -17,3 +17,6 @@ Thumbs.db
 # Build
 build/
 export/
+
+# Test reports
+reports/
