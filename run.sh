@@ -67,7 +67,7 @@ case "$MODE" in
     export DEMIR_DEBUG_STDOUT="${DEMIR_DEBUG_STDOUT:-0}"
     export DEMIR_DEBUG_LOG_DIR="${DEMIR_DEBUG_LOG_DIR:-$ROOT_DIR/logs}"
     mkdir -p "$DEMIR_DEBUG_LOG_DIR"
-    ts="$(date +\"%Y-%m-%d_%H-%M-%S\")"
+    ts="$(date +%Y-%m-%d_%H-%M-%S)"
     log_file="${DEMIR_DEBUG_LOG_DIR}/debug-log-${ts}.log"
     export DEMIR_DEBUG_LOG_PATH="$log_file"
     echo "Debug logging enabled: $log_file"

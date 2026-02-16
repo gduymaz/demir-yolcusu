@@ -13,6 +13,18 @@ Bu dosya proje icinde calisacak ajanlar icin ortak yonlendirme sunar.
 - Dosya bazli teknik ozet ver.
 - Belirsiz durumda varsayim yapma, kodu referans al.
 
+## Zorunlu Kod Kurallari
+- TDD first zorunlu: Test yazmadan uygulama kodu yazma.
+- OOP/architecture disiplini: sorumluluklari ayri tut, tek sinif/tek fonksiyon asiri yuklenmesin.
+- Design pattern zorunlulugu: uygun yerde Factory, State, EventBus (Observer), Repository ve Strategy patternlerini tercih et; ad-hoc/cozum odakli daginik yaklasim kullanma.
+- Yeni gelistirmelerde mevcut mimari desenlerini bozma; gerekirse once desen uyumlu refactor yap, sonra ozelligi ekle.
+- i18n zorunlu: UI veya oyuncuya gorunen metinler kodda hardcode edilmez, locale anahtari ile kullanilir.
+- Kod dili standardi: yorumlar, degisken adlari, fonksiyon adlari ve sinif adlari sadece English olur.
+- Kod icinde Turkish comment kullanma.
+- Turkish metin yalnizca locale dosyalarinda (or. `src/data/i18n_tr.json`) tutulur.
+- Surekli uyum zorunlulugu: yeni kod yazarken dokunulan dosya/blokta bu kurallara aykiri bir yer gorulurse ayni kapsamda duzelt; "sonraya birakma" yaklasimi kullanma.
+- PR/commit kapsami kurali: is kapsamini bozmadan, dokunulan alandaki kural ihlallerini temizleyip oyle commit et.
+
 ## Proje Komutlari
 ```bash
 GODOT="/Users/splendour/Downloads/Godot.app/Contents/MacOS/Godot"

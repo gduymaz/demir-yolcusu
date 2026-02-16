@@ -356,7 +356,7 @@ func _start_station() -> void:
 	_summary_panel.visible = false
 
 	var destinations := _get_destination_names()
-	var distance := _get_current_distance()
+	var distance: int = _get_current_distance()
 	_waiting_passengers = []
 	var batch := PassengerFactory.create_batch(5, destinations, distance)
 	for p in batch:
@@ -427,7 +427,7 @@ func _get_destination_names() -> Array:
 
 	var destinations: Array = []
 	var trip_stops: Array = gm.trip_planner.get_trip_stops()
-	var current := gm.trip_planner.get_current_stop_index()
+	var current: int = gm.trip_planner.get_current_stop_index()
 	for i in range(current + 1, trip_stops.size()):
 		var stop: Dictionary = trip_stops[i]
 		destinations.append(stop["name"].to_lower())
@@ -442,7 +442,7 @@ func _get_current_distance() -> int:
 	if not gm or not gm.trip_planner.is_trip_active():
 		return 120
 
-	var stop := gm.trip_planner.get_current_stop()
+	var stop: Dictionary = gm.trip_planner.get_current_stop()
 	return int(stop.get("km_from_start", 120))
 
 ## Lifecycle/helper logic for `_get_current_station_name`.
@@ -450,7 +450,7 @@ func _get_current_station_name() -> String:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if not gm or not gm.trip_planner.is_trip_active():
 		return "DURAK"
-	var stop := gm.trip_planner.get_current_stop()
+	var stop: Dictionary = gm.trip_planner.get_current_stop()
 	return stop.get("name", "DURAK")
 
 ## Lifecycle/helper logic for `_input`.
@@ -645,9 +645,9 @@ func _update_refuel_controls() -> void:
 		_fuel_button.text = I18n.t("station.button.refuel")
 		return
 
-	var fuel := gm.fuel_system
+	var fuel: FuelSystem = gm.fuel_system
 	var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
-	var cost := fuel.get_refuel_cost(missing)
+	var cost: int = fuel.get_refuel_cost(missing)
 	if _refuel_in_progress:
 		_fuel_button.disabled = true
 		_fuel_button.text = "Ikmal..."
@@ -665,9 +665,9 @@ func _try_refuel() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm == null:
 		return
-	var fuel := gm.fuel_system
+	var fuel: FuelSystem = gm.fuel_system
 	var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
-	var cost := fuel.get_refuel_cost(missing)
+	var cost: int = fuel.get_refuel_cost(missing)
 	if missing <= 0.0 or not _economy.can_afford(cost):
 		return
 	_refuel_in_progress = true
@@ -684,7 +684,7 @@ func _process_refuel(delta: float) -> void:
 	if p >= 1.0:
 		var gm: Node = get_node_or_null("/root/GameManager")
 		if gm:
-			var fuel := gm.fuel_system
+			var fuel: FuelSystem = gm.fuel_system
 			var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
 			fuel.buy_refuel(missing)
 		_refuel_in_progress = false
