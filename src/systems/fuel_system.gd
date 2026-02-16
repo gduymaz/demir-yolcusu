@@ -12,6 +12,7 @@ var _current_fuel: float = 0.0
 var _tank_capacity: float = 0.0
 var _consumption_rate: float = 0.0
 var _trip_consumed: float = 0.0
+var _price_multiplier: float = 1.0
 
 ## Handles `setup`.
 func setup(event_bus: Node, economy: EconomySystem, locomotive: LocomotiveData) -> void:
@@ -21,6 +22,7 @@ func setup(event_bus: Node, economy: EconomySystem, locomotive: LocomotiveData) 
 	_tank_capacity = locomotive.fuel_tank_capacity
 	_consumption_rate = locomotive.fuel_consumption
 	_current_fuel = _tank_capacity
+	_price_multiplier = 1.0
 
 ## Handles `get_current_fuel`.
 func get_current_fuel() -> float:
@@ -55,6 +57,18 @@ func is_fuel_empty() -> bool:
 ## Handles `begin_trip_tracking`.
 func begin_trip_tracking() -> void:
 	_trip_consumed = 0.0
+
+## Handles `set_price_multiplier`.
+func set_price_multiplier(multiplier: float) -> void:
+	_price_multiplier = maxf(0.1, multiplier)
+
+## Handles `reset_price_multiplier`.
+func reset_price_multiplier() -> void:
+	_price_multiplier = 1.0
+
+## Handles `get_price_multiplier`.
+func get_price_multiplier() -> float:
+	return _price_multiplier
 
 ## Handles `get_trip_consumed`.
 func get_trip_consumed() -> float:
@@ -127,7 +141,7 @@ func auto_refuel() -> bool:
 func get_refuel_cost(amount: float) -> int:
 	if amount <= 0.0:
 		return 0
-	return ceili(amount * Balance.FUEL_UNIT_PRICE)
+	return ceili(amount * Balance.FUEL_UNIT_PRICE * _price_multiplier)
 
 ## Handles `get_full_refuel_cost`.
 func get_full_refuel_cost() -> int:

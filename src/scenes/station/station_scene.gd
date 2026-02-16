@@ -27,8 +27,16 @@ var _summary_label: Label
 var _fuel_button: Button
 var _fuel_progress_bg: ColorRect
 var _fuel_progress_fill: ColorRect
+var _cargo_panel: PanelContainer
+var _cargo_list: VBoxContainer
+var _cargo_note_label: Label
+var _cargo_info_label: Label
+var _cargo_button_map: Dictionary = {}
+var _event_banner: Label
+var _special_action_button: Button
 var _refuel_progress: float = 0.0
 var _refuel_in_progress: bool = false
+var _event_banner_timer: float = 0.0
 var _station_ticket_start: int = 0
 
 const VIEWPORT_W := 540
@@ -58,6 +66,7 @@ const COLOR_PASSENGER_ELDERLY := Color("#8E44AD")
 const COLOR_SUCCESS := Color("#27AE60")
 const COLOR_FAIL := Color("#E74C3C")
 const COLOR_HUD_BG := Color(0.17, 0.24, 0.31, 0.85)
+const COLOR_EVENT := Color("#f4d03f")
 
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
@@ -69,6 +78,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_process_refuel(delta)
 	_update_refuel_controls()
+	_update_event_banner(delta)
 
 	if not _is_active:
 		return
@@ -88,6 +98,14 @@ func _process(delta: float) -> void:
 		_rebuild_passenger_nodes()
 
 	_update_patience_bars()
+
+## Lifecycle/helper logic for `_update_event_banner`.
+func _update_event_banner(delta: float) -> void:
+	if _event_banner == null or _event_banner_timer <= 0.0:
+		return
+	_event_banner_timer = maxf(0.0, _event_banner_timer - delta)
+	if _event_banner_timer <= 0.0:
+		_event_banner.visible = false
 
 ## Lifecycle/helper logic for `_setup_systems`.
 func _setup_systems() -> void:
@@ -138,6 +156,8 @@ func _build_scene() -> void:
 	_build_hud()
 	_build_train()
 	_build_refuel_controls()
+	_build_cargo_panel()
+	_build_event_banner()
 	_build_summary_panel()
 
 ## Lifecycle/helper logic for `_build_background`.
@@ -171,7 +191,7 @@ func _build_background() -> void:
 	add_child(wait_line)
 
 	var wait_label := Label.new()
-	wait_label.text = "- Bekleme Alani -"
+	wait_label.text = I18n.t("station.waiting_area")
 	wait_label.position = Vector2(VIEWPORT_W / 2.0 - 80, WAITING_Y - 60)
 	wait_label.add_theme_font_size_override("font_size", 14)
 	wait_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.5))
@@ -216,6 +236,58 @@ func _build_refuel_controls() -> void:
 	_fuel_progress_fill.size = Vector2(0, 8)
 	_fuel_progress_fill.color = Color("#27ae60")
 	add_child(_fuel_progress_fill)
+
+## Lifecycle/helper logic for `_build_cargo_panel`.
+func _build_cargo_panel() -> void:
+	_cargo_panel = PanelContainer.new()
+	_cargo_panel.position = Vector2(20, 760)
+	_cargo_panel.size = Vector2(VIEWPORT_W - 40, 180)
+	add_child(_cargo_panel)
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.05, 0.1, 0.2, 0.92)
+	style.border_color = Color("#2c3e50")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(6)
+	_cargo_panel.add_theme_stylebox_override("panel", style)
+
+	var root := VBoxContainer.new()
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_cargo_panel.add_child(root)
+
+	var title := Label.new()
+	title.text = I18n.t("station.cargo.title")
+	title.add_theme_font_size_override("font_size", 15)
+	title.add_theme_color_override("font_color", Color("#f1c40f"))
+	root.add_child(title)
+
+	_cargo_note_label = Label.new()
+	_cargo_note_label.add_theme_font_size_override("font_size", 12)
+	_cargo_note_label.add_theme_color_override("font_color", Color("#ecf0f1"))
+	root.add_child(_cargo_note_label)
+
+	_cargo_list = VBoxContainer.new()
+	root.add_child(_cargo_list)
+
+	_cargo_info_label = Label.new()
+	_cargo_info_label.add_theme_font_size_override("font_size", 11)
+	_cargo_info_label.add_theme_color_override("font_color", Color("#95a5a6"))
+	root.add_child(_cargo_info_label)
+
+## Lifecycle/helper logic for `_build_event_banner`.
+func _build_event_banner() -> void:
+	_event_banner = Label.new()
+	_event_banner.position = Vector2(20, 80)
+	_event_banner.size = Vector2(VIEWPORT_W - 40, 24)
+	_event_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_event_banner.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_event_banner.add_theme_font_size_override("font_size", 14)
+	_event_banner.add_theme_color_override("font_color", Color.BLACK)
+	_event_banner.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+	_event_banner.modulate = COLOR_EVENT
+	_event_banner.visible = false
+	add_child(_event_banner)
 
 ## Lifecycle/helper logic for `_build_train`.
 func _build_train() -> void:
@@ -266,7 +338,7 @@ func _build_train() -> void:
 		add_child(loco_conn)
 
 	var gm: Node = get_node_or_null("/root/GameManager")
-	var loco_name: String = "Kara\nDuman"
+	var loco_name: String = I18n.t("locomotive.kara_duman").replace(" ", "\n")
 	if gm:
 		loco_name = gm.train_config.get_locomotive().loco_name
 
@@ -338,7 +410,7 @@ func _build_summary_panel() -> void:
 	else:
 
 		var restart_btn := Button.new()
-		restart_btn.text = "Tekrar Oyna"
+		restart_btn.text = I18n.t("station.button.restart")
 		restart_btn.add_theme_font_size_override("font_size", 18)
 		restart_btn.pressed.connect(_on_restart_pressed)
 		vbox.add_child(restart_btn)
@@ -352,18 +424,39 @@ func _build_summary_panel() -> void:
 ## Lifecycle/helper logic for `_start_station`.
 func _start_station() -> void:
 	_is_active = true
+	_station_time = Constants.STATION_TIME_LARGE
 	_time_remaining = _station_time
 	_summary_panel.visible = false
+	_event_banner.visible = false
+
+	var gm: Node = get_node_or_null("/root/GameManager")
+	var passenger_multiplier: float = 1.0
+	var extra_vip: int = 0
+	if gm and gm.random_event_system:
+		var station_delta: float = gm.random_event_system.consume_station_time_delta()
+		_time_remaining = maxf(5.0, _time_remaining + station_delta)
+		passenger_multiplier = gm.random_event_system.consume_passenger_multiplier()
+		extra_vip = gm.random_event_system.consume_extra_vip()
+		var station_event: Dictionary = gm.consume_pending_station_event()
+		if not station_event.is_empty():
+			_show_event_banner(station_event)
+			_show_conductor_event_tip(station_event)
+	_setup_special_action(gm)
 
 	var destinations := _get_destination_names()
 	var distance: int = _get_current_distance()
 	_waiting_passengers = []
-	var batch := PassengerFactory.create_batch(5, destinations, distance)
+	var batch_count: int = max(1, int(round(5.0 * passenger_multiplier)))
+	var batch := PassengerFactory.create_batch(batch_count, destinations, distance)
 	for p in batch:
 		_waiting_passengers.append(p)
+	for i in range(extra_vip):
+		_waiting_passengers.append(PassengerFactory.create(Constants.PassengerType.VIP, destinations[randi() % destinations.size()], distance))
 
 	_hud_station.text = _get_current_station_name()
 	_station_ticket_start = int(_economy.get_trip_summary().get("earnings", {}).get("ticket", 0))
+	_refresh_cargo_offers(gm)
+	_show_cargo_delivery_popup(gm)
 
 	_rebuild_passenger_nodes()
 	_update_hud()
@@ -398,6 +491,127 @@ func _end_station() -> void:
 		if conductor:
 			conductor.show_runtime_tip("tip_station_good", I18n.t("conductor.tip.station_good"))
 
+## Lifecycle/helper logic for `_refresh_cargo_offers`.
+func _refresh_cargo_offers(gm: Node) -> void:
+	_clear_cargo_buttons()
+	if gm == null or gm.cargo_system == null:
+		_cargo_note_label.text = I18n.t("station.cargo.none")
+		_cargo_info_label.text = ""
+		return
+
+	var active_quest_id: String = ""
+	if gm.quest_system:
+		active_quest_id = gm.quest_system.get_active_quest_id()
+
+	var guaranteed_offer: Dictionary = {}
+	if active_quest_id == "ege_03" and _get_current_station_name().to_lower().find("aydin") >= 0:
+		guaranteed_offer = gm.cargo_system.get_forced_offer_for_quest(active_quest_id)
+
+	var offers: Array = gm.cargo_system.generate_offers(_get_current_station_name(), guaranteed_offer)
+	if offers.is_empty():
+		_cargo_note_label.text = I18n.t("station.cargo.none")
+	else:
+		_cargo_note_label.text = I18n.t("station.cargo.available", [offers.size()])
+
+	var has_cargo_wagon: bool = gm.cargo_system.is_cargo_wagon_available()
+	var capacity: int = gm.cargo_system.get_available_capacity()
+	_cargo_info_label.text = I18n.t("station.cargo.capacity", [capacity])
+	if not has_cargo_wagon:
+		_cargo_info_label.text = I18n.t("station.cargo.no_wagon")
+
+	for offer in offers:
+		var row := HBoxContainer.new()
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+		var label := Label.new()
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.add_theme_font_size_override("font_size", 11)
+		label.text = I18n.t(
+			"station.cargo.offer",
+			[
+				I18n.t("cargo.%s" % str(offer.get("name", ""))),
+				str(offer.get("destination_station", "")),
+				int(offer.get("reward", 0)),
+				int(offer.get("remaining_trips", 0)),
+			]
+		)
+		row.add_child(label)
+
+		var load_btn := Button.new()
+		load_btn.text = I18n.t("station.cargo.load")
+		load_btn.disabled = (not has_cargo_wagon) or (capacity < int(offer.get("weight", 1)))
+		if load_btn.disabled and not has_cargo_wagon:
+			load_btn.tooltip_text = I18n.t("station.cargo.no_wagon")
+		load_btn.pressed.connect(_on_cargo_load_pressed.bind(str(offer.get("id", ""))))
+		row.add_child(load_btn)
+		_cargo_button_map[str(offer.get("id", ""))] = load_btn
+
+		_cargo_list.add_child(row)
+
+## Lifecycle/helper logic for `_show_cargo_delivery_popup`.
+func _show_cargo_delivery_popup(gm: Node) -> void:
+	if gm == null:
+		return
+	var summary: Dictionary = gm.consume_pending_cargo_delivery_summary()
+	var total_reward: int = int(summary.get("total_reward", 0))
+	if total_reward <= 0:
+		return
+	_show_event_text(I18n.t("station.cargo.delivered", [total_reward]))
+
+## Lifecycle/helper logic for `_setup_special_action`.
+func _setup_special_action(gm: Node) -> void:
+	if _special_action_button != null:
+		_special_action_button.queue_free()
+		_special_action_button = null
+	if gm == null or gm.random_event_system == null:
+		return
+	var reputation_bonus: float = gm.random_event_system.consume_reputation_bonus()
+	if reputation_bonus <= 0.0:
+		return
+	_special_action_button = Button.new()
+	_special_action_button.position = Vector2(20, 112)
+	_special_action_button.size = Vector2(180, 30)
+	_special_action_button.text = I18n.t("station.button.help_sick")
+	_special_action_button.pressed.connect(func() -> void:
+		_reputation.add(reputation_bonus, "event")
+		_show_event_text(I18n.t("station.sick.reward", [reputation_bonus]))
+		_special_action_button.disabled = true
+	)
+	add_child(_special_action_button)
+
+## Lifecycle/helper logic for `_show_conductor_event_tip`.
+func _show_conductor_event_tip(event_data: Dictionary) -> void:
+	var description_key: String = str(event_data.get("description_key", ""))
+	if description_key.is_empty():
+		return
+	var conductor: Node = get_node_or_null("/root/ConductorManager")
+	if conductor:
+		var tip_key: String = "tip_event_%s" % str(event_data.get("id", ""))
+		conductor.show_runtime_tip(tip_key, I18n.t(description_key))
+
+## Lifecycle/helper logic for `_show_event_banner`.
+func _show_event_banner(event_data: Dictionary) -> void:
+	var title_key: String = str(event_data.get("title_key", ""))
+	if title_key.is_empty():
+		return
+	_show_event_text(I18n.t("station.event.banner", [I18n.t(title_key)]))
+
+## Lifecycle/helper logic for `_show_event_text`.
+func _show_event_text(text: String) -> void:
+	if _event_banner == null:
+		return
+	_event_banner.text = text
+	_event_banner.visible = true
+	_event_banner_timer = 3.0
+
+## Lifecycle/helper logic for `_clear_cargo_buttons`.
+func _clear_cargo_buttons() -> void:
+	_cargo_button_map.clear()
+	if _cargo_list == null:
+		return
+	for child in _cargo_list.get_children():
+		child.queue_free()
+
 ## Lifecycle/helper logic for `_on_restart_pressed`.
 func _on_restart_pressed() -> void:
 	_start_station()
@@ -419,11 +633,26 @@ func _on_finish_trip_pressed() -> void:
 		gm.trip_planner.end_trip()
 	get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
 
+## Lifecycle/helper logic for `_on_cargo_load_pressed`.
+func _on_cargo_load_pressed(cargo_id: String) -> void:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm == null or gm.cargo_system == null:
+		return
+	if not gm.cargo_system.is_cargo_wagon_available():
+		var conductor: Node = get_node_or_null("/root/ConductorManager")
+		if conductor:
+			conductor.show_runtime_tip("tip_cargo_need_wagon", I18n.t("conductor.tip.cargo_no_wagon"))
+		return
+	if gm.cargo_system.load_offer(cargo_id):
+		_show_event_text(I18n.t("station.cargo.loaded"))
+		_refresh_cargo_offers(gm)
+		_update_wagon_labels()
+
 ## Lifecycle/helper logic for `_get_destination_names`.
 func _get_destination_names() -> Array:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if not gm or not gm.trip_planner.is_trip_active():
-		return ["denizli", "afyon", "selcuk", "nazilli"]
+		return ["denizli", "torbali", "selcuk", "nazilli"]
 
 	var destinations: Array = []
 	var trip_stops: Array = gm.trip_planner.get_trip_stops()
@@ -433,7 +662,7 @@ func _get_destination_names() -> Array:
 		destinations.append(stop["name"].to_lower())
 
 	if destinations.is_empty():
-		destinations.append("son_durak")
+		destinations.append(I18n.t("station.destination.final"))
 	return destinations
 
 ## Lifecycle/helper logic for `_get_current_distance`.
@@ -449,9 +678,9 @@ func _get_current_distance() -> int:
 func _get_current_station_name() -> String:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if not gm or not gm.trip_planner.is_trip_active():
-		return "DURAK"
+		return I18n.t("station.name.fallback")
 	var stop: Dictionary = gm.trip_planner.get_current_stop()
-	return stop.get("name", "DURAK")
+	return stop.get("name", I18n.t("station.name.fallback"))
 
 ## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:
@@ -465,6 +694,8 @@ func _input(event: InputEvent) -> void:
 		if pressed:
 			if _is_in_rect(pos, _fuel_button.position, _fuel_button.size):
 				_try_refuel()
+				return
+			if _cargo_panel and _is_in_rect(pos, _cargo_panel.position, _cargo_panel.size):
 				return
 			_try_start_drag(pos)
 		else:
@@ -650,10 +881,10 @@ func _update_refuel_controls() -> void:
 	var cost: int = fuel.get_refuel_cost(missing)
 	if _refuel_in_progress:
 		_fuel_button.disabled = true
-		_fuel_button.text = "Ikmal..."
+		_fuel_button.text = I18n.t("station.button.refuel_progress")
 	elif missing <= 0.0:
 		_fuel_button.disabled = true
-		_fuel_button.text = "Depo Dolu"
+		_fuel_button.text = I18n.t("station.button.refuel_full")
 	else:
 		_fuel_button.disabled = not _economy.can_afford(cost)
 		_fuel_button.text = I18n.t("station.button.refuel_with_cost", [cost])
@@ -694,13 +925,25 @@ func _process_refuel(delta: float) -> void:
 
 ## Lifecycle/helper logic for `_update_wagon_labels`.
 func _update_wagon_labels() -> void:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	var cargo_loaded: int = 0
+	if gm and gm.cargo_system:
+		cargo_loaded = gm.cargo_system.get_loaded_weight()
 	for i in _wagon_nodes.size():
 		if i >= _wagons.size():
 			break
 		var wagon: WagonData = _wagons[i]
 		var wnode: ColorRect = _wagon_nodes[i]
 		var label: Label = wnode.get_child(0)
-		label.text = "%s\n%d/%d" % [_get_wagon_short_name(wagon.type), wagon.get_passenger_count(), wagon.get_capacity()]
+		if wagon.type == Constants.WagonType.CARGO:
+			label.text = "%s\n%s %d/%d" % [
+				_get_wagon_short_name(wagon.type),
+				I18n.t("station.cargo.boxes_icon"),
+				cargo_loaded,
+				wagon.get_capacity(),
+			]
+		else:
+			label.text = "%s\n%d/%d" % [_get_wagon_short_name(wagon.type), wagon.get_passenger_count(), wagon.get_capacity()]
 
 ## Lifecycle/helper logic for `_flash_wagon`.
 func _flash_wagon(wagon_index: int, color: Color) -> void:
@@ -722,11 +965,11 @@ func _get_wagon_color(wtype: Constants.WagonType) -> Color:
 ## Lifecycle/helper logic for `_get_wagon_short_name`.
 func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 	match wtype:
-		Constants.WagonType.ECONOMY: return "Eko."
-		Constants.WagonType.BUSINESS: return "Biz."
-		Constants.WagonType.VIP: return "VIP"
-		Constants.WagonType.DINING: return "Ym."
-		Constants.WagonType.CARGO: return "Kar."
+		Constants.WagonType.ECONOMY: return I18n.t("wagon.short.economy")
+		Constants.WagonType.BUSINESS: return I18n.t("wagon.short.business")
+		Constants.WagonType.VIP: return I18n.t("wagon.short.vip")
+		Constants.WagonType.DINING: return I18n.t("wagon.short.dining")
+		Constants.WagonType.CARGO: return I18n.t("wagon.short.cargo")
 		_: return "?"
 
 ## Lifecycle/helper logic for `_is_in_rect`.

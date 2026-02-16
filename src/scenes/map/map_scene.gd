@@ -42,6 +42,8 @@ var _route_line_nodes: Array = []
 var _selected_start: int = -1
 var _selected_end: int = -1
 var _info_label: Label
+var _quest_title_label: Label
+var _quest_detail_label: Label
 var _money_label: Label
 var _start_button: Control
 var _start_button_bg: ColorRect
@@ -91,7 +93,7 @@ func _build_header() -> void:
 	add_child(_money_label)
 
 	var hint := Label.new()
-	hint.text = "Baslangic ve bitis duragi sec"
+	hint.text = I18n.t("map.hint.select")
 	hint.position = Vector2(20, 48)
 	hint.add_theme_font_size_override("font_size", 11)
 	hint.add_theme_color_override("font_color", Color("#888888"))
@@ -119,13 +121,13 @@ func _build_map() -> void:
 	coast.z_index = -1
 	add_child(coast)
 
-	_add_locked_region("MARMARA", Vector2(220, MAP_Y + 50))
-	_add_locked_region("IC ANADOLU", Vector2(380, MAP_Y + 200))
+	_add_locked_region(I18n.t("map.region.marmara"), Vector2(220, MAP_Y + 50))
+	_add_locked_region(I18n.t("map.region.inner_anatolia"), Vector2(380, MAP_Y + 200))
 
 ## Lifecycle/helper logic for `_add_locked_region`.
 func _add_locked_region(region_name: String, pos: Vector2) -> void:
 	var label := Label.new()
-	label.text = region_name + " [KILITLI]"
+	label.text = I18n.t("map.region.locked", [region_name])
 	label.position = pos
 	label.add_theme_font_size_override("font_size", 10)
 	label.add_theme_color_override("font_color", COLOR_LOCKED)
@@ -197,7 +199,7 @@ func _build_panel() -> void:
 	add_child(panel)
 
 	var title := Label.new()
-	title.text = "SEFER BILGISI"
+	title.text = I18n.t("map.panel.title")
 	title.position = Vector2(20, PANEL_Y + 10)
 	title.add_theme_font_size_override("font_size", 14)
 	title.add_theme_color_override("font_color", Color("#888888"))
@@ -210,6 +212,21 @@ func _build_panel() -> void:
 	_info_label.add_theme_color_override("font_color", COLOR_TEXT)
 	add_child(_info_label)
 
+	_quest_title_label = Label.new()
+	_quest_title_label.position = Vector2(20, PANEL_Y + 125)
+	_quest_title_label.size = Vector2(VIEWPORT_W - 40, 20)
+	_quest_title_label.add_theme_font_size_override("font_size", 13)
+	_quest_title_label.add_theme_color_override("font_color", Color("#f1c40f"))
+	add_child(_quest_title_label)
+
+	_quest_detail_label = Label.new()
+	_quest_detail_label.position = Vector2(20, PANEL_Y + 145)
+	_quest_detail_label.size = Vector2(VIEWPORT_W - 40, 48)
+	_quest_detail_label.add_theme_font_size_override("font_size", 11)
+	_quest_detail_label.add_theme_color_override("font_color", Color("#d5d8dc"))
+	_quest_detail_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	add_child(_quest_detail_label)
+
 ## Lifecycle/helper logic for `_build_buttons`.
 func _build_buttons() -> void:
 
@@ -217,7 +234,7 @@ func _build_buttons() -> void:
 	back_btn.name = "BackButton"
 	add_child(back_btn)
 
-	_start_button = _create_button("SEFERE BASLA", Vector2(260, BUTTON_BAR_Y), Vector2(260, 55), COLOR_GREEN)
+	_start_button = _create_button(I18n.t("map.button.start_trip"), Vector2(260, BUTTON_BAR_Y), Vector2(260, 55), COLOR_GREEN)
 	_start_button.name = "StartButton"
 	_start_button_bg = _start_button.get_child(0) as ColorRect
 	add_child(_start_button)
@@ -250,6 +267,8 @@ func _refresh_all() -> void:
 	_refresh_stops()
 	_refresh_route_lines()
 	_refresh_panel()
+	_refresh_quest_panel()
+	_refresh_stop_badges()
 	_refresh_start_button()
 
 ## Lifecycle/helper logic for `_refresh_money`.
@@ -339,6 +358,84 @@ func _refresh_start_button() -> void:
 			can_start = preview.get("can_afford_fuel", false)
 
 	_start_button_bg.color = COLOR_GREEN if can_start else COLOR_BUTTON_DISABLED
+
+## Lifecycle/helper logic for `_refresh_quest_panel`.
+func _refresh_quest_panel() -> void:
+	var gm: Node = _get_game_manager()
+	if gm == null or gm.quest_system == null:
+		_quest_title_label.text = I18n.t("map.quest.none")
+		_quest_detail_label.text = ""
+		return
+
+	var active: Dictionary = gm.quest_system.get_active_quest()
+	if active.is_empty() and gm.quest_system.activate_available_quest():
+		active = gm.quest_system.get_active_quest()
+	if active.is_empty():
+		_quest_title_label.text = I18n.t("map.quest.none")
+		_quest_detail_label.text = ""
+		return
+
+	var progress: Dictionary = gm.quest_system.get_quest_progress(str(active.get("id", "")))
+	var current: int = int(progress.get("current", 0))
+	var target: int = int(progress.get("target", 1))
+	_quest_title_label.text = I18n.t("map.quest.title", [I18n.t(str(active.get("title_key", "")))])
+	_quest_detail_label.text = "%s\n%s" % [
+		I18n.t(str(active.get("description_key", ""))),
+		I18n.t("map.quest.progress", [current, target]),
+	]
+
+## Lifecycle/helper logic for `_refresh_stop_badges`.
+func _refresh_stop_badges() -> void:
+	var gm: Node = _get_game_manager()
+	if gm == null:
+		return
+
+	var active: Dictionary = {}
+	if gm.quest_system:
+		active = gm.quest_system.get_active_quest()
+
+	for i in _stop_nodes.size():
+		var node: Control = _stop_nodes[i]
+		for child in node.get_children():
+			if child is Label and (child.name == "QuestBadge" or child.name == "CargoBadge"):
+				child.queue_free()
+
+		var stop: Dictionary = gm.route.get_stop(i)
+		var stop_name: String = str(stop.get("name", ""))
+		if _is_quest_target_stop(stop_name, active):
+			var quest_badge := Label.new()
+			quest_badge.name = "QuestBadge"
+			quest_badge.text = "!"
+			quest_badge.position = Vector2(STOP_RADIUS * 2 - 6, -10)
+			quest_badge.add_theme_font_size_override("font_size", 16)
+			quest_badge.add_theme_color_override("font_color", Color("#f1c40f"))
+			node.add_child(quest_badge)
+
+		if gm.cargo_system and gm.cargo_system.has_offers_for_station(stop_name):
+			var cargo_badge := Label.new()
+			cargo_badge.name = "CargoBadge"
+			cargo_badge.text = I18n.t("map.badge.cargo")
+			cargo_badge.position = Vector2(-10, -10)
+			cargo_badge.add_theme_font_size_override("font_size", 12)
+			cargo_badge.add_theme_color_override("font_color", Color("#2ecc71"))
+			node.add_child(cargo_badge)
+
+## Lifecycle/helper logic for `_is_quest_target_stop`.
+func _is_quest_target_stop(stop_name: String, active_quest: Dictionary) -> bool:
+	if active_quest.is_empty():
+		return false
+	var conditions: Dictionary = active_quest.get("conditions", {})
+	var quest_type: int = int(active_quest.get("type", -1))
+	var normalized: String = stop_name.to_lower()
+
+	if quest_type == Constants.QuestType.CARGO_DELIVERY:
+		var origin: String = str(conditions.get("origin", ""))
+		return normalized.find(origin) >= 0
+
+	var destination: String = str(conditions.get("destination", ""))
+	if destination.is_empty():
+		return false
+	return normalized.find(destination) >= 0
 
 ## Lifecycle/helper logic for `_input`.
 func _input(event: InputEvent) -> void:

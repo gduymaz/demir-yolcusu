@@ -57,6 +57,31 @@ enum QuestState {
 	COMPLETED,
 }
 
+enum QuestType {
+	TRANSPORT,
+	EXPLORE,
+	CARGO_DELIVERY,
+}
+
+enum RandomEventType {
+	TECHNICAL,
+	PASSENGER,
+	ECONOMIC,
+}
+
+enum RandomEventTrigger {
+	ON_TRAVEL,
+	ON_STATION_ARRIVE,
+	ON_TRIP_START,
+}
+
+enum CargoStatus {
+	AVAILABLE,
+	LOADED,
+	DELIVERED,
+	EXPIRED,
+}
+
 const TICKET_DISTANCE_SHORT := 100
 const TICKET_DISTANCE_MEDIUM := 300
 

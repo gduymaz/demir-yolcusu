@@ -46,6 +46,7 @@ func _build() -> void:
 	lines.append(I18n.t("summary.revenue.title"))
 	lines.append(I18n.t("summary.revenue.ticket", [int(revenue.get("ticket_total", 0))]))
 	lines.append(I18n.t("summary.revenue.cargo", [int(revenue.get("cargo_total", 0))]))
+	lines.append(I18n.t("summary.revenue.quest", [int(report.get("quest_reward_money", 0))]))
 	lines.append(I18n.t("summary.revenue.total", [int(revenue.get("total", 0))]))
 	lines.append("")
 	lines.append(I18n.t("summary.revenue.by_station"))
@@ -68,6 +69,12 @@ func _build() -> void:
 	lines.append(I18n.t("summary.stats.transported", [int(stats.get("passengers_transported", 0))]))
 	lines.append(I18n.t("summary.stats.lost", [int(stats.get("passengers_lost", 0))]))
 	lines.append(I18n.t("summary.stats.stops", [int(stats.get("stops_visited", 0))]))
+	var event_history: Array = report.get("event_history", [])
+	if not event_history.is_empty():
+		lines.append("")
+		lines.append(I18n.t("summary.events.title"))
+		for event_id in event_history:
+			lines.append(I18n.t("summary.events.item", [I18n.t("event.%s.title" % str(event_id))]))
 
 	var body := Label.new()
 	body.position = Vector2(40, 150)

@@ -781,29 +781,29 @@ func _get_wagon_color(wtype: Constants.WagonType) -> Color:
 ## Lifecycle/helper logic for `_get_wagon_short_name`.
 func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 	match wtype:
-		Constants.WagonType.ECONOMY: return "Eko."
-		Constants.WagonType.BUSINESS: return "Biz."
-		Constants.WagonType.VIP: return "VIP"
-		Constants.WagonType.DINING: return "Ym."
-		Constants.WagonType.CARGO: return "Kar."
+		Constants.WagonType.ECONOMY: return I18n.t("wagon.short.economy")
+		Constants.WagonType.BUSINESS: return I18n.t("wagon.short.business")
+		Constants.WagonType.VIP: return I18n.t("wagon.short.vip")
+		Constants.WagonType.DINING: return I18n.t("wagon.short.dining")
+		Constants.WagonType.CARGO: return I18n.t("wagon.short.cargo")
 		_: return "?"
 
 ## Lifecycle/helper logic for `_get_wagon_type_name`.
 func _get_wagon_type_name(wtype: Constants.WagonType) -> String:
 	match wtype:
-		Constants.WagonType.ECONOMY: return "Ekonomi"
-		Constants.WagonType.BUSINESS: return "Business"
-		Constants.WagonType.VIP: return "VIP"
-		Constants.WagonType.DINING: return "Yemekli"
-		Constants.WagonType.CARGO: return "Kargo"
-		_: return "Bilinmeyen"
+		Constants.WagonType.ECONOMY: return I18n.t("wagon.type.economy")
+		Constants.WagonType.BUSINESS: return I18n.t("wagon.type.business")
+		Constants.WagonType.VIP: return I18n.t("wagon.type.vip")
+		Constants.WagonType.DINING: return I18n.t("wagon.type.dining")
+		Constants.WagonType.CARGO: return I18n.t("wagon.type.cargo")
+		_: return I18n.t("wagon.type.unknown")
 
 ## Lifecycle/helper logic for `_get_fuel_name`.
 func _get_fuel_name(ftype: Constants.FuelType) -> String:
 	match ftype:
-		Constants.FuelType.COAL_OLD: return "Komur (Eski)"
-		Constants.FuelType.COAL_NEW: return "Komur (Yeni)"
-		Constants.FuelType.DIESEL_OLD: return "Dizel (Eski)"
-		Constants.FuelType.DIESEL_NEW: return "Dizel (Yeni)"
-		Constants.FuelType.ELECTRIC: return "Elektrik"
+		Constants.FuelType.COAL_OLD: return I18n.t("fuel.type.coal_old")
+		Constants.FuelType.COAL_NEW: return I18n.t("fuel.type.coal_new")
+		Constants.FuelType.DIESEL_OLD: return I18n.t("fuel.type.diesel_old")
+		Constants.FuelType.DIESEL_NEW: return I18n.t("fuel.type.diesel_new")
+		Constants.FuelType.ELECTRIC: return I18n.t("fuel.type.electric")
 		_: return "?"

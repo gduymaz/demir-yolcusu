@@ -13,6 +13,9 @@ var train_config: TrainConfig
 var fuel_system: FuelSystem
 var route: RouteData
 var trip_planner: TripPlanner
+var quest_system: Node
+var random_event_system: Node
+var cargo_system: Node
 var current_stop_index: int = 0
 
 var total_trips: int = 0
@@ -30,6 +33,8 @@ var last_trip_report: Dictionary = {}
 
 var shown_tips: Dictionary = {}
 var intro_completed: bool = false
+var _pending_station_event: Dictionary = {}
+var _pending_cargo_delivery_summary: Dictionary = {"count": 0, "total_reward": 0}
 
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
@@ -60,7 +65,20 @@ func _ready() -> void:
 	trip_planner.set_wagon_count(train_config.get_wagon_count())
 	add_child(trip_planner)
 
+	quest_system = load("res://src/systems/quest_system.gd").new()
+	quest_system.setup(event_bus, economy, reputation)
+	add_child(quest_system)
+
+	random_event_system = load("res://src/systems/random_event_system.gd").new()
+	random_event_system.setup(event_bus, economy, reputation)
+	add_child(random_event_system)
+
+	cargo_system = load("res://src/systems/cargo_system.gd").new()
+	cargo_system.setup(event_bus, economy)
+	add_child(cargo_system)
+
 	_bind_events()
+	_sync_cargo_capacity()
 	_load_game_if_exists()
 
 ## Lifecycle/helper logic for `_bind_events`.
@@ -71,6 +89,8 @@ func _bind_events() -> void:
 		event_bus.trip_started.connect(_on_trip_started)
 	if not event_bus.trip_completed.is_connected(_on_trip_completed):
 		event_bus.trip_completed.connect(_on_trip_completed)
+	if not event_bus.station_arrived.is_connected(_on_station_arrived):
+		event_bus.station_arrived.connect(_on_station_arrived)
 
 ## Lifecycle/helper logic for `_setup_default_train`.
 func _setup_default_train() -> void:
@@ -88,6 +108,19 @@ func _setup_default_train() -> void:
 func sync_trip_wagon_count() -> void:
 	if trip_planner != null and train_config != null:
 		trip_planner.set_wagon_count(train_config.get_wagon_count())
+	_sync_cargo_capacity()
+
+## Lifecycle/helper logic for `_sync_cargo_capacity`.
+func _sync_cargo_capacity() -> void:
+	if cargo_system == null or train_config == null:
+		return
+	var cargo_capacity: int = 0
+	for wagon in train_config.get_wagons():
+		var w: WagonData = wagon
+		if w.type == Constants.WagonType.CARGO:
+			cargo_capacity += w.get_capacity()
+	cargo_system.set_cargo_wagon_available(cargo_capacity > 0)
+	cargo_system.set_cargo_capacity(cargo_capacity)
 
 ## Handles `record_station_result`.
 func record_station_result(station_name: String, ticket_income: int, boarded: int, lost: int) -> void:
@@ -101,11 +134,16 @@ func record_station_result(station_name: String, ticket_income: int, boarded: in
 	_trip_lost_count += maxi(0, lost)
 
 ## Lifecycle/helper logic for `_on_trip_started`.
-func _on_trip_started(_route_data: Dictionary) -> void:
+func _on_trip_started(route_data: Dictionary) -> void:
 	_trip_station_breakdown.clear()
 	_trip_passenger_count = 0
 	_trip_lost_count = 0
 	_trip_start_reputation = reputation.get_stars()
+	if random_event_system and bool(route_data.get("enable_random_events", false)):
+		random_event_system.start_trip()
+		var trip_event: Dictionary = random_event_system.try_trigger(Constants.RandomEventTrigger.ON_TRIP_START)
+		if not trip_event.is_empty():
+			fuel_system.set_price_multiplier(random_event_system.get_trip_fuel_multiplier())
 
 ## Lifecycle/helper logic for `_on_trip_completed`.
 func _on_trip_completed(summary: Dictionary) -> void:
@@ -115,6 +153,14 @@ func _on_trip_completed(summary: Dictionary) -> void:
 	var fuel_cost: int = fuel_system.get_trip_consumed_cost()
 	var total_spent: int = fuel_cost
 	var net: int = total_earned - total_spent
+	var quest_reward_money: int = 0
+	var events: Array = []
+	if quest_system:
+		quest_reward_money = quest_system.consume_trip_reward_money()
+	if random_event_system:
+		events = random_event_system.get_event_history()
+	if cargo_system:
+		cargo_system.end_trip()
 
 	last_trip_report = {
 		"revenue": {
@@ -129,6 +175,8 @@ func _on_trip_completed(summary: Dictionary) -> void:
 		},
 		"net_profit": net,
 		"reputation_delta": rep_delta,
+		"quest_reward_money": quest_reward_money,
+		"event_history": events.duplicate(true),
 		"stats": {
 			"passengers_transported": _trip_passenger_count,
 			"passengers_lost": _trip_lost_count,
@@ -142,7 +190,28 @@ func _on_trip_completed(summary: Dictionary) -> void:
 	total_km += route.get_distance_between(trip_planner.get_start_index(), trip_planner.get_end_index())
 	total_net_earnings += net
 
+	fuel_system.reset_price_multiplier()
 	save_game()
+
+## Lifecycle/helper logic for `_on_station_arrived`.
+func _on_station_arrived(station_id: String) -> void:
+	if cargo_system:
+		cargo_system.deliver_for_station(station_id)
+		_pending_cargo_delivery_summary = cargo_system.consume_last_delivery_summary()
+	if random_event_system:
+		_pending_station_event = random_event_system.try_trigger(Constants.RandomEventTrigger.ON_STATION_ARRIVE)
+
+## Handles `consume_pending_station_event`.
+func consume_pending_station_event() -> Dictionary:
+	var event_data: Dictionary = _pending_station_event.duplicate(true)
+	_pending_station_event.clear()
+	return event_data
+
+## Handles `consume_pending_cargo_delivery_summary`.
+func consume_pending_cargo_delivery_summary() -> Dictionary:
+	var summary: Dictionary = _pending_cargo_delivery_summary.duplicate(true)
+	_pending_cargo_delivery_summary = {"count": 0, "total_reward": 0}
+	return summary
 
 ## Handles `get_last_trip_report`.
 func get_last_trip_report() -> Dictionary:
@@ -204,6 +273,9 @@ func save_game() -> bool:
 			"shown_tips": shown_tips,
 			"intro_completed": intro_completed,
 		},
+		"quest_progress": quest_system.get_save_data() if quest_system else {},
+		"active_cargos": cargo_system.get_save_data() if cargo_system else {},
+		"event_history": random_event_system.get_save_data() if random_event_system else {},
 	}
 
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -283,3 +355,15 @@ func _load_game_if_exists() -> void:
 	var tutorial: Dictionary = data.get("tutorial", {})
 	shown_tips = tutorial.get("shown_tips", {}).duplicate(true)
 	intro_completed = bool(tutorial.get("intro_completed", true))
+
+	var quest_data: Dictionary = data.get("quest_progress", {})
+	if quest_system:
+		quest_system.load_save_data(quest_data)
+
+	var cargo_data: Dictionary = data.get("active_cargos", {})
+	if cargo_system:
+		cargo_system.load_save_data(cargo_data)
+
+	var event_data: Dictionary = data.get("event_history", {})
+	if random_event_system:
+		random_event_system.load_save_data(event_data)

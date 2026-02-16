@@ -99,6 +99,7 @@ func start_trip() -> bool:
 			"start": _trip_stops[0]["name"],
 			"end": _trip_stops[_trip_stops.size() - 1]["name"],
 			"stop_count": _trip_stops.size(),
+			"enable_random_events": true,
 		})
 
 	return true
@@ -146,11 +147,19 @@ func advance_to_next_stop() -> void:
 	_fuel.consume(fuel_cost)
 
 	_current_trip_stop += 1
+	if _event_bus:
+		var current: Dictionary = get_current_stop()
+		_event_bus.station_arrived.emit(str(current.get("name", "")))
 
 ## Handles `end_trip`.
 func end_trip() -> void:
 	_trip_active = false
 	var summary := _economy.get_trip_summary()
+	summary["route_data"] = {
+		"start": _trip_stops[0]["name"] if _trip_stops.size() > 0 else "",
+		"end": _trip_stops[_trip_stops.size() - 1]["name"] if _trip_stops.size() > 0 else "",
+		"stop_count": _trip_stops.size(),
+	}
 
 	if _event_bus:
 		_event_bus.trip_completed.emit(summary)

@@ -29,6 +29,7 @@ const COLOR_PANEL := Color("#16213e")
 var _travel_speed := 1.0
 var _progress := 0.0
 var _travel_duration := 3.0
+var _segment_speed_multiplier: float = 1.0
 var _is_traveling := true
 var _arrived := false
 
@@ -41,6 +42,10 @@ var _to_label: Label
 var _speed_label: Label
 var _fuel_label: Label
 var _warning_label: Label
+var _cargo_label: Label
+var _event_banner: Label
+var _event_banner_timer: float = 0.0
+var _event_icon_label: Label
 
 ## Lifecycle/helper logic for `_ready`.
 func _ready() -> void:
@@ -49,6 +54,7 @@ func _ready() -> void:
 
 ## Lifecycle/helper logic for `_process`.
 func _process(delta: float) -> void:
+	_update_event_banner(delta)
 	if not _is_traveling:
 		return
 
@@ -67,6 +73,15 @@ func _build_scene() -> void:
 	_build_progress()
 	_build_info()
 	_build_speed_button()
+	_build_event_banner()
+
+## Lifecycle/helper logic for `_update_event_banner`.
+func _update_event_banner(delta: float) -> void:
+	if _event_banner == null or _event_banner_timer <= 0.0:
+		return
+	_event_banner_timer = maxf(0.0, _event_banner_timer - delta)
+	if _event_banner_timer <= 0.0:
+		_event_banner.visible = false
 
 ## Lifecycle/helper logic for `_build_landscape`.
 func _build_landscape() -> void:
@@ -182,6 +197,22 @@ func _build_hud() -> void:
 	_speed_label.z_index = 21
 	add_child(_speed_label)
 
+	_cargo_label = Label.new()
+	_cargo_label.position = Vector2(20, 126)
+	_cargo_label.add_theme_font_size_override("font_size", 13)
+	_cargo_label.add_theme_color_override("font_color", COLOR_TEXT)
+	_cargo_label.z_index = 21
+	add_child(_cargo_label)
+
+	_event_icon_label = Label.new()
+	_event_icon_label.position = Vector2(VIEWPORT_W - 60, 126)
+	_event_icon_label.size = Vector2(40, 20)
+	_event_icon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_event_icon_label.add_theme_font_size_override("font_size", 16)
+	_event_icon_label.visible = false
+	_event_icon_label.z_index = 21
+	add_child(_event_icon_label)
+
 ## Lifecycle/helper logic for `_build_progress`.
 func _build_progress() -> void:
 
@@ -216,14 +247,27 @@ func _build_info() -> void:
 
 ## Lifecycle/helper logic for `_build_speed_button`.
 func _build_speed_button() -> void:
-	var btn := _create_button("HIZ: 1x", Vector2(180, INFO_Y + 70), Vector2(180, 50), Color("#2980b9"))
+	var btn := _create_button(I18n.t("travel.button.speed", [1]), Vector2(180, INFO_Y + 70), Vector2(180, 50), Color("#2980b9"))
 	btn.name = "SpeedButton"
 	add_child(btn)
 
-	var arrive_btn := _create_button("DURAGA GIR", Vector2(140, INFO_Y + 140), Vector2(260, 60), COLOR_GREEN)
+	var arrive_btn := _create_button(I18n.t("travel.button.arrive"), Vector2(140, INFO_Y + 140), Vector2(260, 60), COLOR_GREEN)
 	arrive_btn.name = "ArriveButton"
 	arrive_btn.visible = false
 	add_child(arrive_btn)
+
+## Lifecycle/helper logic for `_build_event_banner`.
+func _build_event_banner() -> void:
+	_event_banner = Label.new()
+	_event_banner.position = Vector2(20, HUD_H + 12)
+	_event_banner.size = Vector2(VIEWPORT_W - 40, 24)
+	_event_banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_event_banner.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_event_banner.add_theme_font_size_override("font_size", 14)
+	_event_banner.add_theme_color_override("font_color", Color("#111827"))
+	_event_banner.modulate = Color("#f7dc6f")
+	_event_banner.visible = false
+	add_child(_event_banner)
 
 ## Lifecycle/helper logic for `_create_button`.
 func _create_button(text: String, pos: Vector2, btn_size: Vector2, color: Color) -> Control:
@@ -265,11 +309,23 @@ func _start_travel() -> void:
 	_to_label.text = next["name"]
 
 	var distance: float = gm.trip_planner.get_distance_to_next_stop()
+	_segment_speed_multiplier = 1.0
+	var travel_event: Dictionary = {}
+	if gm.random_event_system:
+		travel_event = gm.random_event_system.try_trigger(Constants.RandomEventTrigger.ON_TRAVEL)
+		_segment_speed_multiplier = gm.random_event_system.consume_speed_multiplier()
+		if not travel_event.is_empty():
+			_show_event_banner(travel_event)
+			_show_event_icon(str(travel_event.get("id", "")))
+			_show_conductor_event_tip(travel_event)
+		else:
+			_event_icon_label.visible = false
 
-	_travel_duration = maxf(1.5, distance / 30.0)
+	_travel_duration = maxf(1.5, distance / 30.0) / maxf(0.1, _segment_speed_multiplier)
 
 	_fuel_label.text = I18n.t("travel.fuel_percent", [gm.fuel_system.get_fuel_percentage()])
-	_speed_label.text = "Hiz: %dx" % int(_travel_speed)
+	_speed_label.text = I18n.t("travel.speed", [int(_travel_speed)])
+	_update_cargo_label(gm)
 	_warning_label.text = ""
 	_is_traveling = true
 	_arrived = false
@@ -290,7 +346,7 @@ func _arrive_at_station() -> void:
 
 	if gm and gm.trip_planner.is_at_final_stop():
 		var lbl: Label = arrive_btn.get_child(1)
-		lbl.text = "SEFER SONU"
+		lbl.text = I18n.t("travel.button.finish")
 
 ## Lifecycle/helper logic for `_show_trip_end`.
 func _show_trip_end() -> void:
@@ -300,7 +356,43 @@ func _show_trip_end() -> void:
 	var arrive_btn: Control = get_node("ArriveButton")
 	arrive_btn.visible = true
 	var lbl: Label = arrive_btn.get_child(1)
-	lbl.text = "SEFER OZETI"
+	lbl.text = I18n.t("travel.button.summary")
+
+## Lifecycle/helper logic for `_show_event_banner`.
+func _show_event_banner(event_data: Dictionary) -> void:
+	var title_key: String = str(event_data.get("title_key", ""))
+	if title_key.is_empty():
+		return
+	_event_banner.text = I18n.t("travel.event.banner", [I18n.t(title_key)])
+	_event_banner.visible = true
+	_event_banner_timer = 3.0
+
+## Lifecycle/helper logic for `_show_event_icon`.
+func _show_event_icon(event_id: String) -> void:
+	var icon_key: String = "travel.event.icon.%s" % event_id
+	var icon_text: String = I18n.t(icon_key)
+	if icon_text == icon_key:
+		_event_icon_label.visible = false
+		return
+	_event_icon_label.text = icon_text
+	_event_icon_label.visible = true
+
+## Lifecycle/helper logic for `_show_conductor_event_tip`.
+func _show_conductor_event_tip(event_data: Dictionary) -> void:
+	var description_key: String = str(event_data.get("description_key", ""))
+	if description_key.is_empty():
+		return
+	var conductor: Node = get_node_or_null("/root/ConductorManager")
+	if conductor:
+		var tip_key: String = "tip_event_%s" % str(event_data.get("id", ""))
+		conductor.show_runtime_tip(tip_key, I18n.t(description_key))
+
+## Lifecycle/helper logic for `_update_cargo_label`.
+func _update_cargo_label(gm: Node) -> void:
+	if gm == null or gm.cargo_system == null:
+		_cargo_label.text = I18n.t("travel.cargo", [0])
+		return
+	_cargo_label.text = I18n.t("travel.cargo", [gm.cargo_system.get_loaded_weight()])
 
 ## Lifecycle/helper logic for `_update_visuals`.
 func _update_visuals() -> void:
@@ -353,10 +445,10 @@ func _input(event: InputEvent) -> void:
 ## Lifecycle/helper logic for `_toggle_speed`.
 func _toggle_speed() -> void:
 	_travel_speed = 2.0 if _travel_speed == 1.0 else 1.0
-	_speed_label.text = "Hiz: %dx" % int(_travel_speed)
+	_speed_label.text = I18n.t("travel.speed", [int(_travel_speed)])
 	var speed_btn: Control = get_node("SpeedButton")
 	var lbl: Label = speed_btn.get_child(1)
-	lbl.text = "HIZ: %dx" % int(_travel_speed)
+	lbl.text = I18n.t("travel.button.speed", [int(_travel_speed)])
 
 ## Lifecycle/helper logic for `_get_effective_speed`.
 func _get_effective_speed() -> float:
@@ -372,7 +464,7 @@ func _on_arrive_pressed() -> void:
 		return
 
 	if _from_label.text == I18n.t("travel.trip_complete"):
-		gm.trip_planner.end_trip()
+		gm.trip_planner.end_trip()   
 		get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
 	else:
 
