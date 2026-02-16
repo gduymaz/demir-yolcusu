@@ -46,6 +46,7 @@ var _from_label: Label
 var _to_label: Label
 var _speed_label: Label
 var _fuel_label: Label
+var _warning_label: Label
 
 
 func _ready() -> void:
@@ -57,7 +58,7 @@ func _process(delta: float) -> void:
 	if not _is_traveling:
 		return
 
-	_progress += delta * _travel_speed / _travel_duration
+	_progress += delta * _get_effective_speed() / _travel_duration
 	if _progress >= 1.0:
 		_progress = 1.0
 		_arrive_at_station()
@@ -190,6 +191,14 @@ func _build_hud() -> void:
 	_fuel_label.z_index = 21
 	add_child(_fuel_label)
 
+	_warning_label = Label.new()
+	_warning_label.position = Vector2(180, 50)
+	_warning_label.size = Vector2(160, 20)
+	_warning_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_warning_label.add_theme_font_size_override("font_size", 13)
+	_warning_label.add_theme_color_override("font_color", Color("#e74c3c"))
+	add_child(_warning_label)
+
 	# Hız
 	_speed_label = Label.new()
 	_speed_label.position = Vector2(350, 50)
@@ -293,6 +302,7 @@ func _start_travel() -> void:
 
 	_fuel_label.text = "Yakit: %.0f%%" % gm.fuel_system.get_fuel_percentage()
 	_speed_label.text = "Hiz: %dx" % int(_travel_speed)
+	_warning_label.text = ""
 	_is_traveling = true
 	_arrived = false
 	_progress = 0.0
@@ -324,7 +334,7 @@ func _show_trip_end() -> void:
 	var arrive_btn: Control = get_node("ArriveButton")
 	arrive_btn.visible = true
 	var lbl: Label = arrive_btn.get_child(1)
-	lbl.text = "HARITAYA DON"
+	lbl.text = "SEFER OZETI"
 
 
 # ==========================================================
@@ -346,6 +356,20 @@ func _update_visuals() -> void:
 		var total_dist := gm.trip_planner.get_distance_to_next_stop()
 		var current_km := total_dist * _progress
 		_distance_label.text = "%.0f km / %.0f km" % [current_km, total_dist]
+		var fuel_pct := gm.fuel_system.get_fuel_percentage()
+		_fuel_label.text = "Yakit: %.0f%%" % fuel_pct
+		if gm.fuel_system.is_fuel_empty():
+			_warning_label.text = "Yakit azaliyor!"
+			var conductor: Node = get_node_or_null("/root/ConductorManager")
+			if conductor:
+				conductor.show_runtime_tip("tip_fuel_empty", "Yakit azaliyor! Hizimiz dustu, ilk durakta ikmal yapalim!")
+		elif gm.fuel_system.is_fuel_critical():
+			_warning_label.text = "Kritik yakit!"
+			var conductor2: Node = get_node_or_null("/root/ConductorManager")
+			if conductor2:
+				conductor2.show_runtime_tip("tip_fuel_low", "Yakitimiz azaliyor, bir sonraki durakta dolduralim!")
+		else:
+			_warning_label.text = ""
 
 
 # ==========================================================
@@ -381,17 +405,23 @@ func _toggle_speed() -> void:
 	lbl.text = "HIZ: %dx" % int(_travel_speed)
 
 
+func _get_effective_speed() -> float:
+	var gm: Node = _get_game_manager()
+	if gm and gm.fuel_system.is_fuel_empty():
+		return _travel_speed * 0.5
+	return _travel_speed
+
+
 func _on_arrive_pressed() -> void:
 	var gm: Node = _get_game_manager()
 	if not gm:
 		return
 
-	if gm.trip_planner.is_at_final_stop():
-		# Sefer bitti — özete git
+	if _from_label.text == "Sefer Tamamlandi!":
 		gm.trip_planner.end_trip()
-		get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
+		get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
 	else:
-		# Sonraki durağa gir
+		# Durağa gir (son durak dahil)
 		get_tree().change_scene_to_file("res://src/scenes/station/station_scene.tscn")
 
 

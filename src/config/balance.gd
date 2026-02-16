@@ -81,7 +81,11 @@ const FUEL_TANK_DIESEL_NEW := 600.0
 const FUEL_TANK_ELECTRIC := 800.0
 
 ## Düşük yakıt uyarı eşiği (yüzde)
-const FUEL_LOW_THRESHOLD := 20.0
+const FUEL_LOW_THRESHOLD := 25.0
+const FUEL_CRITICAL_THRESHOLD := 10.0
+
+## Yakıt birim fiyatı (DA / birim)
+const FUEL_UNIT_PRICE := 1.0
 
 ## Vagon başına ek yakıt çarpanı
 const FUEL_PER_WAGON_MULTIPLIER := 0.1

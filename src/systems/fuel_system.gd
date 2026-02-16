@@ -11,6 +11,7 @@ var _locomotive: LocomotiveData
 var _current_fuel: float = 0.0
 var _tank_capacity: float = 0.0
 var _consumption_rate: float = 0.0
+var _trip_consumed: float = 0.0
 
 
 ## Sistemi lokomotif ile başlatır. Depo dolu başlar.
@@ -49,8 +50,24 @@ func is_fuel_low() -> bool:
 	return get_fuel_percentage() < Balance.FUEL_LOW_THRESHOLD
 
 
+func is_fuel_critical() -> bool:
+	return get_fuel_percentage() < Balance.FUEL_CRITICAL_THRESHOLD
+
+
 func is_fuel_empty() -> bool:
 	return _current_fuel <= 0.0
+
+
+func begin_trip_tracking() -> void:
+	_trip_consumed = 0.0
+
+
+func get_trip_consumed() -> float:
+	return _trip_consumed
+
+
+func get_trip_consumed_cost() -> int:
+	return get_refuel_cost(_trip_consumed)
 
 
 # ==========================================================
@@ -70,7 +87,11 @@ func can_travel(distance_km: float, wagon_count: int) -> bool:
 
 ## Yakıt tüketir. Sinyaller gönderir.
 func consume(amount: float) -> void:
+	if amount <= 0.0:
+		return
+	var actual := minf(amount, _current_fuel)
 	_current_fuel = maxf(0.0, _current_fuel - amount)
+	_trip_consumed += actual
 
 	if _event_bus:
 		_event_bus.fuel_changed.emit(get_fuel_percentage())
@@ -107,7 +128,7 @@ func auto_refuel() -> bool:
 	if needed <= 0.0:
 		return true  # Zaten dolu
 
-	var cost := ceili(needed)  # 1 birim = 1 DA, yukarı yuvarla
+	var cost := get_refuel_cost(needed)
 	if not _economy.can_afford(1):
 		return false  # Hiç parası yok
 
@@ -118,3 +139,64 @@ func auto_refuel() -> bool:
 	_economy.spend(affordable, "yakit_ikmal")
 	refuel_amount(float(affordable))
 	return true
+
+
+## Belirli miktar yakıtın maliyetini döner.
+func get_refuel_cost(amount: float) -> int:
+	if amount <= 0.0:
+		return 0
+	return ceili(amount * Balance.FUEL_UNIT_PRICE)
+
+
+## Tankı tam doldurmanın maliyetini döner.
+func get_full_refuel_cost() -> int:
+	return get_refuel_cost(_tank_capacity - _current_fuel)
+
+
+## Belirli yakıt miktarını satın alıp depoya ekler.
+func buy_refuel(amount: float) -> bool:
+	if amount <= 0.0:
+		return true
+
+	var actual_amount := minf(amount, _tank_capacity - _current_fuel)
+	if actual_amount <= 0.0:
+		return true
+
+	var cost := get_refuel_cost(actual_amount)
+	if not _economy.can_afford(cost):
+		return false
+
+	_economy.spend(cost, "yakit_ikmal")
+	refuel_amount(actual_amount)
+	return true
+
+
+## Planlanan sefer için minimum yakıtı otomatik ikmal eder.
+## Dönüş: {"needed": float, "added": float, "spent": int, "can_travel": bool}
+func ensure_fuel_for_trip(distance_km: float, wagon_count: int) -> Dictionary:
+	var needed := maxf(0.0, calculate_fuel_cost(distance_km, wagon_count) - _current_fuel)
+	if needed <= 0.0:
+		return {
+			"needed": 0.0,
+			"added": 0.0,
+			"spent": 0,
+			"can_travel": true,
+		}
+
+	var affordable_cost := mini(get_refuel_cost(needed), _economy.get_balance())
+	var added := minf(needed, float(affordable_cost) / Balance.FUEL_UNIT_PRICE)
+	var spent := 0
+	if added > 0.0:
+		spent = get_refuel_cost(added)
+		if _economy.spend(spent, "yakit_ikmal"):
+			refuel_amount(added)
+		else:
+			added = 0.0
+			spent = 0
+
+	return {
+		"needed": needed,
+		"added": added,
+		"spent": spent,
+		"can_travel": can_travel(distance_km, wagon_count),
+	}

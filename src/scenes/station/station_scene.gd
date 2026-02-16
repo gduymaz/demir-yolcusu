@@ -30,6 +30,12 @@ var _passenger_nodes: Array = []
 var _wagon_nodes: Array = []
 var _summary_panel: PanelContainer
 var _summary_label: Label
+var _fuel_button: Button
+var _fuel_progress_bg: ColorRect
+var _fuel_progress_fill: ColorRect
+var _refuel_progress: float = 0.0
+var _refuel_in_progress: bool = false
+var _station_ticket_start: int = 0
 
 # -- Sabitler (layout) --
 const VIEWPORT_W := 540
@@ -69,6 +75,9 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_process_refuel(delta)
+	_update_refuel_controls()
+
 	if not _is_active:
 		return
 
@@ -81,6 +90,9 @@ func _process(delta: float) -> void:
 
 	var lost := _patience.update(_waiting_passengers, delta)
 	if lost.size() > 0:
+		var conductor: Node = get_node_or_null("/root/ConductorManager")
+		if conductor:
+			conductor.show_runtime_tip("tip_passenger_lost", "Eyvah, yolcu gitti! Hizli ol Makinist!")
 		_rebuild_passenger_nodes()
 
 	_update_patience_bars()
@@ -143,6 +155,7 @@ func _build_scene() -> void:
 	_build_background()
 	_build_hud()
 	_build_train()
+	_build_refuel_controls()
 	_build_summary_panel()
 
 
@@ -219,6 +232,26 @@ func _build_hud() -> void:
 	_hud_station.add_theme_font_size_override("font_size", 12)
 	_hud_station.add_theme_color_override("font_color", Color("#aaaaaa"))
 	canvas.add_child(_hud_station)
+
+
+func _build_refuel_controls() -> void:
+	_fuel_button = Button.new()
+	_fuel_button.position = Vector2(VIEWPORT_W - 180, 92)
+	_fuel_button.size = Vector2(160, 32)
+	_fuel_button.text = "Yakit Al"
+	add_child(_fuel_button)
+
+	_fuel_progress_bg = ColorRect.new()
+	_fuel_progress_bg.position = Vector2(VIEWPORT_W - 180, 128)
+	_fuel_progress_bg.size = Vector2(160, 8)
+	_fuel_progress_bg.color = Color("#2c3e50")
+	add_child(_fuel_progress_bg)
+
+	_fuel_progress_fill = ColorRect.new()
+	_fuel_progress_fill.position = Vector2(VIEWPORT_W - 180, 128)
+	_fuel_progress_fill.size = Vector2(0, 8)
+	_fuel_progress_fill.color = Color("#27ae60")
+	add_child(_fuel_progress_fill)
 
 
 func _build_train() -> void:
@@ -377,6 +410,7 @@ func _start_station() -> void:
 
 	# HUD güncelle
 	_hud_station.text = _get_current_station_name()
+	_station_ticket_start = int(_economy.get_trip_summary().get("earnings", {}).get("ticket", 0))
 
 	_rebuild_passenger_nodes()
 	_update_hud()
@@ -394,6 +428,11 @@ func _end_station() -> void:
 		var wagon: WagonData = w
 		boarded_count += wagon.get_passenger_count()
 	var lost_count := 5 - _waiting_passengers.size() - boarded_count
+	var ticket_end := int(summary.get("earnings", {}).get("ticket", 0))
+	var station_ticket := maxi(0, ticket_end - _station_ticket_start)
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm:
+		gm.record_station_result(_get_current_station_name(), station_ticket, boarded_count, lost_count)
 
 	_summary_label.text = (
 		"\nBindirilen yolcu: %d\n" % boarded_count +
@@ -404,6 +443,11 @@ func _end_station() -> void:
 		"Itibar: %.1f yildiz\n" % _reputation.get_stars()
 	)
 	_summary_panel.visible = true
+
+	if boarded_count >= 4 and lost_count <= 0:
+		var conductor: Node = get_node_or_null("/root/ConductorManager")
+		if conductor:
+			conductor.show_runtime_tip("tip_station_good", "Harika is cikardin Makinist!")
 
 
 func _on_restart_pressed() -> void:
@@ -424,7 +468,7 @@ func _on_finish_trip_pressed() -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm:
 		gm.trip_planner.end_trip()
-	get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
+	get_tree().change_scene_to_file("res://src/scenes/summary/summary_scene.tscn")
 
 
 ## Rotadaki ileriki durakların isimlerini döner (yolcu hedefleri için).
@@ -477,6 +521,9 @@ func _input(event: InputEvent) -> void:
 		var pressed := _is_pressed(event)
 
 		if pressed:
+			if _is_in_rect(pos, _fuel_button.position, _fuel_button.size):
+				_try_refuel()
+				return
 			_try_start_drag(pos)
 		else:
 			_try_end_drag(pos)
@@ -652,6 +699,62 @@ func _get_passenger_type_letter(type: Constants.PassengerType) -> String:
 func _update_hud() -> void:
 	_hud_money.text = "%d DA" % _economy.get_balance()
 	_hud_reputation.text = "%.1f yildiz" % _reputation.get_stars()
+	_update_refuel_controls()
+
+
+func _update_refuel_controls() -> void:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm == null:
+		_fuel_button.disabled = true
+		_fuel_button.text = "Yakit Al"
+		return
+
+	var fuel := gm.fuel_system
+	var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
+	var cost := fuel.get_refuel_cost(missing)
+	if _refuel_in_progress:
+		_fuel_button.disabled = true
+		_fuel_button.text = "Ikmal..."
+	elif missing <= 0.0:
+		_fuel_button.disabled = true
+		_fuel_button.text = "Depo Dolu"
+	else:
+		_fuel_button.disabled = not _economy.can_afford(cost)
+		_fuel_button.text = "Yakit Al (%d DA)" % cost
+
+
+func _try_refuel() -> void:
+	if _refuel_in_progress:
+		return
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm == null:
+		return
+	var fuel := gm.fuel_system
+	var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
+	var cost := fuel.get_refuel_cost(missing)
+	if missing <= 0.0 or not _economy.can_afford(cost):
+		return
+	_refuel_in_progress = true
+	_refuel_progress = 0.0
+	_fuel_progress_fill.size.x = 0
+
+
+func _process_refuel(delta: float) -> void:
+	if not _refuel_in_progress:
+		return
+	_refuel_progress += delta / 1.5
+	var p := clampf(_refuel_progress, 0.0, 1.0)
+	_fuel_progress_fill.size.x = 160.0 * p
+	if p >= 1.0:
+		var gm: Node = get_node_or_null("/root/GameManager")
+		if gm:
+			var fuel := gm.fuel_system
+			var missing := maxf(0.0, fuel.get_tank_capacity() - fuel.get_current_fuel())
+			fuel.buy_refuel(missing)
+		_refuel_in_progress = false
+		_refuel_progress = 0.0
+		_fuel_progress_fill.size.x = 0
+		_update_hud()
 
 
 func _update_wagon_labels() -> void:
@@ -689,3 +792,8 @@ func _get_wagon_short_name(wtype: Constants.WagonType) -> String:
 		Constants.WagonType.DINING: return "Ym."
 		Constants.WagonType.CARGO: return "Kar."
 		_: return "?"
+
+
+func _is_in_rect(pos: Vector2, rect_pos: Vector2, rect_size: Vector2) -> bool:
+	return pos.x >= rect_pos.x and pos.x <= rect_pos.x + rect_size.x \
+		and pos.y >= rect_pos.y and pos.y <= rect_pos.y + rect_size.y

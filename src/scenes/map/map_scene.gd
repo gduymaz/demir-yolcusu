@@ -330,6 +330,7 @@ func _refresh_panel() -> void:
 	if not gm:
 		return
 
+	gm.sync_trip_wagon_count()
 	gm.trip_planner.select_stops(_selected_start, _selected_end)
 	var preview: Dictionary = gm.trip_planner.get_preview()
 
@@ -436,6 +437,7 @@ func _try_start_trip() -> void:
 	if not gm:
 		return
 
+	gm.sync_trip_wagon_count()
 	gm.trip_planner.select_stops(_selected_start, _selected_end)
 	if gm.trip_planner.start_trip():
 		get_tree().change_scene_to_file("res://src/scenes/travel/travel_scene.tscn")

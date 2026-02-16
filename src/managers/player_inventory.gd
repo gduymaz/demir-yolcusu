@@ -120,3 +120,45 @@ func mark_wagon_in_use(wagon: WagonData) -> void:
 ## Vagonu "boşta" olarak işaretler.
 func unmark_wagon_in_use(wagon: WagonData) -> void:
 	_wagons_in_use.erase(wagon)
+
+
+func get_locomotive_ids() -> Array:
+	var result: Array = []
+	for loco in _locomotives:
+		result.append((loco as LocomotiveData).id)
+	return result
+
+
+func get_wagon_types() -> Array:
+	var result: Array = []
+	for wagon in _wagons:
+		result.append((wagon as WagonData).type)
+	return result
+
+
+func get_wagons_in_use_indices() -> Array:
+	var indices: Array = []
+	for wagon in _wagons_in_use:
+		var idx := _wagons.find(wagon)
+		if idx >= 0:
+			indices.append(idx)
+	return indices
+
+
+func restore_inventory(locomotive_ids: Array, wagon_types: Array, in_use_indices: Array) -> void:
+	_locomotives.clear()
+	_wagons.clear()
+	_wagons_in_use.clear()
+
+	for loco_id in locomotive_ids:
+		var loco := LocomotiveData.create(str(loco_id))
+		if loco != null:
+			_locomotives.append(loco)
+
+	for wagon_type in wagon_types:
+		_wagons.append(WagonData.new(int(wagon_type)))
+
+	for idx in in_use_indices:
+		var i := int(idx)
+		if i >= 0 and i < _wagons.size():
+			_wagons_in_use.append(_wagons[i])

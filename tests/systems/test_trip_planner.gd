@@ -76,6 +76,15 @@ func test_GetPreview_FuelCost_ShouldBePositive() -> void:
 	assert_float(preview["fuel_cost"]).is_greater(0.0)
 
 
+func test_GetPreview_MoreWagons_ShouldIncreaseFuelCost() -> void:
+	_planner.select_stops(0, 6)
+	_planner.set_wagon_count(0)
+	var low := _planner.get_preview()
+	_planner.set_wagon_count(4)
+	var high := _planner.get_preview()
+	assert_float(high["fuel_cost"]).is_greater(low["fuel_cost"])
+
+
 func test_GetPreview_StopCount_ShouldMatch() -> void:
 	_planner.select_stops(0, 6)
 	var preview := _planner.get_preview()

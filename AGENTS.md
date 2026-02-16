@@ -1,18 +1,25 @@
-# Codex Agent Kuralları (Bu Proje)
+# Demir Yolcusu Agent Kurallari
 
-Bu dosya, mevcut Claude kurulumunu bozmadan Codex ajanları için ek yönlendirme sağlar.
+Bu dosya proje icinde calisacak ajanlar icin ortak yonlendirme sunar.
 
-## Sınırlar
-- `.claude/` içeriğini kullanıcı istemedikçe değiştirme.
-- Mevcut mimariyi koru; yalnızca görev kapsamındaki dosyalara dokun.
+## Sinirlar
+- Gorev kapsami disindaki dosyalari degistirme.
+- Mimariyi koru, buyuk refactor oncesi etkiyi netlestir.
+- Her degisiklikte test veya calistirma kaniti uret.
 
-## Geliştirme İlkeleri
-- Test-first: RED -> GREEN -> REFACTOR
-- Küçük ve geri alınabilir değişiklikler
-- Net dosya referanslarıyla teknik özet
+## Gelistirme Ilkeleri
+- Test-first: RED -> GREEN -> REFACTOR.
+- Kucuk ve geri alinabilir adimlarla ilerle.
+- Dosya bazli teknik ozet ver.
+- Belirsiz durumda varsayim yapma, kodu referans al.
 
-## Godot/Test
+## Proje Komutlari
 ```bash
 GODOT="/Users/splendour/Downloads/Godot.app/Contents/MacOS/Godot"
+
+# Tum testler
 $GODOT --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a tests/ -c --ignoreHeadlessMode
+
+# Tek test
+$GODOT --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a tests/systems/test_trip_planner.gd --ignoreHeadlessMode
 ```

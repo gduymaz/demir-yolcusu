@@ -18,6 +18,7 @@ var _trip_active: bool = false
 var _trip_stops: Array = []  # Seferdeki duraklar (sıralı)
 var _current_trip_stop: int = 0  # _trip_stops içindeki mevcut indeks
 var _direction: int = 1  # 1 = ileri, -1 = geri
+var _wagon_count: int = 2
 
 
 func setup(event_bus: Node, economy: EconomySystem, fuel: FuelSystem, route: RouteData) -> void:
@@ -61,6 +62,10 @@ func get_trip_stop_count() -> int:
 	return _trip_stops.size()
 
 
+func set_wagon_count(wagon_count: int) -> void:
+	_wagon_count = maxi(0, wagon_count)
+
+
 # ==========================================================
 # ÖN İZLEME
 # ==========================================================
@@ -71,10 +76,9 @@ func get_preview() -> Dictionary:
 		return {}
 
 	var distance := _route.get_distance_between(_start_index, _end_index)
-	var wagon_count := 2  # Varsayılan — GameManager'dan alınacak
-	var fuel_cost := _fuel.calculate_fuel_cost(distance, wagon_count)
+	var fuel_cost := _fuel.calculate_fuel_cost(distance, _wagon_count)
 	var fuel_needed := maxf(0.0, fuel_cost - _fuel.get_current_fuel())
-	var refuel_cost := ceili(fuel_needed)
+	var refuel_cost := _fuel.get_refuel_cost(fuel_needed)
 	var can_afford := _economy.can_afford(refuel_cost) or fuel_needed <= 0.0
 
 	# Tahmini gelir: durak başına ortalama 5 yolcu × ortalama bilet
@@ -100,8 +104,10 @@ func start_trip() -> bool:
 	if _trip_stops.is_empty():
 		return false
 
-	# Otomatik ikmal
-	_fuel.auto_refuel()
+	# Sefer için minimum yakıtı tamamla
+	var distance := _route.get_distance_between(_start_index, _end_index)
+	_fuel.ensure_fuel_for_trip(distance, _wagon_count)
+	_fuel.begin_trip_tracking()
 
 	_trip_active = true
 	_current_trip_stop = 0
@@ -161,7 +167,7 @@ func advance_to_next_stop() -> void:
 		return
 
 	var distance := get_distance_to_next_stop()
-	var fuel_cost := _fuel.calculate_fuel_cost(distance, 2)  # TODO: gerçek vagon sayısı
+	var fuel_cost := _fuel.calculate_fuel_cost(distance, _wagon_count)
 	_fuel.consume(fuel_cost)
 
 	_current_trip_stop += 1

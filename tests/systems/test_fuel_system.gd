@@ -125,9 +125,23 @@ func test_IsLow_AboveThreshold_ShouldBeFalse() -> void:
 func test_IsLow_BelowThreshold_ShouldBeTrue() -> void:
 	var loco := LocomotiveData.create("kara_duman")
 	_system.setup(_event_bus, _economy, loco)
-	# 300 kapasite, %20 eşik = 60. 250 tüket → 50 kalan → %16.7 → düşük
-	_system.consume(250.0)
+	# 300 kapasite, %25 eşik = 75. 230 tüket -> 70 kalan -> dusuk
+	_system.consume(230.0)
 	assert_bool(_system.is_fuel_low()).is_true()
+
+
+func test_IsCritical_AboveThreshold_ShouldBeFalse() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_system.consume(260.0) # 40 kalan -> %13.3
+	assert_bool(_system.is_fuel_critical()).is_false()
+
+
+func test_IsCritical_BelowThreshold_ShouldBeTrue() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_system.consume(271.0) # 29 kalan -> %9.6
+	assert_bool(_system.is_fuel_critical()).is_true()
 
 
 func test_IsEmpty_WithFuel_ShouldBeFalse() -> void:
@@ -231,6 +245,59 @@ func test_AutoRefuel_NotEnoughMoney_ShouldReturnFalse() -> void:
 	# Para harcanmadı, yakıt değişmedi
 	assert_int(_economy.get_balance()).is_equal(0)
 	assert_float(_system.get_current_fuel()).is_equal(100.0)
+
+
+func test_GetRefuelCost_ShouldUseUnitPrice() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	assert_int(_system.get_refuel_cost(12.4)).is_equal(13)
+
+
+func test_BuyRefuel_EnoughMoney_ShouldIncreaseFuel() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_system.consume(250.0) # 50 kalan
+	assert_bool(_system.buy_refuel(20.0)).is_true()
+	assert_float(_system.get_current_fuel()).is_equal(70.0)
+
+
+func test_BuyRefuel_NotEnoughMoney_ShouldReturnFalse() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_economy.set_balance(5)
+	_system.consume(250.0)
+	assert_bool(_system.buy_refuel(20.0)).is_false()
+	assert_float(_system.get_current_fuel()).is_equal(50.0)
+
+
+func test_EnsureFuelForTrip_ShouldTopUpMinimum() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_system.consume(250.0) # 50 kalan
+	var result := _system.ensure_fuel_for_trip(30.0, 0) # 90 gerekli
+	assert_bool(result["can_travel"]).is_true()
+	assert_float(_system.get_current_fuel()).is_equal(90.0)
+
+
+func test_EnsureFuelForTrip_InsufficientMoney_ShouldFailTravelCheck() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_system.consume(250.0) # 50 kalan
+	_economy.set_balance(10) # +10 yakıt alabilir -> 60
+	var result := _system.ensure_fuel_for_trip(30.0, 0) # 90 gerekli
+	assert_bool(result["can_travel"]).is_false()
+	assert_float(_system.get_current_fuel()).is_equal(60.0)
+
+
+func test_TripTracking_ShouldTrackOnlyConsumedAmount() -> void:
+	var loco := LocomotiveData.create("kara_duman")
+	_system.setup(_event_bus, _economy, loco)
+	_system.begin_trip_tracking()
+	_system.consume(25.5)
+	_system.refuel_amount(10.0)
+	_system.consume(4.5)
+	assert_float(_system.get_trip_consumed()).is_equal(30.0)
+	assert_int(_system.get_trip_consumed_cost()).is_equal(30)
 
 
 func test_AutoRefuel_PartialMoney_ShouldFillPartially() -> void:

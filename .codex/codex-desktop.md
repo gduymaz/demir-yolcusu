@@ -1,21 +1,21 @@
-# Codex Desktop Çalışma Rehberi
+# Codex Desktop Calisma Rehberi
 
-## Amaç
-Desktop üzerinden görevleri hızlı iterasyonla yürütmek ve değişiklikleri net raporlamak.
+## Amac
+Desktop uzerinden gorevleri hizli iterasyonla yurutmek ve teknik sonucu net raporlamak.
 
-## Standart Akış
-1. Görev kapsamını tek cümlede sabitle.
-2. İlgili dosyaları oku, etki alanını sınırla.
-3. Test-first yaklaşımıyla değişiklik yap.
-4. Çalıştırılabilen doğrulama komutlarını uygula.
-5. Dosya bazlı sonuç raporu ver.
+## Standart Akis
+1. Gorev kapsamini tek cumlede sabitle.
+2. Ilgili dosyalari oku, etki alanini sinirla.
+3. Test-first yaklasimiyla degisikligi yap.
+4. Calistirilabilir dogrulama komutlarini uygula.
+5. Dosya bazli sonuc raporu ver.
 
-## Rapor Formatı
-- Değişen dosyalar
-- Ne değişti
-- Neden değişti
-- Test/çalıştırma sonucu
+## Rapor Formati
+- Degisen dosyalar
+- Ne degisti
+- Neden degisti
+- Test/calistirma sonucu
 - Kalan riskler
 
-## Proje Özel Not
-Mevcut `.claude` yapısı korunur; Codex için ek rehberler yalnızca `.codex/` altında tutulur.
+## Proje Notu
+Agent ve skill altyapisi `.codex/` altinda yonetilir.

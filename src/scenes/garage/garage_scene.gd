@@ -718,6 +718,7 @@ func _add_wagon_to_train_from_pool() -> void:
 		return
 	if config.add_wagon(_drag_wagon):
 		gm.inventory.mark_wagon_in_use(_drag_wagon)
+		gm.sync_trip_wagon_count()
 
 
 func _remove_wagon_from_train() -> void:
@@ -726,6 +727,7 @@ func _remove_wagon_from_train() -> void:
 	var removed := config.remove_wagon_at(_drag_index)
 	if removed:
 		gm.inventory.unmark_wagon_in_use(removed)
+		gm.sync_trip_wagon_count()
 
 
 # ==========================================================
@@ -754,6 +756,7 @@ func _select_locomotive(index: int) -> void:
 			break
 		gm.train_config.add_wagon(wagon)
 		gm.inventory.mark_wagon_in_use(wagon)
+	gm.sync_trip_wagon_count()
 
 	_refresh_all()
 

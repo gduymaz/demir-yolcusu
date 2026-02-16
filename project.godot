@@ -24,6 +24,8 @@ run/main_scene="res://src/scenes/garage/garage_scene.tscn"
 
 EventBus="*res://src/events/event_bus.gd"
 GameManager="*res://src/managers/game_manager.gd"
+GlobalHUD="*res://src/ui/hud/global_hud.gd"
+ConductorManager="*res://src/ui/dialogs/conductor_manager.gd"
 
 [display]
 

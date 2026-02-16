@@ -1,6 +1,6 @@
-# Codex Katmanı
+# Codex Katmani
 
-Bu klasör, mevcut `.claude` yapısını değiştirmeden Codex kullanımına ek bir çalışma katmanı sağlar.
+Bu klasor projede dogrudan kullanilan agent ve skill tanimlarini tutar.
 
 ## Core Rehberler
 - `codex-cli.md`
@@ -31,5 +31,3 @@ Bu klasör, mevcut `.claude` yapısını değiştirmeden Codex kullanımına ek 
 - `skills/pixel-art-pipeline/`
 - `skills/pixel-art-animation/`
 - `skills/pixel-art-qa/`
-
-Not: `.claude/` ve `CLAUDE.md` korunur.
