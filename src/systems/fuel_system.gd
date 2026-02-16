@@ -132,12 +132,17 @@ func auto_refuel() -> bool:
 	if not _economy.can_afford(1):
 		return false  # Hiç parası yok
 
-	var affordable := mini(cost, _economy.get_balance())
-	if affordable <= 0:
+	var max_spend := mini(cost, _economy.get_balance())
+	if max_spend <= 0:
 		return false
 
-	_economy.spend(affordable, "yakit_ikmal")
-	refuel_amount(float(affordable))
+	var added := minf(needed, float(max_spend) / Balance.FUEL_UNIT_PRICE)
+	var spent := mini(max_spend, get_refuel_cost(added))
+	if spent <= 0:
+		return false
+
+	_economy.spend(spent, "yakit_ikmal")
+	refuel_amount(added)
 	return true
 
 
@@ -183,11 +188,11 @@ func ensure_fuel_for_trip(distance_km: float, wagon_count: int) -> Dictionary:
 			"can_travel": true,
 		}
 
-	var affordable_cost := mini(get_refuel_cost(needed), _economy.get_balance())
-	var added := minf(needed, float(affordable_cost) / Balance.FUEL_UNIT_PRICE)
+	var max_spend := mini(get_refuel_cost(needed), _economy.get_balance())
+	var added := minf(needed, float(max_spend) / Balance.FUEL_UNIT_PRICE)
 	var spent := 0
 	if added > 0.0:
-		spent = get_refuel_cost(added)
+		spent = mini(max_spend, get_refuel_cost(added))
 		if _economy.spend(spent, "yakit_ikmal"):
 			refuel_amount(added)
 		else:
