@@ -18,6 +18,7 @@ config/name="Demir Yolcusu"
 config/description="Türkiye'nin demiryollarında geçen isometrik pixel art tren yönetim oyunu"
 config/version="0.1.0"
 config/features=PackedStringArray("4.6", "Mobile")
+run/main_scene="res://src/scenes/station/station_scene.tscn"
 
 [autoload]
 
@@ -40,6 +41,10 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 [gui]
 
 theme/default_font_size=12
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [input]
 
