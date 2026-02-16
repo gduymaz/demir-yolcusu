@@ -96,11 +96,7 @@ func _build_ui() -> void:
 func _on_scene_changed(scene_path: String) -> void:
 	var gm: Node = get_node_or_null("/root/GameManager")
 	if gm and gm.should_show_intro() and scene_path.contains("garage_scene"):
-		_pending_messages = [
-			"Hos geldin Makinist! Deden sana eski bir lokomotif birakti.",
-			"Bu 'Kara Duman' - komurlu, eski ama sadik bir lokomotif.",
-			"Haydi, ilk seferine cikalim! Garajda trenini hazirla.",
-		]
+		_pending_messages = get_intro_messages()
 		_show_next_pending()
 		return
 
@@ -160,6 +156,15 @@ func get_context_hint(scene_path: String, next_stop_name: String = "sonraki dura
 			"text": "Guzel manzara degil mi? Bir sonraki durak: %s" % next_stop_name,
 		}
 	return {}
+
+
+func get_intro_messages() -> Array:
+	return [
+		"Hos geldin Makinist! Ben konduktor amcan. Sana yardim edecegim.",
+		"Hos geldin Makinist! Deden sana eski bir lokomotif birakti.",
+		"Bu 'Kara Duman' - komurlu, eski ama sadik bir lokomotif.",
+		"Haydi, ilk seferine cikalim! Garajda trenini hazirla.",
+	]
 
 
 func show_runtime_tip(key: String, text: String) -> void:

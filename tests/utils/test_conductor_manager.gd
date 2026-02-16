@@ -27,3 +27,10 @@ func test_GetContextHint_UnknownScene_ShouldReturnEmpty() -> void:
 	var conductor: CanvasLayer = auto_free(load("res://src/ui/dialogs/conductor_manager.gd").new())
 	var hint: Dictionary = conductor.get_context_hint("res://src/scenes/unknown/other.tscn")
 	assert_int(hint.size()).is_equal(0)
+
+
+func test_GetIntroMessages_ShouldIncludeWelcomeAndStory() -> void:
+	var conductor: CanvasLayer = auto_free(load("res://src/ui/dialogs/conductor_manager.gd").new())
+	var intro: Array = conductor.get_intro_messages()
+	assert_int(intro.size()).is_equal(4)
+	assert_str(str(intro[0])).is_equal("Hos geldin Makinist! Ben konduktor amcan. Sana yardim edecegim.")

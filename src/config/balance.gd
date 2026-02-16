@@ -35,7 +35,7 @@ const REPUTATION_MIN := 0.0
 const REPUTATION_MAX := 5.0
 
 ## Başlangıç itibarı
-const REPUTATION_STARTING := 2.5
+const REPUTATION_STARTING := 3.0
 
 ## İtibar düşüş çarpanı (asimetrik: artar hızlı, düşer yavaş)
 const REPUTATION_LOSS_MULTIPLIER := 0.5
@@ -45,7 +45,7 @@ const REPUTATION_PER_PASSENGER_DELIVERED := 0.1
 const REPUTATION_PER_PASSENGER_LOST := -0.2  # ×0.5 uygulanmadan önceki değer
 
 ## İtibar → yıldız dönüşümü (direkt: 5.0 puan = 5 yıldız)
-## Yarım yıldız dahil: 2.5 = 2.5 yıldız
+## Yarım yıldız dahil: 3.0 = 3.0 yıldız
 
 
 # ==========================================================
