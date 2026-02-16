@@ -1,0 +1,19 @@
+# Godot
+.godot/
+*.import
+export_presets.cfg
+
+# Claude Code kişisel
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+build/
+export/
