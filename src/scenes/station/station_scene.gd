@@ -25,6 +25,7 @@ var _drag_offset: Vector2 = Vector2.ZERO
 var _hud_money: Label
 var _hud_reputation: Label
 var _hud_timer: Label
+var _hud_station: Label
 var _passenger_nodes: Array = []
 var _wagon_nodes: Array = []
 var _summary_panel: PanelContainer
@@ -210,6 +211,15 @@ func _build_hud() -> void:
 	_hud_timer.add_theme_color_override("font_color", Color.WHITE)
 	canvas.add_child(_hud_timer)
 
+	# Durak ismi
+	_hud_station = Label.new()
+	_hud_station.position = Vector2(VIEWPORT_W - 200, 50)
+	_hud_station.size = Vector2(180, 20)
+	_hud_station.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_hud_station.add_theme_font_size_override("font_size", 12)
+	_hud_station.add_theme_color_override("font_color", Color("#aaaaaa"))
+	canvas.add_child(_hud_station)
+
 
 func _build_train() -> void:
 	_wagon_nodes.clear()
@@ -317,16 +327,30 @@ func _build_summary_panel() -> void:
 
 	vbox.add_child(Control.new())  # spacer
 
-	# Tekrar Oyna butonu
-	var restart_btn := Button.new()
-	restart_btn.text = "Tekrar Oyna"
-	restart_btn.add_theme_font_size_override("font_size", 18)
-	restart_btn.pressed.connect(_on_restart_pressed)
-	vbox.add_child(restart_btn)
-
-	# Garaja Dön butonu
 	var gm: Node = get_node_or_null("/root/GameManager")
-	if gm:
+	if gm and gm.trip_planner.is_trip_active():
+		if not gm.trip_planner.is_at_final_stop():
+			# Devam Et butonu (sonraki durağa seyir)
+			var continue_btn := Button.new()
+			continue_btn.text = "Devam Et  -->"
+			continue_btn.add_theme_font_size_override("font_size", 18)
+			continue_btn.pressed.connect(_on_continue_pressed)
+			vbox.add_child(continue_btn)
+		else:
+			# Son durak — Sefer Sonu
+			var finish_btn := Button.new()
+			finish_btn.text = "Sefer Sonu"
+			finish_btn.add_theme_font_size_override("font_size", 18)
+			finish_btn.pressed.connect(_on_finish_trip_pressed)
+			vbox.add_child(finish_btn)
+	else:
+		# GameManager yok veya sefer aktif değil — eski butonlar
+		var restart_btn := Button.new()
+		restart_btn.text = "Tekrar Oyna"
+		restart_btn.add_theme_font_size_override("font_size", 18)
+		restart_btn.pressed.connect(_on_restart_pressed)
+		vbox.add_child(restart_btn)
+
 		var garage_btn := Button.new()
 		garage_btn.text = "Garaja Don"
 		garage_btn.add_theme_font_size_override("font_size", 18)
@@ -341,18 +365,18 @@ func _build_summary_panel() -> void:
 func _start_station() -> void:
 	_is_active = true
 	_time_remaining = _station_time
-	_economy.reset_trip_summary()
 	_summary_panel.visible = false
 
-	# Vagonları temizle (yolcuları sıfırla)
-	_clear_wagon_passengers()
-
-	# Yolcuları üret
-	var destinations := ["denizli", "afyon", "selcuk", "nazilli"]
+	# Yolcuları üret — hedef durakları rotadan al
+	var destinations := _get_destination_names()
+	var distance := _get_current_distance()
 	_waiting_passengers = []
-	var batch := PassengerFactory.create_batch(5, destinations, 120)
+	var batch := PassengerFactory.create_batch(5, destinations, distance)
 	for p in batch:
 		_waiting_passengers.append(p)
+
+	# HUD güncelle
+	_hud_station.text = _get_current_station_name()
 
 	_rebuild_passenger_nodes()
 	_update_hud()
@@ -390,12 +414,54 @@ func _on_garage_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/scenes/garage/garage_scene.tscn")
 
 
-func _clear_wagon_passengers() -> void:
-	for w in _wagons:
-		var wagon: WagonData = w
-		var all_passengers: Array[Dictionary] = wagon.get_all_passengers()
-		for p in all_passengers:
-			wagon.remove_passenger(p["id"])
+func _on_continue_pressed() -> void:
+	# Seyir sahnesine geçiş (sonraki durağa)
+	get_tree().change_scene_to_file("res://src/scenes/travel/travel_scene.tscn")
+
+
+func _on_finish_trip_pressed() -> void:
+	# Seferi bitir ve haritaya dön
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if gm:
+		gm.trip_planner.end_trip()
+	get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
+
+
+## Rotadaki ileriki durakların isimlerini döner (yolcu hedefleri için).
+func _get_destination_names() -> Array:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if not gm or not gm.trip_planner.is_trip_active():
+		return ["denizli", "afyon", "selcuk", "nazilli"]
+
+	var destinations: Array = []
+	var trip_stops: Array = gm.trip_planner.get_trip_stops()
+	var current := gm.trip_planner.get_current_stop_index()
+	for i in range(current + 1, trip_stops.size()):
+		var stop: Dictionary = trip_stops[i]
+		destinations.append(stop["name"].to_lower())
+
+	if destinations.is_empty():
+		destinations.append("son_durak")
+	return destinations
+
+
+## Mevcut durağa olan mesafeyi döner.
+func _get_current_distance() -> int:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if not gm or not gm.trip_planner.is_trip_active():
+		return 120
+
+	var stop := gm.trip_planner.get_current_stop()
+	return int(stop.get("km_from_start", 120))
+
+
+## Mevcut durak ismini döner.
+func _get_current_station_name() -> String:
+	var gm: Node = get_node_or_null("/root/GameManager")
+	if not gm or not gm.trip_planner.is_trip_active():
+		return "DURAK"
+	var stop := gm.trip_planner.get_current_stop()
+	return stop.get("name", "DURAK")
 
 
 # ==========================================================

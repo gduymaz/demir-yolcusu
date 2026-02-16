@@ -8,6 +8,10 @@ var economy: EconomySystem
 var reputation: ReputationSystem
 var inventory: PlayerInventory
 var train_config: TrainConfig
+var fuel_system: FuelSystem
+var route: RouteData
+var trip_planner: TripPlanner
+var current_stop_index: int = 0  # Mevcut durak (haritada konum)
 
 
 func _ready() -> void:
@@ -31,6 +35,19 @@ func _ready() -> void:
 
 	# Varsayılan tren konfigürasyonu (ilk lokomotif + başlangıç vagonları)
 	_setup_default_train()
+
+	# Yakıt sistemi
+	fuel_system = FuelSystem.new()
+	fuel_system.setup(event_bus, economy, train_config.get_locomotive())
+	add_child(fuel_system)
+
+	# Ege rotası
+	route = RouteData.load_ege_route()
+
+	# Sefer planlayıcı
+	trip_planner = TripPlanner.new()
+	trip_planner.setup(event_bus, economy, fuel_system, route)
+	add_child(trip_planner)
 
 
 func _setup_default_train() -> void:

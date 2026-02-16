@@ -208,8 +208,8 @@ func _build_button_bar() -> void:
 	shop_btn.name = "ShopButton"
 	add_child(shop_btn)
 
-	# Sefere Çık butonu
-	var go_btn := _create_button("SEFERE CIK", Vector2(270, BUTTON_BAR_Y), Vector2(250, BUTTON_H), COLOR_GREEN)
+	# Haritaya Git butonu
+	var go_btn := _create_button("HARITAYA GIT", Vector2(270, BUTTON_BAR_Y), Vector2(250, BUTTON_H), COLOR_GREEN)
 	go_btn.name = "GoButton"
 	add_child(go_btn)
 
@@ -776,10 +776,9 @@ func _try_buy_wagon(wagon_type: Constants.WagonType) -> void:
 func _go_to_station() -> void:
 	var gm: Node = _get_game_manager()
 	if gm.train_config.get_wagon_count() == 0:
-		# En az 1 vagon gerekli — flash uyarı
 		_flash_warning()
 		return
-	get_tree().change_scene_to_file("res://src/scenes/station/station_scene.tscn")
+	get_tree().change_scene_to_file("res://src/scenes/map/map_scene.tscn")
 
 
 func _flash_warning() -> void:
