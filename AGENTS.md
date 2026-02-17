@@ -22,6 +22,7 @@ Bu dosya proje icinde calisacak ajanlar icin ortak yonlendirme sunar.
 - Kod dili standardi: yorumlar, degisken adlari, fonksiyon adlari ve sinif adlari sadece English olur.
 - Kod icinde Turkish comment kullanma.
 - Turkish metin yalnizca locale dosyalarinda (or. `src/data/i18n_tr.json`) tutulur.
+- Background production rule: Yeni bir background talep edildiginde gorsel mutlaka mevcut tile assets kullanilarak uretilir; sifirdan serbest cizim veya tile-disinda kompozisyon kullanilmaz.
 - Surekli uyum zorunlulugu: yeni kod yazarken dokunulan dosya/blokta bu kurallara aykiri bir yer gorulurse ayni kapsamda duzelt; "sonraya birakma" yaklasimi kullanma.
 - PR/commit kapsami kurali: is kapsamini bozmadan, dokunulan alandaki kural ihlallerini temizleyip oyle commit et.
 

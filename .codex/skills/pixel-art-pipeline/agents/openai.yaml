@@ -1,4 +1,0 @@
-display_name: Pixel Art Pipeline
-short_description: Pixel art üretim ve atlas standardı
-full_description: Isometrik pixel art varlıklarını tutarlı palet, boyut ve import ayarlarıyla üretir.
-default_prompt: Bu özellik için pixel art üretim planı, dosya standardı ve atlas düzeni oluştur.

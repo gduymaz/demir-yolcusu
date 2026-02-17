@@ -1,4 +1,0 @@
-display_name: Pixel Art Animation
-short_description: Pixel art animasyon standardı
-full_description: Frame bütçesi ve okunabilirlik odaklı animasyon üretimini Godot'a uygun hale getirir.
-default_prompt: Animasyonları frame bütçesiyle planla, okunabilirliği koru ve Godot playback ayarlarını eşle.

@@ -49,38 +49,6 @@
       "cat": "npc"
     },
     {
-      "file": "empty/empty_r00_c05.png",
-      "pos": [
-        0,
-        5
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r00_c06.png",
-      "pos": [
-        0,
-        6
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r00_c07.png",
-      "pos": [
-        0,
-        7
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r00_c08.png",
-      "pos": [
-        0,
-        8
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/vegetation_daisy_pair.png",
       "pos": [
         0,
@@ -129,14 +97,6 @@
       "cat": "vegetation"
     },
     {
-      "file": "empty/empty_r00_c15.png",
-      "pos": [
-        0,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/vegetation_leaf_fallen.png",
       "pos": [
         0,
@@ -151,22 +111,6 @@
         17
       ],
       "cat": "furniture"
-    },
-    {
-      "file": "empty/empty_r00_c18.png",
-      "pos": [
-        0,
-        18
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r00_c19.png",
-      "pos": [
-        0,
-        19
-      ],
-      "cat": "empty"
     },
     {
       "file": "props/furniture_crate_wood.png",
@@ -191,14 +135,6 @@
         22
       ],
       "cat": "furniture"
-    },
-    {
-      "file": "empty/empty_r00_c23.png",
-      "pos": [
-        0,
-        23
-      ],
-      "cat": "empty"
     },
     {
       "file": "building/building_wall_peach_tl.png",
@@ -263,14 +199,6 @@
         31
       ],
       "cat": "building"
-    },
-    {
-      "file": "empty/empty_r00_c32.png",
-      "pos": [
-        0,
-        32
-      ],
-      "cat": "empty"
     },
     {
       "file": "anim/anim_flag_top_f01.png",
@@ -483,22 +411,6 @@
       "cat": "roof"
     },
     {
-      "file": "empty/empty_r01_c14.png",
-      "pos": [
-        1,
-        14
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r01_c15.png",
-      "pos": [
-        1,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "building/roof_finial_ornament.png",
       "pos": [
         1,
@@ -625,14 +537,6 @@
         31
       ],
       "cat": "building"
-    },
-    {
-      "file": "empty/empty_r01_c32.png",
-      "pos": [
-        1,
-        32
-      ],
-      "cat": "empty"
     },
     {
       "file": "anim/anim_flag_bottom_f01.png",
@@ -860,14 +764,6 @@
       "cat": "furniture"
     },
     {
-      "file": "empty/empty_r02_c16.png",
-      "pos": [
-        2,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/furniture_shopwindow_a.png",
       "pos": [
         2,
@@ -986,14 +882,6 @@
         31
       ],
       "cat": "canopy"
-    },
-    {
-      "file": "empty/empty_r02_c32.png",
-      "pos": [
-        2,
-        32
-      ],
-      "cat": "empty"
     },
     {
       "file": "anim/anim_cat_calico_rest_f01.png",
@@ -1229,14 +1117,6 @@
       "cat": "furniture"
     },
     {
-      "file": "empty/empty_r03_c16.png",
-      "pos": [
-        3,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/furniture_infoboard_a.png",
       "pos": [
         3,
@@ -1259,14 +1139,6 @@
         19
       ],
       "cat": "furniture"
-    },
-    {
-      "file": "empty/empty_r03_c20.png",
-      "pos": [
-        3,
-        20
-      ],
-      "cat": "empty"
     },
     {
       "file": "props/furniture_flag_banner.png",
@@ -1347,22 +1219,6 @@
         30
       ],
       "cat": "furniture"
-    },
-    {
-      "file": "empty/empty_r03_c31.png",
-      "pos": [
-        3,
-        31
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r03_c32.png",
-      "pos": [
-        3,
-        32
-      ],
-      "cat": "empty"
     },
     {
       "file": "anim/anim_pigeon_walk_f01.png",
@@ -1597,14 +1453,6 @@
       "cat": "furniture"
     },
     {
-      "file": "empty/empty_r04_c16.png",
-      "pos": [
-        4,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/vegetation_flowerpot_purple.png",
       "pos": [
         4,
@@ -1661,14 +1509,6 @@
       "cat": "vegetation"
     },
     {
-      "file": "empty/empty_r04_c24.png",
-      "pos": [
-        4,
-        24
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/furniture_table_wood.png",
       "pos": [
         4,
@@ -1686,22 +1526,6 @@
       "cat": "furniture"
     },
     {
-      "file": "empty/empty_r04_c27.png",
-      "pos": [
-        4,
-        27
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c28.png",
-      "pos": [
-        4,
-        28
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "props/furniture_lampbase_c.png",
       "pos": [
         4,
@@ -1717,22 +1541,6 @@
       ],
       "cat": "furniture",
       "duplicate_of": "furniture_shelf_wood_b"
-    },
-    {
-      "file": "empty/empty_r04_c31.png",
-      "pos": [
-        4,
-        31
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c32.png",
-      "pos": [
-        4,
-        32
-      ],
-      "cat": "empty"
     },
     {
       "file": "anim/anim_pigeon_fly_f01.png",
@@ -1765,70 +1573,6 @@
         36
       ],
       "cat": "anim"
-    },
-    {
-      "file": "empty/empty_r04_c37.png",
-      "pos": [
-        4,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c38.png",
-      "pos": [
-        4,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c39.png",
-      "pos": [
-        4,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c40.png",
-      "pos": [
-        4,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c41.png",
-      "pos": [
-        4,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c42.png",
-      "pos": [
-        4,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c43.png",
-      "pos": [
-        4,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r04_c44.png",
-      "pos": [
-        4,
-        44
-      ],
-      "cat": "empty"
     },
     {
       "file": "npc/npc_traveler_stand_front.png",
@@ -1871,30 +1615,6 @@
       "cat": "npc"
     },
     {
-      "file": "empty/empty_r05_c05.png",
-      "pos": [
-        5,
-        5
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r05_c06.png",
-      "pos": [
-        5,
-        6
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r05_c07.png",
-      "pos": [
-        5,
-        7
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "structure/stairs_frame_bl.png",
       "pos": [
         5,
@@ -1909,14 +1629,6 @@
         9
       ],
       "cat": "stairs"
-    },
-    {
-      "file": "empty/empty_r05_c10.png",
-      "pos": [
-        5,
-        10
-      ],
-      "cat": "empty"
     },
     {
       "file": "structure/railing_thin_b.png",
@@ -2015,14 +1727,6 @@
         22
       ],
       "cat": "glass"
-    },
-    {
-      "file": "empty/empty_r05_c23.png",
-      "pos": [
-        5,
-        23
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_dirt_corner_tl.png",
@@ -2282,14 +1986,6 @@
       "cat": "stairs"
     },
     {
-      "file": "empty/empty_r06_c10.png",
-      "pos": [
-        6,
-        10
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "structure/stairs_fragment_c.png",
       "pos": [
         6,
@@ -2385,14 +2081,6 @@
         22
       ],
       "cat": "glass"
-    },
-    {
-      "file": "empty/empty_r06_c23.png",
-      "pos": [
-        6,
-        23
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_dirt_surround_a.png",
@@ -3119,14 +2807,6 @@
       "cat": "arch"
     },
     {
-      "file": "empty/empty_r08_c23.png",
-      "pos": [
-        8,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "ground/ground_stone_corner_tl.png",
       "pos": [
         8,
@@ -3167,14 +2847,6 @@
       ],
       "cat": "ground",
       "duplicate_of": "ground_stone_center_flower_a"
-    },
-    {
-      "file": "empty/empty_r08_c29.png",
-      "pos": [
-        8,
-        29
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_stone_edge_left.png",
@@ -3431,22 +3103,6 @@
       "cat": "signal"
     },
     {
-      "file": "empty/empty_r09_c15.png",
-      "pos": [
-        9,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c16.png",
-      "pos": [
-        9,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "building/building_panel_a.png",
       "pos": [
         9,
@@ -3497,14 +3153,6 @@
       "cat": "building"
     },
     {
-      "file": "empty/empty_r09_c23.png",
-      "pos": [
-        9,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "ground/ground_stone_surround_a.png",
       "pos": [
         9,
@@ -3544,14 +3192,6 @@
         28
       ],
       "cat": "ground"
-    },
-    {
-      "file": "empty/empty_r09_c29.png",
-      "pos": [
-        9,
-        29
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_stone_center_daisy_b.png",
@@ -3612,70 +3252,6 @@
       "cat": "anim"
     },
     {
-      "file": "empty/empty_r09_c37.png",
-      "pos": [
-        9,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c38.png",
-      "pos": [
-        9,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c39.png",
-      "pos": [
-        9,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c40.png",
-      "pos": [
-        9,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c41.png",
-      "pos": [
-        9,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c42.png",
-      "pos": [
-        9,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c43.png",
-      "pos": [
-        9,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r09_c44.png",
-      "pos": [
-        9,
-        44
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "npc/npc_child_stand_front.png",
       "pos": [
         10,
@@ -3720,30 +3296,6 @@
       "duplicate_of": "building_interior_wall_left"
     },
     {
-      "file": "empty/empty_r10_c05.png",
-      "pos": [
-        10,
-        5
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c06.png",
-      "pos": [
-        10,
-        6
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c07.png",
-      "pos": [
-        10,
-        7
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "train/train_orange_upper_end_left.png",
       "pos": [
         10,
@@ -3782,30 +3334,6 @@
         12
       ],
       "cat": "train"
-    },
-    {
-      "file": "empty/empty_r10_c13.png",
-      "pos": [
-        10,
-        13
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c14.png",
-      "pos": [
-        10,
-        14
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c15.png",
-      "pos": [
-        10,
-        15
-      ],
-      "cat": "empty"
     },
     {
       "file": "train/train_orange_alt_end_left.png",
@@ -3851,30 +3379,6 @@
       ],
       "cat": "train",
       "duplicate_of": "train_orange_upper_end_right"
-    },
-    {
-      "file": "empty/empty_r10_c21.png",
-      "pos": [
-        10,
-        21
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c22.png",
-      "pos": [
-        10,
-        22
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c23.png",
-      "pos": [
-        10,
-        23
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_stone_corner_bl.png",
@@ -3951,102 +3455,6 @@
       ],
       "cat": "ground",
       "duplicate_of": "ground_stone_center_flower_a"
-    },
-    {
-      "file": "empty/empty_r10_c33.png",
-      "pos": [
-        10,
-        33
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c34.png",
-      "pos": [
-        10,
-        34
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c35.png",
-      "pos": [
-        10,
-        35
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c36.png",
-      "pos": [
-        10,
-        36
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c37.png",
-      "pos": [
-        10,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c38.png",
-      "pos": [
-        10,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c39.png",
-      "pos": [
-        10,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c40.png",
-      "pos": [
-        10,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c41.png",
-      "pos": [
-        10,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c42.png",
-      "pos": [
-        10,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c43.png",
-      "pos": [
-        10,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r10_c44.png",
-      "pos": [
-        10,
-        44
-      ],
-      "cat": "empty"
     },
     {
       "file": "npc/npc_child_walk_side_f01.png",
@@ -4227,30 +3635,6 @@
       "duplicate_of": "train_orange_lower_door_b"
     },
     {
-      "file": "empty/empty_r11_c21.png",
-      "pos": [
-        11,
-        21
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c22.png",
-      "pos": [
-        11,
-        22
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c23.png",
-      "pos": [
-        11,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "ground/ground_cobble_edge_top_a.png",
       "pos": [
         11,
@@ -4265,30 +3649,6 @@
         25
       ],
       "cat": "ground"
-    },
-    {
-      "file": "empty/empty_r11_c26.png",
-      "pos": [
-        11,
-        26
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c27.png",
-      "pos": [
-        11,
-        27
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c28.png",
-      "pos": [
-        11,
-        28
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_cobble_corner_tl.png",
@@ -4323,102 +3683,6 @@
         32
       ],
       "cat": "ground"
-    },
-    {
-      "file": "empty/empty_r11_c33.png",
-      "pos": [
-        11,
-        33
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c34.png",
-      "pos": [
-        11,
-        34
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c35.png",
-      "pos": [
-        11,
-        35
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c36.png",
-      "pos": [
-        11,
-        36
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c37.png",
-      "pos": [
-        11,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c38.png",
-      "pos": [
-        11,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c39.png",
-      "pos": [
-        11,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c40.png",
-      "pos": [
-        11,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c41.png",
-      "pos": [
-        11,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c42.png",
-      "pos": [
-        11,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c43.png",
-      "pos": [
-        11,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r11_c44.png",
-      "pos": [
-        11,
-        44
-      ],
-      "cat": "empty"
     },
     {
       "file": "npc/npc_child_walk_up_f01.png",
@@ -4502,14 +3766,6 @@
       "cat": "npc"
     },
     {
-      "file": "empty/empty_r12_c10.png",
-      "pos": [
-        12,
-        10
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "train/rail_track_left.png",
       "pos": [
         12,
@@ -4542,78 +3798,6 @@
       "cat": "train"
     },
     {
-      "file": "empty/empty_r12_c15.png",
-      "pos": [
-        12,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c16.png",
-      "pos": [
-        12,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c17.png",
-      "pos": [
-        12,
-        17
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c18.png",
-      "pos": [
-        12,
-        18
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c19.png",
-      "pos": [
-        12,
-        19
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c20.png",
-      "pos": [
-        12,
-        20
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c21.png",
-      "pos": [
-        12,
-        21
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c22.png",
-      "pos": [
-        12,
-        22
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c23.png",
-      "pos": [
-        12,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "ground/ground_cobble_edge_bottom_a.png",
       "pos": [
         12,
@@ -4629,38 +3813,6 @@
         25
       ],
       "cat": "ground"
-    },
-    {
-      "file": "empty/empty_r12_c26.png",
-      "pos": [
-        12,
-        26
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c27.png",
-      "pos": [
-        12,
-        27
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c28.png",
-      "pos": [
-        12,
-        28
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c29.png",
-      "pos": [
-        12,
-        29
-      ],
-      "cat": "empty"
     },
     {
       "file": "ground/ground_cobble_corner_bl.png",
@@ -4686,102 +3838,6 @@
         32
       ],
       "cat": "ground"
-    },
-    {
-      "file": "empty/empty_r12_c33.png",
-      "pos": [
-        12,
-        33
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c34.png",
-      "pos": [
-        12,
-        34
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c35.png",
-      "pos": [
-        12,
-        35
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c36.png",
-      "pos": [
-        12,
-        36
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c37.png",
-      "pos": [
-        12,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c38.png",
-      "pos": [
-        12,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c39.png",
-      "pos": [
-        12,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c40.png",
-      "pos": [
-        12,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c41.png",
-      "pos": [
-        12,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c42.png",
-      "pos": [
-        12,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c43.png",
-      "pos": [
-        12,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r12_c44.png",
-      "pos": [
-        12,
-        44
-      ],
-      "cat": "empty"
     },
     {
       "file": "npc/npc_child_walk_down_f01.png",
@@ -4864,284 +3920,12 @@
       "cat": "npc"
     },
     {
-      "file": "empty/empty_r13_c10.png",
-      "pos": [
-        13,
-        10
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c11.png",
-      "pos": [
-        13,
-        11
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c12.png",
-      "pos": [
-        13,
-        12
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c13.png",
-      "pos": [
-        13,
-        13
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "train/train_nameplate_purple.png",
       "pos": [
         13,
         14
       ],
       "cat": "train"
-    },
-    {
-      "file": "empty/empty_r13_c15.png",
-      "pos": [
-        13,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c16.png",
-      "pos": [
-        13,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c17.png",
-      "pos": [
-        13,
-        17
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c18.png",
-      "pos": [
-        13,
-        18
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c19.png",
-      "pos": [
-        13,
-        19
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c20.png",
-      "pos": [
-        13,
-        20
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c21.png",
-      "pos": [
-        13,
-        21
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c22.png",
-      "pos": [
-        13,
-        22
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c23.png",
-      "pos": [
-        13,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c24.png",
-      "pos": [
-        13,
-        24
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c25.png",
-      "pos": [
-        13,
-        25
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c26.png",
-      "pos": [
-        13,
-        26
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c27.png",
-      "pos": [
-        13,
-        27
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c28.png",
-      "pos": [
-        13,
-        28
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c29.png",
-      "pos": [
-        13,
-        29
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c30.png",
-      "pos": [
-        13,
-        30
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c31.png",
-      "pos": [
-        13,
-        31
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c32.png",
-      "pos": [
-        13,
-        32
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c33.png",
-      "pos": [
-        13,
-        33
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c34.png",
-      "pos": [
-        13,
-        34
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c35.png",
-      "pos": [
-        13,
-        35
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c36.png",
-      "pos": [
-        13,
-        36
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c37.png",
-      "pos": [
-        13,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c38.png",
-      "pos": [
-        13,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c39.png",
-      "pos": [
-        13,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c40.png",
-      "pos": [
-        13,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c41.png",
-      "pos": [
-        13,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c42.png",
-      "pos": [
-        13,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c43.png",
-      "pos": [
-        13,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r13_c44.png",
-      "pos": [
-        13,
-        44
-      ],
-      "cat": "empty"
     },
     {
       "file": "npc/npc_child_walk_right_f01.png",
@@ -5227,284 +4011,12 @@
       "cat": "npc"
     },
     {
-      "file": "empty/empty_r14_c10.png",
-      "pos": [
-        14,
-        10
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c11.png",
-      "pos": [
-        14,
-        11
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c12.png",
-      "pos": [
-        14,
-        12
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c13.png",
-      "pos": [
-        14,
-        13
-      ],
-      "cat": "empty"
-    },
-    {
       "file": "train/train_nameplate_strip.png",
       "pos": [
         14,
         14
       ],
       "cat": "train"
-    },
-    {
-      "file": "empty/empty_r14_c15.png",
-      "pos": [
-        14,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c16.png",
-      "pos": [
-        14,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c17.png",
-      "pos": [
-        14,
-        17
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c18.png",
-      "pos": [
-        14,
-        18
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c19.png",
-      "pos": [
-        14,
-        19
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c20.png",
-      "pos": [
-        14,
-        20
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c21.png",
-      "pos": [
-        14,
-        21
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c22.png",
-      "pos": [
-        14,
-        22
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c23.png",
-      "pos": [
-        14,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c24.png",
-      "pos": [
-        14,
-        24
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c25.png",
-      "pos": [
-        14,
-        25
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c26.png",
-      "pos": [
-        14,
-        26
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c27.png",
-      "pos": [
-        14,
-        27
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c28.png",
-      "pos": [
-        14,
-        28
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c29.png",
-      "pos": [
-        14,
-        29
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c30.png",
-      "pos": [
-        14,
-        30
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c31.png",
-      "pos": [
-        14,
-        31
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c32.png",
-      "pos": [
-        14,
-        32
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c33.png",
-      "pos": [
-        14,
-        33
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c34.png",
-      "pos": [
-        14,
-        34
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c35.png",
-      "pos": [
-        14,
-        35
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c36.png",
-      "pos": [
-        14,
-        36
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c37.png",
-      "pos": [
-        14,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c38.png",
-      "pos": [
-        14,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c39.png",
-      "pos": [
-        14,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c40.png",
-      "pos": [
-        14,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c41.png",
-      "pos": [
-        14,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c42.png",
-      "pos": [
-        14,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c43.png",
-      "pos": [
-        14,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r14_c44.png",
-      "pos": [
-        14,
-        44
-      ],
-      "cat": "empty"
     },
     {
       "file": "npc/npc_girl_stand_front.png",
@@ -5545,330 +4057,10 @@
         4
       ],
       "cat": "npc"
-    },
-    {
-      "file": "empty/empty_r15_c05.png",
-      "pos": [
-        15,
-        5
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c06.png",
-      "pos": [
-        15,
-        6
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c07.png",
-      "pos": [
-        15,
-        7
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c08.png",
-      "pos": [
-        15,
-        8
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c09.png",
-      "pos": [
-        15,
-        9
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c10.png",
-      "pos": [
-        15,
-        10
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c11.png",
-      "pos": [
-        15,
-        11
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c12.png",
-      "pos": [
-        15,
-        12
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c13.png",
-      "pos": [
-        15,
-        13
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c14.png",
-      "pos": [
-        15,
-        14
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c15.png",
-      "pos": [
-        15,
-        15
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c16.png",
-      "pos": [
-        15,
-        16
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c17.png",
-      "pos": [
-        15,
-        17
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c18.png",
-      "pos": [
-        15,
-        18
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c19.png",
-      "pos": [
-        15,
-        19
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c20.png",
-      "pos": [
-        15,
-        20
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c21.png",
-      "pos": [
-        15,
-        21
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c22.png",
-      "pos": [
-        15,
-        22
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c23.png",
-      "pos": [
-        15,
-        23
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c24.png",
-      "pos": [
-        15,
-        24
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c25.png",
-      "pos": [
-        15,
-        25
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c26.png",
-      "pos": [
-        15,
-        26
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c27.png",
-      "pos": [
-        15,
-        27
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c28.png",
-      "pos": [
-        15,
-        28
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c29.png",
-      "pos": [
-        15,
-        29
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c30.png",
-      "pos": [
-        15,
-        30
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c31.png",
-      "pos": [
-        15,
-        31
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c32.png",
-      "pos": [
-        15,
-        32
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c33.png",
-      "pos": [
-        15,
-        33
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c34.png",
-      "pos": [
-        15,
-        34
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c35.png",
-      "pos": [
-        15,
-        35
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c36.png",
-      "pos": [
-        15,
-        36
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c37.png",
-      "pos": [
-        15,
-        37
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c38.png",
-      "pos": [
-        15,
-        38
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c39.png",
-      "pos": [
-        15,
-        39
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c40.png",
-      "pos": [
-        15,
-        40
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c41.png",
-      "pos": [
-        15,
-        41
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c42.png",
-      "pos": [
-        15,
-        42
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c43.png",
-      "pos": [
-        15,
-        43
-      ],
-      "cat": "empty"
-    },
-    {
-      "file": "empty/empty_r15_c44.png",
-      "pos": [
-        15,
-        44
-      ],
-      "cat": "empty"
     }
   ],
   "summary": {
-    "empty": 226,
+    "empty": 0,
     "npc": 122,
     "anim": 104,
     "ground": 63,
@@ -5897,5 +4089,7 @@
     "structure": 59,
     "building": 46,
     "train": 40
-  }
+  },
+  "empty_assets_removed": true,
+  "manifest_cleaned_at": "2026-02-17"
 }

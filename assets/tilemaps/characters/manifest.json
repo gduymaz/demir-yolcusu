@@ -9,7 +9,6 @@
   ],
   "total_tiles": 800,
   "content_tiles": 720,
-  "empty_tiles": 80,
   "sprite_structure": {
     "block_rows": 5,
     "blocks": 20,
@@ -556,5 +555,8 @@
       },
       "tile_count": 36
     }
-  ]
+  ],
+  "empty_assets_removed": true,
+  "manifest_cleaned_at": "2026-02-17",
+  "non_export_slots": 80
 }

@@ -1,4 +1,0 @@
-display_name: Pixel Art QA
-short_description: Pixel art kalite kontrol
-full_description: Teslim edilen sprite ve tilesetleri teknik ve görsel kalite açısından doğrular.
-default_prompt: Pixel art varlıklarını kalite checklist ile denetle ve öncelikli düzeltmeleri raporla.
