@@ -1,0 +1,5901 @@
+{
+  "pack": "train_station",
+  "source": "Maintilemap.png",
+  "tile_size": 32,
+  "grid": [
+    45,
+    16
+  ],
+  "total": 720,
+  "tiles": [
+    {
+      "file": "npc/npc_conductor_stand_front.png",
+      "pos": [
+        0,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_stand_back.png",
+      "pos": [
+        0,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_stand_left.png",
+      "pos": [
+        0,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_stand_right.png",
+      "pos": [
+        0,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_stand_half.png",
+      "pos": [
+        0,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "empty/empty_r00_c05.png",
+      "pos": [
+        0,
+        5
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r00_c06.png",
+      "pos": [
+        0,
+        6
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r00_c07.png",
+      "pos": [
+        0,
+        7
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r00_c08.png",
+      "pos": [
+        0,
+        8
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/vegetation_daisy_pair.png",
+      "pos": [
+        0,
+        9
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_daisy_single.png",
+      "pos": [
+        0,
+        10
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_leaves_fallen_a.png",
+      "pos": [
+        0,
+        11
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_leaves_fallen_b.png",
+      "pos": [
+        0,
+        12
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_grass_bits.png",
+      "pos": [
+        0,
+        13
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_daisies_scatter.png",
+      "pos": [
+        0,
+        14
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "empty/empty_r00_c15.png",
+      "pos": [
+        0,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/vegetation_leaf_fallen.png",
+      "pos": [
+        0,
+        16
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/furniture_trashcan.png",
+      "pos": [
+        0,
+        17
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r00_c18.png",
+      "pos": [
+        0,
+        18
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r00_c19.png",
+      "pos": [
+        0,
+        19
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/furniture_crate_wood.png",
+      "pos": [
+        0,
+        20
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_crate_rail.png",
+      "pos": [
+        0,
+        21
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_shelf_small.png",
+      "pos": [
+        0,
+        22
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r00_c23.png",
+      "pos": [
+        0,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "building/building_wall_peach_tl.png",
+      "pos": [
+        0,
+        24
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_gutter_a.png",
+      "pos": [
+        0,
+        25
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_peach_plain_a.png",
+      "pos": [
+        0,
+        26
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_beam_a.png",
+      "pos": [
+        0,
+        27
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_beam_b.png",
+      "pos": [
+        0,
+        28
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_beam_c.png",
+      "pos": [
+        0,
+        29
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_gutter_b.png",
+      "pos": [
+        0,
+        30
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_peach_plain_b.png",
+      "pos": [
+        0,
+        31
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "empty/empty_r00_c32.png",
+      "pos": [
+        0,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "anim/anim_flag_top_f01.png",
+      "pos": [
+        0,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f02.png",
+      "pos": [
+        0,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f03.png",
+      "pos": [
+        0,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f04.png",
+      "pos": [
+        0,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f05.png",
+      "pos": [
+        0,
+        37
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f06.png",
+      "pos": [
+        0,
+        38
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f07.png",
+      "pos": [
+        0,
+        39
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f08.png",
+      "pos": [
+        0,
+        40
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f09.png",
+      "pos": [
+        0,
+        41
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f10.png",
+      "pos": [
+        0,
+        42
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f11.png",
+      "pos": [
+        0,
+        43
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_top_f12.png",
+      "pos": [
+        0,
+        44
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f01.png",
+      "pos": [
+        1,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f02.png",
+      "pos": [
+        1,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f03.png",
+      "pos": [
+        1,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f04.png",
+      "pos": [
+        1,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f05.png",
+      "pos": [
+        1,
+        4
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_conductor_walk_side_f02"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f06.png",
+      "pos": [
+        1,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f07.png",
+      "pos": [
+        1,
+        6
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_conductor_walk_side_f04"
+    },
+    {
+      "file": "npc/npc_conductor_walk_side_f08.png",
+      "pos": [
+        1,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "building/roof_hatch_a.png",
+      "pos": [
+        1,
+        8
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "building/roof_hatch_b.png",
+      "pos": [
+        1,
+        9
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "building/roof_hatch_c.png",
+      "pos": [
+        1,
+        10
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "building/roof_gable_left.png",
+      "pos": [
+        1,
+        11
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "building/roof_gable_center.png",
+      "pos": [
+        1,
+        12
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "building/roof_gable_right.png",
+      "pos": [
+        1,
+        13
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "empty/empty_r01_c14.png",
+      "pos": [
+        1,
+        14
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r01_c15.png",
+      "pos": [
+        1,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "building/roof_finial_ornament.png",
+      "pos": [
+        1,
+        16
+      ],
+      "cat": "roof"
+    },
+    {
+      "file": "props/furniture_machine_grey.png",
+      "pos": [
+        1,
+        17
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_shelf_wood_a.png",
+      "pos": [
+        1,
+        18
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_table_light.png",
+      "pos": [
+        1,
+        19
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_shelf_wood_b.png",
+      "pos": [
+        1,
+        20
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_shelf_wood_c.png",
+      "pos": [
+        1,
+        21
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_shelf_wood_d.png",
+      "pos": [
+        1,
+        22
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_logbench.png",
+      "pos": [
+        1,
+        23
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "building/building_wall_peach_edge.png",
+      "pos": [
+        1,
+        24
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_crack_a.png",
+      "pos": [
+        1,
+        25
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_crack_b.png",
+      "pos": [
+        1,
+        26
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_truss_a.png",
+      "pos": [
+        1,
+        27
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_truss_b.png",
+      "pos": [
+        1,
+        28
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_peach_e.png",
+      "pos": [
+        1,
+        29
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_stair_detail.png",
+      "pos": [
+        1,
+        30
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_peach_f.png",
+      "pos": [
+        1,
+        31
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "empty/empty_r01_c32.png",
+      "pos": [
+        1,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f01.png",
+      "pos": [
+        1,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f02.png",
+      "pos": [
+        1,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f03.png",
+      "pos": [
+        1,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f04.png",
+      "pos": [
+        1,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f05.png",
+      "pos": [
+        1,
+        37
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f06.png",
+      "pos": [
+        1,
+        38
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f07.png",
+      "pos": [
+        1,
+        39
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f08.png",
+      "pos": [
+        1,
+        40
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f09.png",
+      "pos": [
+        1,
+        41
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f10.png",
+      "pos": [
+        1,
+        42
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f11.png",
+      "pos": [
+        1,
+        43
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_flag_bottom_f12.png",
+      "pos": [
+        1,
+        44
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f01.png",
+      "pos": [
+        2,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f02.png",
+      "pos": [
+        2,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f03.png",
+      "pos": [
+        2,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f04.png",
+      "pos": [
+        2,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f05.png",
+      "pos": [
+        2,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f06.png",
+      "pos": [
+        2,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f07.png",
+      "pos": [
+        2,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_idle_f08.png",
+      "pos": [
+        2,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "props/furniture_column_ornate.png",
+      "pos": [
+        2,
+        8
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_schedule_board.png",
+      "pos": [
+        2,
+        9
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "building/building_interior_fragment.png",
+      "pos": [
+        2,
+        10
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_interior_wall_left.png",
+      "pos": [
+        2,
+        11
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_interior_wall_center.png",
+      "pos": [
+        2,
+        12
+      ],
+      "cat": "building",
+      "duplicate_of": "npc_conductor_idle_f03"
+    },
+    {
+      "file": "building/building_interior_wall_corner.png",
+      "pos": [
+        2,
+        13
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_interior_floor_edge.png",
+      "pos": [
+        2,
+        14
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "props/electric_pole_top.png",
+      "pos": [
+        2,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r02_c16.png",
+      "pos": [
+        2,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/furniture_shopwindow_a.png",
+      "pos": [
+        2,
+        17
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_shopwindow_b.png",
+      "pos": [
+        2,
+        18
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_sign_arrow_a.png",
+      "pos": [
+        2,
+        19
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_sign_arrow_b.png",
+      "pos": [
+        2,
+        20
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_vendingmachine.png",
+      "pos": [
+        2,
+        21
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/vegetation_bush_small_a.png",
+      "pos": [
+        2,
+        22
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_bush_large_a.png",
+      "pos": [
+        2,
+        23
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_bush_large_b.png",
+      "pos": [
+        2,
+        24
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "building/building_wall_plain_c.png",
+      "pos": [
+        2,
+        25
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_wall_base_molding.png",
+      "pos": [
+        2,
+        26
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/canopy_beam_a.png",
+      "pos": [
+        2,
+        27
+      ],
+      "cat": "canopy"
+    },
+    {
+      "file": "building/canopy_beam_b.png",
+      "pos": [
+        2,
+        28
+      ],
+      "cat": "canopy"
+    },
+    {
+      "file": "building/canopy_beam_c.png",
+      "pos": [
+        2,
+        29
+      ],
+      "cat": "canopy"
+    },
+    {
+      "file": "building/canopy_post_left.png",
+      "pos": [
+        2,
+        30
+      ],
+      "cat": "canopy"
+    },
+    {
+      "file": "building/canopy_beam_d.png",
+      "pos": [
+        2,
+        31
+      ],
+      "cat": "canopy"
+    },
+    {
+      "file": "empty/empty_r02_c32.png",
+      "pos": [
+        2,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f01.png",
+      "pos": [
+        2,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f02.png",
+      "pos": [
+        2,
+        34
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f01"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f03.png",
+      "pos": [
+        2,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f04.png",
+      "pos": [
+        2,
+        36
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f03"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f05.png",
+      "pos": [
+        2,
+        37
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f06.png",
+      "pos": [
+        2,
+        38
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f05"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f07.png",
+      "pos": [
+        2,
+        39
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f05"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f08.png",
+      "pos": [
+        2,
+        40
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f09.png",
+      "pos": [
+        2,
+        41
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f01"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f10.png",
+      "pos": [
+        2,
+        42
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f01"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f11.png",
+      "pos": [
+        2,
+        43
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f01"
+    },
+    {
+      "file": "anim/anim_cat_calico_rest_f12.png",
+      "pos": [
+        2,
+        44
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_calico_rest_f01"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f01.png",
+      "pos": [
+        3,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f02.png",
+      "pos": [
+        3,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f03.png",
+      "pos": [
+        3,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f04.png",
+      "pos": [
+        3,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f05.png",
+      "pos": [
+        3,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f06.png",
+      "pos": [
+        3,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f07.png",
+      "pos": [
+        3,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_front_f08.png",
+      "pos": [
+        3,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "structure/platform_edge_fragment.png",
+      "pos": [
+        3,
+        8
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "props/furniture_poster_map.png",
+      "pos": [
+        3,
+        9
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "structure/platform_interior_left.png",
+      "pos": [
+        3,
+        10
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "structure/platform_interior_bench_a.png",
+      "pos": [
+        3,
+        11
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "structure/platform_interior_sign.png",
+      "pos": [
+        3,
+        12
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "structure/platform_interior_bench_b.png",
+      "pos": [
+        3,
+        13
+      ],
+      "cat": "platform",
+      "duplicate_of": "platform_interior_bench_a"
+    },
+    {
+      "file": "structure/platform_interior_right.png",
+      "pos": [
+        3,
+        14
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "props/electric_pole_upper.png",
+      "pos": [
+        3,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r03_c16.png",
+      "pos": [
+        3,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/furniture_infoboard_a.png",
+      "pos": [
+        3,
+        17
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_infoboard_b.png",
+      "pos": [
+        3,
+        18
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_signal_small_a.png",
+      "pos": [
+        3,
+        19
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r03_c20.png",
+      "pos": [
+        3,
+        20
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/furniture_flag_banner.png",
+      "pos": [
+        3,
+        21
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/vegetation_bush_small_b.png",
+      "pos": [
+        3,
+        22
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_bush_medium_a.png",
+      "pos": [
+        3,
+        23
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_bush_medium_b.png",
+      "pos": [
+        3,
+        24
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "building/building_facade_window.png",
+      "pos": [
+        3,
+        25
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_facade_eave_left.png",
+      "pos": [
+        3,
+        26
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_rooftile_a.png",
+      "pos": [
+        3,
+        27
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_rooftile_b.png",
+      "pos": [
+        3,
+        28
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_facade_eave_right.png",
+      "pos": [
+        3,
+        29
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "props/furniture_fence_wooden.png",
+      "pos": [
+        3,
+        30
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r03_c31.png",
+      "pos": [
+        3,
+        31
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r03_c32.png",
+      "pos": [
+        3,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f01.png",
+      "pos": [
+        3,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f02.png",
+      "pos": [
+        3,
+        34
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f01"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f03.png",
+      "pos": [
+        3,
+        35
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f01"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f04.png",
+      "pos": [
+        3,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f05.png",
+      "pos": [
+        3,
+        37
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f04"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f06.png",
+      "pos": [
+        3,
+        38
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f04"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f07.png",
+      "pos": [
+        3,
+        39
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f08.png",
+      "pos": [
+        3,
+        40
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f01"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f09.png",
+      "pos": [
+        3,
+        41
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f10.png",
+      "pos": [
+        3,
+        42
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f09"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f11.png",
+      "pos": [
+        3,
+        43
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f09"
+    },
+    {
+      "file": "anim/anim_pigeon_walk_f12.png",
+      "pos": [
+        3,
+        44
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_pigeon_walk_f09"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f01.png",
+      "pos": [
+        4,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f02.png",
+      "pos": [
+        4,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f03.png",
+      "pos": [
+        4,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f04.png",
+      "pos": [
+        4,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f05.png",
+      "pos": [
+        4,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f06.png",
+      "pos": [
+        4,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f07.png",
+      "pos": [
+        4,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_conductor_walk_back_f08.png",
+      "pos": [
+        4,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "structure/stairs_frame_tl.png",
+      "pos": [
+        4,
+        8
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/stairs_diagonal_upper.png",
+      "pos": [
+        4,
+        9
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/stairs_frame_ml.png",
+      "pos": [
+        4,
+        10
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/stairs_diagonal_lower.png",
+      "pos": [
+        4,
+        11
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/arch_ceiling_tl.png",
+      "pos": [
+        4,
+        12
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_ceiling_tc.png",
+      "pos": [
+        4,
+        13
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_ceiling_tr.png",
+      "pos": [
+        4,
+        14
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "props/electric_pole_lower.png",
+      "pos": [
+        4,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r04_c16.png",
+      "pos": [
+        4,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/vegetation_flowerpot_purple.png",
+      "pos": [
+        4,
+        17
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_flowerpot_white.png",
+      "pos": [
+        4,
+        18
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/furniture_planter_empty.png",
+      "pos": [
+        4,
+        19
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/vegetation_flowerpot_fern.png",
+      "pos": [
+        4,
+        20
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_tallgrass_a.png",
+      "pos": [
+        4,
+        21
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_tallgrass_b.png",
+      "pos": [
+        4,
+        22
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "props/vegetation_vine_creeper.png",
+      "pos": [
+        4,
+        23
+      ],
+      "cat": "vegetation"
+    },
+    {
+      "file": "empty/empty_r04_c24.png",
+      "pos": [
+        4,
+        24
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/furniture_table_wood.png",
+      "pos": [
+        4,
+        25
+      ],
+      "cat": "furniture",
+      "duplicate_of": "furniture_shelf_wood_b"
+    },
+    {
+      "file": "props/furniture_bollard_a.png",
+      "pos": [
+        4,
+        26
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "empty/empty_r04_c27.png",
+      "pos": [
+        4,
+        27
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c28.png",
+      "pos": [
+        4,
+        28
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "props/furniture_lampbase_c.png",
+      "pos": [
+        4,
+        29
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_signboard_wood.png",
+      "pos": [
+        4,
+        30
+      ],
+      "cat": "furniture",
+      "duplicate_of": "furniture_shelf_wood_b"
+    },
+    {
+      "file": "empty/empty_r04_c31.png",
+      "pos": [
+        4,
+        31
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c32.png",
+      "pos": [
+        4,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "anim/anim_pigeon_fly_f01.png",
+      "pos": [
+        4,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_fly_f02.png",
+      "pos": [
+        4,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_fly_f03.png",
+      "pos": [
+        4,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_pigeon_fly_f04.png",
+      "pos": [
+        4,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "empty/empty_r04_c37.png",
+      "pos": [
+        4,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c38.png",
+      "pos": [
+        4,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c39.png",
+      "pos": [
+        4,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c40.png",
+      "pos": [
+        4,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c41.png",
+      "pos": [
+        4,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c42.png",
+      "pos": [
+        4,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c43.png",
+      "pos": [
+        4,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r04_c44.png",
+      "pos": [
+        4,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_traveler_stand_front.png",
+      "pos": [
+        5,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_stand_back.png",
+      "pos": [
+        5,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_stand_left.png",
+      "pos": [
+        5,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_stand_right.png",
+      "pos": [
+        5,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_stand_half.png",
+      "pos": [
+        5,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "empty/empty_r05_c05.png",
+      "pos": [
+        5,
+        5
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r05_c06.png",
+      "pos": [
+        5,
+        6
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r05_c07.png",
+      "pos": [
+        5,
+        7
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "structure/stairs_frame_bl.png",
+      "pos": [
+        5,
+        8
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/stairs_frame_br.png",
+      "pos": [
+        5,
+        9
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "empty/empty_r05_c10.png",
+      "pos": [
+        5,
+        10
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "structure/railing_thin_b.png",
+      "pos": [
+        5,
+        11
+      ],
+      "cat": "railing"
+    },
+    {
+      "file": "structure/platform_screen_left.png",
+      "pos": [
+        5,
+        12
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "structure/platform_screen_center.png",
+      "pos": [
+        5,
+        13
+      ],
+      "cat": "platform",
+      "duplicate_of": "npc_conductor_walk_back_f04"
+    },
+    {
+      "file": "structure/platform_screen_right.png",
+      "pos": [
+        5,
+        14
+      ],
+      "cat": "platform"
+    },
+    {
+      "file": "props/electric_pole_base.png",
+      "pos": [
+        5,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "structure/glass_facade_top_a.png",
+      "pos": [
+        5,
+        16
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_top_b.png",
+      "pos": [
+        5,
+        17
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_top_c.png",
+      "pos": [
+        5,
+        18
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_top_d.png",
+      "pos": [
+        5,
+        19
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_top_e.png",
+      "pos": [
+        5,
+        20
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_top_f.png",
+      "pos": [
+        5,
+        21
+      ],
+      "cat": "glass",
+      "duplicate_of": "glass_facade_top_d"
+    },
+    {
+      "file": "structure/glass_facade_top_g.png",
+      "pos": [
+        5,
+        22
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "empty/empty_r05_c23.png",
+      "pos": [
+        5,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_dirt_corner_tl.png",
+      "pos": [
+        5,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_flower_a.png",
+      "pos": [
+        5,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_edge_top_a.png",
+      "pos": [
+        5,
+        26
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_corner_tl"
+    },
+    {
+      "file": "ground/ground_dirt_edge_top_b.png",
+      "pos": [
+        5,
+        27
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_corner_tr.png",
+      "pos": [
+        5,
+        28
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_center_flower_a"
+    },
+    {
+      "file": "ground/ground_dirt_center_clean.png",
+      "pos": [
+        5,
+        29
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_edge_left.png",
+      "pos": [
+        5,
+        30
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_corner_tl"
+    },
+    {
+      "file": "ground/ground_dirt_center_daisy_a.png",
+      "pos": [
+        5,
+        31
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_center_flower_a"
+    },
+    {
+      "file": "ground/ground_dirt_edge_right.png",
+      "pos": [
+        5,
+        32
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f01.png",
+      "pos": [
+        5,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f02.png",
+      "pos": [
+        5,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f03.png",
+      "pos": [
+        5,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f04.png",
+      "pos": [
+        5,
+        36
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_orange_run_f02"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f05.png",
+      "pos": [
+        5,
+        37
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f06.png",
+      "pos": [
+        5,
+        38
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f07.png",
+      "pos": [
+        5,
+        39
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_orange_run_f01"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f08.png",
+      "pos": [
+        5,
+        40
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f09.png",
+      "pos": [
+        5,
+        41
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f10.png",
+      "pos": [
+        5,
+        42
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_orange_run_f02"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f11.png",
+      "pos": [
+        5,
+        43
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_cat_orange_run_f12.png",
+      "pos": [
+        5,
+        44
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_cat_orange_run_f06"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f01.png",
+      "pos": [
+        6,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f02.png",
+      "pos": [
+        6,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f03.png",
+      "pos": [
+        6,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f04.png",
+      "pos": [
+        6,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f05.png",
+      "pos": [
+        6,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f06.png",
+      "pos": [
+        6,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f07.png",
+      "pos": [
+        6,
+        6
+      ],
+      "cat": "npc",
+      "duplicate_of": "roof_gable_center"
+    },
+    {
+      "file": "npc/npc_traveler_walk_side_f08.png",
+      "pos": [
+        6,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "structure/stairs_frame_bottom.png",
+      "pos": [
+        6,
+        8
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/stairs_fragment_a.png",
+      "pos": [
+        6,
+        9
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "empty/empty_r06_c10.png",
+      "pos": [
+        6,
+        10
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "structure/stairs_fragment_c.png",
+      "pos": [
+        6,
+        11
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "structure/arch_ceiling_bl.png",
+      "pos": [
+        6,
+        12
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_ceiling_bc.png",
+      "pos": [
+        6,
+        13
+      ],
+      "cat": "arch",
+      "duplicate_of": "npc_conductor_walk_side_f08"
+    },
+    {
+      "file": "structure/arch_ceiling_br.png",
+      "pos": [
+        6,
+        14
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "props/furniture_fence_ornate.png",
+      "pos": [
+        6,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "structure/glass_facade_base_a.png",
+      "pos": [
+        6,
+        16
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_base_b.png",
+      "pos": [
+        6,
+        17
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_pillar_a.png",
+      "pos": [
+        6,
+        18
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_base_c.png",
+      "pos": [
+        6,
+        19
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_pillar_b.png",
+      "pos": [
+        6,
+        20
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_base_d.png",
+      "pos": [
+        6,
+        21
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "structure/glass_facade_base_e.png",
+      "pos": [
+        6,
+        22
+      ],
+      "cat": "glass"
+    },
+    {
+      "file": "empty/empty_r06_c23.png",
+      "pos": [
+        6,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_dirt_surround_a.png",
+      "pos": [
+        6,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_island_a.png",
+      "pos": [
+        6,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_a.png",
+      "pos": [
+        6,
+        26
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_b.png",
+      "pos": [
+        6,
+        27
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_c.png",
+      "pos": [
+        6,
+        28
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_flower_b.png",
+      "pos": [
+        6,
+        29
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_daisy_b.png",
+      "pos": [
+        6,
+        30
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_center_plain.png",
+      "pos": [
+        6,
+        31
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_diagonal_br.png",
+      "pos": [
+        6,
+        32
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_center_flower_a"
+    },
+    {
+      "file": "anim/anim_tree_top_f01.png",
+      "pos": [
+        6,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f02.png",
+      "pos": [
+        6,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f03.png",
+      "pos": [
+        6,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f04.png",
+      "pos": [
+        6,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f05.png",
+      "pos": [
+        6,
+        37
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f06.png",
+      "pos": [
+        6,
+        38
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f07.png",
+      "pos": [
+        6,
+        39
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f08.png",
+      "pos": [
+        6,
+        40
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f09.png",
+      "pos": [
+        6,
+        41
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f10.png",
+      "pos": [
+        6,
+        42
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f11.png",
+      "pos": [
+        6,
+        43
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_top_f12.png",
+      "pos": [
+        6,
+        44
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f01.png",
+      "pos": [
+        7,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f02.png",
+      "pos": [
+        7,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f03.png",
+      "pos": [
+        7,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f04.png",
+      "pos": [
+        7,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f05.png",
+      "pos": [
+        7,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f06.png",
+      "pos": [
+        7,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f07.png",
+      "pos": [
+        7,
+        6
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_conductor_idle_f01"
+    },
+    {
+      "file": "npc/npc_traveler_idle_f08.png",
+      "pos": [
+        7,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "structure/stairs_railing_diagonal.png",
+      "pos": [
+        7,
+        8
+      ],
+      "cat": "stairs"
+    },
+    {
+      "file": "props/furniture_cat_sitting.png",
+      "pos": [
+        7,
+        9
+      ],
+      "cat": "furniture",
+      "duplicate_of": "anim_cat_orange_run_f01"
+    },
+    {
+      "file": "props/furniture_cat_lying.png",
+      "pos": [
+        7,
+        10
+      ],
+      "cat": "furniture",
+      "duplicate_of": "anim_cat_calico_rest_f01"
+    },
+    {
+      "file": "structure/bridge_post_fragment.png",
+      "pos": [
+        7,
+        11
+      ],
+      "cat": "bridge"
+    },
+    {
+      "file": "structure/bridge_overpass_left.png",
+      "pos": [
+        7,
+        12
+      ],
+      "cat": "bridge"
+    },
+    {
+      "file": "structure/bridge_overpass_center.png",
+      "pos": [
+        7,
+        13
+      ],
+      "cat": "bridge",
+      "duplicate_of": "platform_interior_bench_a"
+    },
+    {
+      "file": "structure/bridge_overpass_right.png",
+      "pos": [
+        7,
+        14
+      ],
+      "cat": "bridge"
+    },
+    {
+      "file": "props/furniture_signal_lights.png",
+      "pos": [
+        7,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "structure/post_wooden_base_a.png",
+      "pos": [
+        7,
+        16
+      ],
+      "cat": "post"
+    },
+    {
+      "file": "structure/post_wooden_tall_a.png",
+      "pos": [
+        7,
+        17
+      ],
+      "cat": "post"
+    },
+    {
+      "file": "structure/post_wooden_tall_b.png",
+      "pos": [
+        7,
+        18
+      ],
+      "cat": "post"
+    },
+    {
+      "file": "structure/post_wooden_mid.png",
+      "pos": [
+        7,
+        19
+      ],
+      "cat": "post"
+    },
+    {
+      "file": "structure/post_wooden_tall_c.png",
+      "pos": [
+        7,
+        20
+      ],
+      "cat": "post",
+      "duplicate_of": "post_wooden_tall_b"
+    },
+    {
+      "file": "structure/post_wooden_tall_d.png",
+      "pos": [
+        7,
+        21
+      ],
+      "cat": "post"
+    },
+    {
+      "file": "structure/post_wooden_tall_e.png",
+      "pos": [
+        7,
+        22
+      ],
+      "cat": "post",
+      "duplicate_of": "post_wooden_tall_b"
+    },
+    {
+      "file": "structure/post_wooden_tall_f.png",
+      "pos": [
+        7,
+        23
+      ],
+      "cat": "post"
+    },
+    {
+      "file": "ground/ground_dirt_fragment.png",
+      "pos": [
+        7,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_surround_b.png",
+      "pos": [
+        7,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_complex.png",
+      "pos": [
+        7,
+        26
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_surround_a"
+    },
+    {
+      "file": "ground/ground_dirt_edge_bottom.png",
+      "pos": [
+        7,
+        27
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_edge_right"
+    },
+    {
+      "file": "ground/ground_dirt_center_detail.png",
+      "pos": [
+        7,
+        28
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_island_a"
+    },
+    {
+      "file": "ground/ground_dirt_center_d.png",
+      "pos": [
+        7,
+        29
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_daisy_pair_a.png",
+      "pos": [
+        7,
+        30
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_daisy_pair_b.png",
+      "pos": [
+        7,
+        31
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_dirt_corner_br.png",
+      "pos": [
+        7,
+        32
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f01.png",
+      "pos": [
+        7,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f02.png",
+      "pos": [
+        7,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f03.png",
+      "pos": [
+        7,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f04.png",
+      "pos": [
+        7,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f05.png",
+      "pos": [
+        7,
+        37
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f06.png",
+      "pos": [
+        7,
+        38
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f07.png",
+      "pos": [
+        7,
+        39
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f08.png",
+      "pos": [
+        7,
+        40
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f09.png",
+      "pos": [
+        7,
+        41
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f10.png",
+      "pos": [
+        7,
+        42
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f11.png",
+      "pos": [
+        7,
+        43
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_tree_bottom_f12.png",
+      "pos": [
+        7,
+        44
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f01.png",
+      "pos": [
+        8,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f02.png",
+      "pos": [
+        8,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f03.png",
+      "pos": [
+        8,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f04.png",
+      "pos": [
+        8,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f05.png",
+      "pos": [
+        8,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f06.png",
+      "pos": [
+        8,
+        5
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_interior_sign"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f07.png",
+      "pos": [
+        8,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_front_f08.png",
+      "pos": [
+        8,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "train/train_green_end_left.png",
+      "pos": [
+        8,
+        8
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_green_window_a.png",
+      "pos": [
+        8,
+        9
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_green_door.png",
+      "pos": [
+        8,
+        10
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_green_window_b.png",
+      "pos": [
+        8,
+        11
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_green_end_right.png",
+      "pos": [
+        8,
+        12
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_fragment.png",
+      "pos": [
+        8,
+        13
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "props/furniture_bird_dove.png",
+      "pos": [
+        8,
+        14
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_bird_swallow_a.png",
+      "pos": [
+        8,
+        15
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "props/furniture_bird_swallow_b.png",
+      "pos": [
+        8,
+        16
+      ],
+      "cat": "furniture",
+      "duplicate_of": "anim_pigeon_walk_f01"
+    },
+    {
+      "file": "structure/arch_stone_tl.png",
+      "pos": [
+        8,
+        17
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_stone_tc.png",
+      "pos": [
+        8,
+        18
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_stone_fence.png",
+      "pos": [
+        8,
+        19
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_stone_bl.png",
+      "pos": [
+        8,
+        20
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_stone_bc.png",
+      "pos": [
+        8,
+        21
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "structure/arch_stone_br.png",
+      "pos": [
+        8,
+        22
+      ],
+      "cat": "arch"
+    },
+    {
+      "file": "empty/empty_r08_c23.png",
+      "pos": [
+        8,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_stone_corner_tl.png",
+      "pos": [
+        8,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_center_flower_a.png",
+      "pos": [
+        8,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_edge_top_a.png",
+      "pos": [
+        8,
+        26
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_corner_tl"
+    },
+    {
+      "file": "ground/ground_stone_edge_top_b.png",
+      "pos": [
+        8,
+        27
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_corner_tr.png",
+      "pos": [
+        8,
+        28
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_center_flower_a"
+    },
+    {
+      "file": "empty/empty_r08_c29.png",
+      "pos": [
+        8,
+        29
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_stone_edge_left.png",
+      "pos": [
+        8,
+        30
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_surround_a"
+    },
+    {
+      "file": "ground/ground_stone_center_daisy_a.png",
+      "pos": [
+        8,
+        31
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_edge_right.png",
+      "pos": [
+        8,
+        32
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f01.png",
+      "pos": [
+        8,
+        33
+      ],
+      "cat": "anim",
+      "duplicate_of": "furniture_bird_swallow_a"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f02.png",
+      "pos": [
+        8,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f03.png",
+      "pos": [
+        8,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f04.png",
+      "pos": [
+        8,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f05.png",
+      "pos": [
+        8,
+        37
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_seagull_walk_f02"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f06.png",
+      "pos": [
+        8,
+        38
+      ],
+      "cat": "anim",
+      "duplicate_of": "furniture_bird_swallow_a"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f07.png",
+      "pos": [
+        8,
+        39
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_seagull_walk_f02"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f08.png",
+      "pos": [
+        8,
+        40
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_seagull_walk_f03"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f09.png",
+      "pos": [
+        8,
+        41
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_seagull_walk_f02"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f10.png",
+      "pos": [
+        8,
+        42
+      ],
+      "cat": "anim",
+      "duplicate_of": "furniture_bird_swallow_a"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f11.png",
+      "pos": [
+        8,
+        43
+      ],
+      "cat": "anim",
+      "duplicate_of": "anim_seagull_walk_f02"
+    },
+    {
+      "file": "anim/anim_seagull_walk_f12.png",
+      "pos": [
+        8,
+        44
+      ],
+      "cat": "anim",
+      "duplicate_of": "furniture_bird_swallow_a"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f01.png",
+      "pos": [
+        9,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f02.png",
+      "pos": [
+        9,
+        1
+      ],
+      "cat": "npc",
+      "duplicate_of": "arch_ceiling_tc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f03.png",
+      "pos": [
+        9,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f04.png",
+      "pos": [
+        9,
+        3
+      ],
+      "cat": "npc",
+      "duplicate_of": "ground_dirt_daisy_pair_b"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f05.png",
+      "pos": [
+        9,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f06.png",
+      "pos": [
+        9,
+        5
+      ],
+      "cat": "npc",
+      "duplicate_of": "roof_gable_center"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f07.png",
+      "pos": [
+        9,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_traveler_walk_back_f08.png",
+      "pos": [
+        9,
+        7
+      ],
+      "cat": "npc",
+      "duplicate_of": "ground_dirt_daisy_pair_a"
+    },
+    {
+      "file": "train/train_blue_end_left.png",
+      "pos": [
+        9,
+        8
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_blue_window_a.png",
+      "pos": [
+        9,
+        9
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_blue_door.png",
+      "pos": [
+        9,
+        10
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_blue_window_b.png",
+      "pos": [
+        9,
+        11
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_blue_end_right.png",
+      "pos": [
+        9,
+        12
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "props/furniture_signal_red.png",
+      "pos": [
+        9,
+        13
+      ],
+      "cat": "furniture"
+    },
+    {
+      "file": "structure/signal_fragment_a.png",
+      "pos": [
+        9,
+        14
+      ],
+      "cat": "signal"
+    },
+    {
+      "file": "empty/empty_r09_c15.png",
+      "pos": [
+        9,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c16.png",
+      "pos": [
+        9,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "building/building_panel_a.png",
+      "pos": [
+        9,
+        17
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_panel_b.png",
+      "pos": [
+        9,
+        18
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_stonework.png",
+      "pos": [
+        9,
+        19
+      ],
+      "cat": "building",
+      "duplicate_of": "building_rooftile_a"
+    },
+    {
+      "file": "building/building_panel_door.png",
+      "pos": [
+        9,
+        20
+      ],
+      "cat": "building",
+      "duplicate_of": "building_rooftile_b"
+    },
+    {
+      "file": "building/building_fence_bars.png",
+      "pos": [
+        9,
+        21
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "building/building_fence_end.png",
+      "pos": [
+        9,
+        22
+      ],
+      "cat": "building"
+    },
+    {
+      "file": "empty/empty_r09_c23.png",
+      "pos": [
+        9,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_stone_surround_a.png",
+      "pos": [
+        9,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_island_a.png",
+      "pos": [
+        9,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_center_a.png",
+      "pos": [
+        9,
+        26
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_center_b.png",
+      "pos": [
+        9,
+        27
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_center_b"
+    },
+    {
+      "file": "ground/ground_stone_center_detail.png",
+      "pos": [
+        9,
+        28
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "empty/empty_r09_c29.png",
+      "pos": [
+        9,
+        29
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_stone_center_daisy_b.png",
+      "pos": [
+        9,
+        30
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_corner_tl"
+    },
+    {
+      "file": "ground/ground_stone_center_c.png",
+      "pos": [
+        9,
+        31
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_center_flower_a"
+    },
+    {
+      "file": "ground/ground_stone_diagonal_br.png",
+      "pos": [
+        9,
+        32
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "anim/anim_seagull_fly_f01.png",
+      "pos": [
+        9,
+        33
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_seagull_fly_f02.png",
+      "pos": [
+        9,
+        34
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_seagull_fly_f03.png",
+      "pos": [
+        9,
+        35
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "anim/anim_seagull_fly_f04.png",
+      "pos": [
+        9,
+        36
+      ],
+      "cat": "anim"
+    },
+    {
+      "file": "empty/empty_r09_c37.png",
+      "pos": [
+        9,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c38.png",
+      "pos": [
+        9,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c39.png",
+      "pos": [
+        9,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c40.png",
+      "pos": [
+        9,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c41.png",
+      "pos": [
+        9,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c42.png",
+      "pos": [
+        9,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c43.png",
+      "pos": [
+        9,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r09_c44.png",
+      "pos": [
+        9,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_child_stand_front.png",
+      "pos": [
+        10,
+        0
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_screen_left"
+    },
+    {
+      "file": "npc/npc_child_stand_back.png",
+      "pos": [
+        10,
+        1
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_conductor_walk_back_f04"
+    },
+    {
+      "file": "npc/npc_child_stand_left.png",
+      "pos": [
+        10,
+        2
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_screen_right"
+    },
+    {
+      "file": "npc/npc_child_stand_right.png",
+      "pos": [
+        10,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_stand_half.png",
+      "pos": [
+        10,
+        4
+      ],
+      "cat": "npc",
+      "duplicate_of": "building_interior_wall_left"
+    },
+    {
+      "file": "empty/empty_r10_c05.png",
+      "pos": [
+        10,
+        5
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c06.png",
+      "pos": [
+        10,
+        6
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c07.png",
+      "pos": [
+        10,
+        7
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "train/train_orange_upper_end_left.png",
+      "pos": [
+        10,
+        8
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_upper_window_a.png",
+      "pos": [
+        10,
+        9
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_upper_door.png",
+      "pos": [
+        10,
+        10
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_upper_window_b.png",
+      "pos": [
+        10,
+        11
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_upper_end_right.png",
+      "pos": [
+        10,
+        12
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "empty/empty_r10_c13.png",
+      "pos": [
+        10,
+        13
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c14.png",
+      "pos": [
+        10,
+        14
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c15.png",
+      "pos": [
+        10,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "train/train_orange_alt_end_left.png",
+      "pos": [
+        10,
+        16
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_upper_end_left"
+    },
+    {
+      "file": "train/train_orange_alt_window_a.png",
+      "pos": [
+        10,
+        17
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_upper_window_a"
+    },
+    {
+      "file": "train/train_orange_alt_door.png",
+      "pos": [
+        10,
+        18
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_upper_door"
+    },
+    {
+      "file": "train/train_orange_alt_window_b.png",
+      "pos": [
+        10,
+        19
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_upper_window_b"
+    },
+    {
+      "file": "train/train_orange_alt_end_right.png",
+      "pos": [
+        10,
+        20
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_upper_end_right"
+    },
+    {
+      "file": "empty/empty_r10_c21.png",
+      "pos": [
+        10,
+        21
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c22.png",
+      "pos": [
+        10,
+        22
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c23.png",
+      "pos": [
+        10,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_stone_corner_bl.png",
+      "pos": [
+        10,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_surround_b.png",
+      "pos": [
+        10,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_center_d.png",
+      "pos": [
+        10,
+        26
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_surround_a"
+    },
+    {
+      "file": "ground/ground_stone_center_e.png",
+      "pos": [
+        10,
+        27
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_center_f.png",
+      "pos": [
+        10,
+        28
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_island_a"
+    },
+    {
+      "file": "ground/ground_stone_center_i.png",
+      "pos": [
+        10,
+        29
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_daisy_pair_a.png",
+      "pos": [
+        10,
+        30
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_center_daisy_b"
+    },
+    {
+      "file": "ground/ground_stone_center_plain.png",
+      "pos": [
+        10,
+        31
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_stone_corner_br.png",
+      "pos": [
+        10,
+        32
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_center_flower_a"
+    },
+    {
+      "file": "empty/empty_r10_c33.png",
+      "pos": [
+        10,
+        33
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c34.png",
+      "pos": [
+        10,
+        34
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c35.png",
+      "pos": [
+        10,
+        35
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c36.png",
+      "pos": [
+        10,
+        36
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c37.png",
+      "pos": [
+        10,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c38.png",
+      "pos": [
+        10,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c39.png",
+      "pos": [
+        10,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c40.png",
+      "pos": [
+        10,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c41.png",
+      "pos": [
+        10,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c42.png",
+      "pos": [
+        10,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c43.png",
+      "pos": [
+        10,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r10_c44.png",
+      "pos": [
+        10,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f01.png",
+      "pos": [
+        11,
+        0
+      ],
+      "cat": "npc",
+      "duplicate_of": "arch_ceiling_bl"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f02.png",
+      "pos": [
+        11,
+        1
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_conductor_walk_side_f08"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f03.png",
+      "pos": [
+        11,
+        2
+      ],
+      "cat": "npc",
+      "duplicate_of": "arch_ceiling_br"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f04.png",
+      "pos": [
+        11,
+        3
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_interior_left"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f05.png",
+      "pos": [
+        11,
+        4
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_interior_bench_a"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f06.png",
+      "pos": [
+        11,
+        5
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_conductor_walk_front_f07"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f07.png",
+      "pos": [
+        11,
+        6
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_interior_bench_a"
+    },
+    {
+      "file": "npc/npc_child_walk_side_f08.png",
+      "pos": [
+        11,
+        7
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_interior_right"
+    },
+    {
+      "file": "train/train_orange_lower_window_a.png",
+      "pos": [
+        11,
+        8
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_door_a.png",
+      "pos": [
+        11,
+        9
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_coupler_a.png",
+      "pos": [
+        11,
+        10
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_coupler_b.png",
+      "pos": [
+        11,
+        11
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_door_b.png",
+      "pos": [
+        11,
+        12
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/rail_track_sleeper_a.png",
+      "pos": [
+        11,
+        13
+      ],
+      "cat": "rail"
+    },
+    {
+      "file": "train/train_nameplate_blue_a.png",
+      "pos": [
+        11,
+        14
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/rail_track_sleeper_b.png",
+      "pos": [
+        11,
+        15
+      ],
+      "cat": "rail"
+    },
+    {
+      "file": "train/train_orange_lower_door_c.png",
+      "pos": [
+        11,
+        16
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_lower_window_a"
+    },
+    {
+      "file": "train/train_orange_lower_window_b.png",
+      "pos": [
+        11,
+        17
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_window_c.png",
+      "pos": [
+        11,
+        18
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_panel_a.png",
+      "pos": [
+        11,
+        19
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "train/train_orange_lower_end_right.png",
+      "pos": [
+        11,
+        20
+      ],
+      "cat": "train",
+      "duplicate_of": "train_orange_lower_door_b"
+    },
+    {
+      "file": "empty/empty_r11_c21.png",
+      "pos": [
+        11,
+        21
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c22.png",
+      "pos": [
+        11,
+        22
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c23.png",
+      "pos": [
+        11,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_cobble_edge_top_a.png",
+      "pos": [
+        11,
+        24
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_cobble_center_a.png",
+      "pos": [
+        11,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "empty/empty_r11_c26.png",
+      "pos": [
+        11,
+        26
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c27.png",
+      "pos": [
+        11,
+        27
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c28.png",
+      "pos": [
+        11,
+        28
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_cobble_corner_tl.png",
+      "pos": [
+        11,
+        29
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_cobble_center_b.png",
+      "pos": [
+        11,
+        30
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_daisy_pair_a"
+    },
+    {
+      "file": "ground/ground_cobble_center_c.png",
+      "pos": [
+        11,
+        31
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_dirt_daisy_pair_b"
+    },
+    {
+      "file": "ground/ground_cobble_corner_tr.png",
+      "pos": [
+        11,
+        32
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "empty/empty_r11_c33.png",
+      "pos": [
+        11,
+        33
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c34.png",
+      "pos": [
+        11,
+        34
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c35.png",
+      "pos": [
+        11,
+        35
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c36.png",
+      "pos": [
+        11,
+        36
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c37.png",
+      "pos": [
+        11,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c38.png",
+      "pos": [
+        11,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c39.png",
+      "pos": [
+        11,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c40.png",
+      "pos": [
+        11,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c41.png",
+      "pos": [
+        11,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c42.png",
+      "pos": [
+        11,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c43.png",
+      "pos": [
+        11,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r11_c44.png",
+      "pos": [
+        11,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f01.png",
+      "pos": [
+        12,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f02.png",
+      "pos": [
+        12,
+        1
+      ],
+      "cat": "npc",
+      "duplicate_of": "platform_interior_bench_a"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f03.png",
+      "pos": [
+        12,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f04.png",
+      "pos": [
+        12,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f05.png",
+      "pos": [
+        12,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f06.png",
+      "pos": [
+        12,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f07.png",
+      "pos": [
+        12,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f08.png",
+      "pos": [
+        12,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f09.png",
+      "pos": [
+        12,
+        8
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_up_f10.png",
+      "pos": [
+        12,
+        9
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "empty/empty_r12_c10.png",
+      "pos": [
+        12,
+        10
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "train/rail_track_left.png",
+      "pos": [
+        12,
+        11
+      ],
+      "cat": "rail"
+    },
+    {
+      "file": "train/rail_track_center.png",
+      "pos": [
+        12,
+        12
+      ],
+      "cat": "rail"
+    },
+    {
+      "file": "train/rail_track_right.png",
+      "pos": [
+        12,
+        13
+      ],
+      "cat": "rail"
+    },
+    {
+      "file": "train/train_nameplate_blue_b.png",
+      "pos": [
+        12,
+        14
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "empty/empty_r12_c15.png",
+      "pos": [
+        12,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c16.png",
+      "pos": [
+        12,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c17.png",
+      "pos": [
+        12,
+        17
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c18.png",
+      "pos": [
+        12,
+        18
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c19.png",
+      "pos": [
+        12,
+        19
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c20.png",
+      "pos": [
+        12,
+        20
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c21.png",
+      "pos": [
+        12,
+        21
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c22.png",
+      "pos": [
+        12,
+        22
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c23.png",
+      "pos": [
+        12,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_cobble_edge_bottom_a.png",
+      "pos": [
+        12,
+        24
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_center_e"
+    },
+    {
+      "file": "ground/ground_cobble_center_d.png",
+      "pos": [
+        12,
+        25
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "empty/empty_r12_c26.png",
+      "pos": [
+        12,
+        26
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c27.png",
+      "pos": [
+        12,
+        27
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c28.png",
+      "pos": [
+        12,
+        28
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c29.png",
+      "pos": [
+        12,
+        29
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "ground/ground_cobble_corner_bl.png",
+      "pos": [
+        12,
+        30
+      ],
+      "cat": "ground",
+      "duplicate_of": "ground_stone_surround_a"
+    },
+    {
+      "file": "ground/ground_cobble_corner_bc.png",
+      "pos": [
+        12,
+        31
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "ground/ground_cobble_corner_br.png",
+      "pos": [
+        12,
+        32
+      ],
+      "cat": "ground"
+    },
+    {
+      "file": "empty/empty_r12_c33.png",
+      "pos": [
+        12,
+        33
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c34.png",
+      "pos": [
+        12,
+        34
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c35.png",
+      "pos": [
+        12,
+        35
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c36.png",
+      "pos": [
+        12,
+        36
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c37.png",
+      "pos": [
+        12,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c38.png",
+      "pos": [
+        12,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c39.png",
+      "pos": [
+        12,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c40.png",
+      "pos": [
+        12,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c41.png",
+      "pos": [
+        12,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c42.png",
+      "pos": [
+        12,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c43.png",
+      "pos": [
+        12,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r12_c44.png",
+      "pos": [
+        12,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f01.png",
+      "pos": [
+        13,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f02.png",
+      "pos": [
+        13,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f03.png",
+      "pos": [
+        13,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f04.png",
+      "pos": [
+        13,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f05.png",
+      "pos": [
+        13,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f06.png",
+      "pos": [
+        13,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f07.png",
+      "pos": [
+        13,
+        6
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f08.png",
+      "pos": [
+        13,
+        7
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f09.png",
+      "pos": [
+        13,
+        8
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_down_f10.png",
+      "pos": [
+        13,
+        9
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "empty/empty_r13_c10.png",
+      "pos": [
+        13,
+        10
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c11.png",
+      "pos": [
+        13,
+        11
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c12.png",
+      "pos": [
+        13,
+        12
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c13.png",
+      "pos": [
+        13,
+        13
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "train/train_nameplate_purple.png",
+      "pos": [
+        13,
+        14
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "empty/empty_r13_c15.png",
+      "pos": [
+        13,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c16.png",
+      "pos": [
+        13,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c17.png",
+      "pos": [
+        13,
+        17
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c18.png",
+      "pos": [
+        13,
+        18
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c19.png",
+      "pos": [
+        13,
+        19
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c20.png",
+      "pos": [
+        13,
+        20
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c21.png",
+      "pos": [
+        13,
+        21
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c22.png",
+      "pos": [
+        13,
+        22
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c23.png",
+      "pos": [
+        13,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c24.png",
+      "pos": [
+        13,
+        24
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c25.png",
+      "pos": [
+        13,
+        25
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c26.png",
+      "pos": [
+        13,
+        26
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c27.png",
+      "pos": [
+        13,
+        27
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c28.png",
+      "pos": [
+        13,
+        28
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c29.png",
+      "pos": [
+        13,
+        29
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c30.png",
+      "pos": [
+        13,
+        30
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c31.png",
+      "pos": [
+        13,
+        31
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c32.png",
+      "pos": [
+        13,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c33.png",
+      "pos": [
+        13,
+        33
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c34.png",
+      "pos": [
+        13,
+        34
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c35.png",
+      "pos": [
+        13,
+        35
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c36.png",
+      "pos": [
+        13,
+        36
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c37.png",
+      "pos": [
+        13,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c38.png",
+      "pos": [
+        13,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c39.png",
+      "pos": [
+        13,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c40.png",
+      "pos": [
+        13,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c41.png",
+      "pos": [
+        13,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c42.png",
+      "pos": [
+        13,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c43.png",
+      "pos": [
+        13,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r13_c44.png",
+      "pos": [
+        13,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f01.png",
+      "pos": [
+        14,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f02.png",
+      "pos": [
+        14,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f03.png",
+      "pos": [
+        14,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f04.png",
+      "pos": [
+        14,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f05.png",
+      "pos": [
+        14,
+        4
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_child_walk_up_f04"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f06.png",
+      "pos": [
+        14,
+        5
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f07.png",
+      "pos": [
+        14,
+        6
+      ],
+      "cat": "npc",
+      "duplicate_of": "npc_child_walk_up_f08"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f08.png",
+      "pos": [
+        14,
+        7
+      ],
+      "cat": "npc",
+      "duplicate_of": "ground_dirt_fragment"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f09.png",
+      "pos": [
+        14,
+        8
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_child_walk_right_f10.png",
+      "pos": [
+        14,
+        9
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "empty/empty_r14_c10.png",
+      "pos": [
+        14,
+        10
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c11.png",
+      "pos": [
+        14,
+        11
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c12.png",
+      "pos": [
+        14,
+        12
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c13.png",
+      "pos": [
+        14,
+        13
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "train/train_nameplate_strip.png",
+      "pos": [
+        14,
+        14
+      ],
+      "cat": "train"
+    },
+    {
+      "file": "empty/empty_r14_c15.png",
+      "pos": [
+        14,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c16.png",
+      "pos": [
+        14,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c17.png",
+      "pos": [
+        14,
+        17
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c18.png",
+      "pos": [
+        14,
+        18
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c19.png",
+      "pos": [
+        14,
+        19
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c20.png",
+      "pos": [
+        14,
+        20
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c21.png",
+      "pos": [
+        14,
+        21
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c22.png",
+      "pos": [
+        14,
+        22
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c23.png",
+      "pos": [
+        14,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c24.png",
+      "pos": [
+        14,
+        24
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c25.png",
+      "pos": [
+        14,
+        25
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c26.png",
+      "pos": [
+        14,
+        26
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c27.png",
+      "pos": [
+        14,
+        27
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c28.png",
+      "pos": [
+        14,
+        28
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c29.png",
+      "pos": [
+        14,
+        29
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c30.png",
+      "pos": [
+        14,
+        30
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c31.png",
+      "pos": [
+        14,
+        31
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c32.png",
+      "pos": [
+        14,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c33.png",
+      "pos": [
+        14,
+        33
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c34.png",
+      "pos": [
+        14,
+        34
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c35.png",
+      "pos": [
+        14,
+        35
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c36.png",
+      "pos": [
+        14,
+        36
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c37.png",
+      "pos": [
+        14,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c38.png",
+      "pos": [
+        14,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c39.png",
+      "pos": [
+        14,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c40.png",
+      "pos": [
+        14,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c41.png",
+      "pos": [
+        14,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c42.png",
+      "pos": [
+        14,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c43.png",
+      "pos": [
+        14,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r14_c44.png",
+      "pos": [
+        14,
+        44
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "npc/npc_girl_stand_front.png",
+      "pos": [
+        15,
+        0
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_girl_stand_back.png",
+      "pos": [
+        15,
+        1
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_girl_stand_left.png",
+      "pos": [
+        15,
+        2
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_girl_stand_right.png",
+      "pos": [
+        15,
+        3
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "npc/npc_girl_stand_half.png",
+      "pos": [
+        15,
+        4
+      ],
+      "cat": "npc"
+    },
+    {
+      "file": "empty/empty_r15_c05.png",
+      "pos": [
+        15,
+        5
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c06.png",
+      "pos": [
+        15,
+        6
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c07.png",
+      "pos": [
+        15,
+        7
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c08.png",
+      "pos": [
+        15,
+        8
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c09.png",
+      "pos": [
+        15,
+        9
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c10.png",
+      "pos": [
+        15,
+        10
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c11.png",
+      "pos": [
+        15,
+        11
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c12.png",
+      "pos": [
+        15,
+        12
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c13.png",
+      "pos": [
+        15,
+        13
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c14.png",
+      "pos": [
+        15,
+        14
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c15.png",
+      "pos": [
+        15,
+        15
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c16.png",
+      "pos": [
+        15,
+        16
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c17.png",
+      "pos": [
+        15,
+        17
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c18.png",
+      "pos": [
+        15,
+        18
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c19.png",
+      "pos": [
+        15,
+        19
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c20.png",
+      "pos": [
+        15,
+        20
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c21.png",
+      "pos": [
+        15,
+        21
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c22.png",
+      "pos": [
+        15,
+        22
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c23.png",
+      "pos": [
+        15,
+        23
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c24.png",
+      "pos": [
+        15,
+        24
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c25.png",
+      "pos": [
+        15,
+        25
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c26.png",
+      "pos": [
+        15,
+        26
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c27.png",
+      "pos": [
+        15,
+        27
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c28.png",
+      "pos": [
+        15,
+        28
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c29.png",
+      "pos": [
+        15,
+        29
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c30.png",
+      "pos": [
+        15,
+        30
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c31.png",
+      "pos": [
+        15,
+        31
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c32.png",
+      "pos": [
+        15,
+        32
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c33.png",
+      "pos": [
+        15,
+        33
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c34.png",
+      "pos": [
+        15,
+        34
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c35.png",
+      "pos": [
+        15,
+        35
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c36.png",
+      "pos": [
+        15,
+        36
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c37.png",
+      "pos": [
+        15,
+        37
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c38.png",
+      "pos": [
+        15,
+        38
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c39.png",
+      "pos": [
+        15,
+        39
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c40.png",
+      "pos": [
+        15,
+        40
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c41.png",
+      "pos": [
+        15,
+        41
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c42.png",
+      "pos": [
+        15,
+        42
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c43.png",
+      "pos": [
+        15,
+        43
+      ],
+      "cat": "empty"
+    },
+    {
+      "file": "empty/empty_r15_c44.png",
+      "pos": [
+        15,
+        44
+      ],
+      "cat": "empty"
+    }
+  ],
+  "summary": {
+    "empty": 226,
+    "npc": 122,
+    "anim": 104,
+    "ground": 63,
+    "furniture": 41,
+    "train": 37,
+    "building": 34,
+    "vegetation": 19,
+    "glass": 14,
+    "arch": 12,
+    "stairs": 10,
+    "platform": 9,
+    "post": 8,
+    "roof": 7,
+    "canopy": 5,
+    "bridge": 4,
+    "rail": 3,
+    "railing": 1,
+    "signal": 1
+  },
+  "folders": {
+    "empty": 226,
+    "npc": 122,
+    "anim": 104,
+    "ground": 63,
+    "props": 60,
+    "structure": 59,
+    "building": 46,
+    "train": 40
+  }
+}
