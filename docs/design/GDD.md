@@ -259,6 +259,58 @@ Değişken: Büyük durakta çok, küçük durakta az yolcu bekler. Kargo deposu
 - **Gidiş-dönüş:** A→D gidiş + D→A dönüş (iki ayrı sefer)
 - **Dönüş:** Aynı duraklar ters sırada — farklı yolcu dağılımı doğal strateji farkı yaratır
 
+---
+
+## 10. Production Art Spec (MCP)
+
+Bu bölüm final asset üretiminde zorunlu teknik sözleşmedir. `assets/sprites/**` altına üretilecek her görsel bu kurallara uyar.
+
+### 10.1 Global Pixel Rules
+
+- Perspective: `side view` (UI ve karakter), `high top-down` (yalnızca world map).
+- Shape readability: Silhouette ilk bakışta seçilir, aşırı anti-alias yok.
+- Outline: Dış hat 1 px; iç detayda selective outline.
+- Shading: 3 seviye (`base`, `shadow`, `highlight`), banding ve noise dither yasak.
+- Light direction: Sol-üstten tek ana ışık.
+- Contrast: Foreground ile arka plan arasında minimum orta kontrast.
+- Background discipline: UI ikonları ve araç/karakter sprite'ları şeffaf zeminde üretilir.
+
+### 10.2 Region-Locked Palette Contract
+
+- Ege scene: sıcak açık mavi + zeytin yeşili + kum/bej.
+- Marmara scene: nötr gri + endüstriyel mavi + turuncu sonbahar vurgu.
+- İç Anadolu scene: soğuk gri + kar beyazı + kuru toprak sarısı.
+- UI theme: TCDD kırmızısı vurgu, koyu lacivert panel, altın ekonomi ikonları.
+- Yasak: Neon tonlar, mor ağırlıklı UI, foto-gerçekçi gradyan.
+
+### 10.3 Scene Composition Rules
+
+- Splash/Menu backgrounds: ön plan tren rayı, orta plan istasyon/terrain, arka plan gökyüzü.
+- Travel/Station backgrounds: HUD metni okunacak sakin alan bırak.
+- Map background: hat çizgileri okunur, etiket alanları boş kalır.
+- Logo frame: merkez alan temiz bırakılır, metin bindirmesi için düşük görsel gürültü.
+- Character sprites: tam gövde tek karakter, çevresel obje içermez.
+
+### 10.4 File-Level Acceptance (Must Pass)
+
+- `assets/sprites/splash/splash_bg_generated.png`: 384x216, karakter yok, atmosferik ama düşük gürültü.
+- `assets/sprites/splash/splash_train_generated.png`: 320x200, tek lokomotif odak.
+- `assets/sprites/splash/splash_logo_frame_generated.png`: 320x128, merkez boş.
+- `assets/sprites/ui/menu_bg_generated.png`: 384x216, başlık için üst-orta temiz alan.
+- `assets/sprites/ui/menu_train_generated.png`: 240x120, yatay okunur tren kompozisyonu.
+- `assets/sprites/ui/menu_logo_frame_generated.png`: 320x96, merkez boş.
+- `assets/sprites/ui/hud_bar_bg_generated.png`: 384x64, metin kontrastı yüksek.
+- `assets/sprites/ui/hud_coin_icon_generated.png`: 64x64, tek obje, altın sikke.
+- `assets/sprites/ui/hud_star_icon_generated.png`: 64x64, tek obje, başarı yıldızı.
+- `assets/sprites/ui/hud_pause_icon_generated.png`: 64x64, tek obje, pause sembolü net.
+- `assets/sprites/backgrounds/travel_mountain_preview.png`: 384x216, travel okunurluğu.
+- `assets/sprites/vehicles/loco_pixel.png`: 192x128, tek lokomotif, şeffaf.
+- `assets/sprites/backgrounds/station_country_preview.png`: 384x216, peron + bina + açık HUD alanı.
+- `assets/sprites/vehicles/wagon_pixel.png`: 160x128, tek vagon, şeffaf.
+- `assets/sprites/backgrounds/map_overworld_preview.png`: 384x216, top-down network map.
+- `assets/sprites/characters/passenger_pixel.png`: 96x128, tek yolcu karakteri.
+- `assets/sprites/characters/conductor_pixel.png`: 112x160, tek kondüktör karakteri.
+
 ### Ekspres Sefer
 Kademeli: Başta her durakta zorunlu dur. İlerledikçe durak atlama seçeneği açılır (ekspres). Atlanan durak = zaman kazanır ama yolcu/kargo fırsatını kaçırırsın.
 

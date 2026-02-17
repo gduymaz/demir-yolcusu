@@ -259,6 +259,42 @@ Karma stil: Oyun dünyası pixel art, UI elemanları temiz/modern. Ama butonlar 
 
 ### 8.5 Font
 
+---
+
+## 9. MCP Prompt Contract (Final Asset Generation)
+
+Bu bölüm, MCP ile üretimde prompt varyansını düşürmek için zorunlu prompt şablonlarını tanımlar.
+
+### 9.1 Global Prompt Suffix
+
+Her prompt sonuna şu kalite koşulu eklenir:
+
+`pixel art game asset, clean silhouette, 1px controlled outline, 3-tone shading, no photorealism, no blur, no text, no watermark, consistent anatolian railway game style`
+
+### 9.2 Background Prompt Template
+
+`[scene purpose], side-view pixel art background, layered composition (foreground rails, midground station/terrain, background sky), reserved calm area for UI readability, regional palette locked, medium detail`
+
+### 9.3 Vehicle Prompt Template
+
+`single [vehicle type] sprite, side profile, transparent background, readable silhouette, mechanical details but low noise, consistent tcdd-inspired color accents`
+
+### 9.4 Character Prompt Template
+
+`single full-body [character role], side pose, transparent background, expressive but simple face, clear clothing blocks, game-ready sprite readability`
+
+### 9.5 UI Prompt Template
+
+`single [ui element] icon/panel, transparent background, high contrast, center-weighted composition, clean edges, no tiny noisy details`
+
+### 9.6 Negative Rules (Always Avoid)
+
+- Aşırı gradient ve painterly görünüm
+- Micro-detail karmaşası ve texture noise
+- Çift ışık yönü ve hacim karmaşası
+- Arka planda istemsiz obje/karakter kalabalığı
+- Okunurluğu bozan düşük kontrast
+
 | Parametre | Değer |
 |-----------|-------|
 | Tip | Pixel font |
