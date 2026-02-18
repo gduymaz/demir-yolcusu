@@ -4546,7 +4546,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete ground corner; meaningful when south-east neighbor differs."
     },
     "wall_grey_top_b": {
       "s": "station",
@@ -4561,7 +4562,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete ground edge; meaningful when southern neighbor differs."
     },
     "wall_grey_top_c": {
       "s": "station",
@@ -4576,7 +4578,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete ground corner; meaningful when south-west neighbor differs."
     },
     "wall_grey_top_d": {
       "s": "station",
@@ -4591,7 +4594,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete with top line and curb stones; south-east transition variant."
     },
     "wall_grey_top_e": {
       "s": "station",
@@ -4606,7 +4610,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete with top line and curb stones; southern transition variant."
     },
     "wall_grey_top_f": {
       "s": "station",
@@ -4621,7 +4626,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete with top line and curb stones; south-west transition variant."
     },
     "wall_grey_corner_tr": {
       "s": "station",
@@ -4637,7 +4643,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete with bottom line; left cap for a continuous line sequence."
     },
     "station_r00_c08": {
       "s": "station",
@@ -4646,7 +4653,8 @@
         8
       ],
       "g": "station_auto",
-      "sub": "auto"
+      "sub": "auto",
+      "semantic": "Empty placeholder tile."
     },
     "item_flower_white": {
       "s": "station",
@@ -4662,7 +4670,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Decor ground tile with two white flowers; one near lower-left and one near upper area."
     },
     "item_light_a": {
       "s": "station",
@@ -4677,7 +4686,8 @@
         "light",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Decor ground tile with a white flower near lower-right."
     },
     "item_light_b": {
       "s": "station",
@@ -4692,7 +4702,8 @@
         "light",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Small grassy decor patch centered; can also be reused as wagon dirt detail."
     },
     "item_light_c": {
       "s": "station",
@@ -4707,7 +4718,8 @@
         "light",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Small grassy decor patch near upper-left; can also be reused as wagon dirt detail."
     },
     "item_light_d": {
       "s": "station",
@@ -4722,7 +4734,8 @@
         "light",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Decor ground tile with mixed white flower and grass detail near lower-left."
     },
     "item_light_e": {
       "s": "station",
@@ -4738,7 +4751,8 @@
         "light",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Decor ground tile with three white flowers around center."
     },
     "station_ground_top_r00_c16": {
       "s": "station",
@@ -4752,7 +4766,8 @@
         "station",
         "ground",
         "top"
-      ]
+      ],
+      "semantic": "Awning piece 1 positioned on the west side of the hut; must have station_ground_top_r01_c16 directly south."
     },
     "structure_gate_dark": {
       "s": "station",
@@ -4768,7 +4783,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Hut roof tile; if used, facade_shuttered must be directly south."
     },
     "plank_wood_beam_a": {
       "s": "station",
@@ -4784,7 +4800,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Top piece enabling alternative placement for the bench family represented with facade_window_upper."
     },
     "plank_wood_beam_b": {
       "s": "station",
@@ -4800,7 +4817,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Top piece enabling alternative placement for the bench family represented with plank_shelf_a."
     },
     "plank_wood_beam_c": {
       "s": "station",
@@ -4816,7 +4834,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Top railing segment for plank_shelf_d."
     },
     "roof_jp_eave_tl": {
       "s": "station",
@@ -4962,7 +4981,8 @@
         "station",
         "top",
         "vent"
-      ]
+      ],
+      "semantic": "Concrete with bottom line and left support detail; suitable under pole or post overlays."
     },
     "wall_grey_mid_a": {
       "s": "station",
@@ -4978,7 +4998,8 @@
         "mid",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Ground transition tile; intended when eastern neighbor differs."
     },
     "painting_landscape": {
       "s": "station",
@@ -4994,7 +5015,8 @@
         "painting",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Grass inset patch intended inside stone-bordered asphalt context."
     },
     "wall_grey_mid_b": {
       "s": "station",
@@ -5010,7 +5032,8 @@
         "mid",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Ground transition tile; intended when western neighbor differs."
     },
     "wall_grey_mid_c": {
       "s": "station",
@@ -5026,7 +5049,8 @@
         "mid",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Ground transition variant; intended when eastern neighbor differs."
     },
     "painting_map": {
       "s": "station",
@@ -5042,7 +5066,8 @@
         "painting",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Soil inset patch intended inside stone-bordered asphalt context."
     },
     "wall_grey_mid_d": {
       "s": "station",
@@ -5058,7 +5083,8 @@
         "mid",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Ground transition variant; intended when western neighbor differs."
     },
     "wall_grey_mid_e": {
       "s": "station",
@@ -5074,7 +5100,8 @@
         "mid",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete with bottom line; middle segment for continuity."
     },
     "wall_stripe_diagonal_a": {
       "s": "station",
@@ -5090,7 +5117,8 @@
         "station",
         "stripe",
         "top"
-      ]
+      ],
+      "semantic": "Blue diagonal mesh barrier left cap; pair with wall_stripe_diagonal_c for 2-wide layouts."
     },
     "wall_stripe_diagonal_b": {
       "s": "station",
@@ -5106,7 +5134,8 @@
         "station",
         "stripe",
         "top"
-      ]
+      ],
+      "semantic": "Blue diagonal mesh barrier middle segment; repeat horizontally to extend length."
     },
     "wall_stripe_diagonal_c": {
       "s": "station",
@@ -5122,7 +5151,8 @@
         "station",
         "stripe",
         "top"
-      ]
+      ],
+      "semantic": "Blue diagonal mesh barrier right cap; pair with wall_stripe_diagonal_a for 2-wide layouts."
     },
     "wall_grey_accent_a": {
       "s": "station",
@@ -5138,7 +5168,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Gray concrete with stone on top and top-left diagonal; use as north-west piece in matching set."
     },
     "wall_grey_accent_b": {
       "s": "station",
@@ -5154,7 +5185,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Gray concrete with stone on top; use as north piece in matching set."
     },
     "wall_grey_accent_c": {
       "s": "station",
@@ -5170,7 +5202,8 @@
         "ground",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Gray concrete with stone on top and top-right diagonal; use as north-east piece in matching set."
     },
     "station_ground_top_r01_c16": {
       "s": "station",
@@ -5184,7 +5217,8 @@
         "station",
         "ground",
         "top"
-      ]
+      ],
+      "semantic": "Awning piece 2 positioned on the west side of the hut; must have station_ground_top_r00_c16 directly north."
     },
     "facade_shuttered": {
       "s": "station",
@@ -5200,7 +5234,8 @@
         "shuttered",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Hut body with closed shutter; if used, structure_gate_dark must be directly north."
     },
     "facade_window_upper": {
       "s": "station",
@@ -5216,7 +5251,8 @@
         "station",
         "top",
         "window"
-      ]
+      ],
+      "semantic": "Bench."
     },
     "plank_shelf_a": {
       "s": "station",
@@ -5232,7 +5268,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Bench with bird droppings."
     },
     "plank_shelf_b": {
       "s": "station",
@@ -5248,7 +5285,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Lower piece enabling alternative placement for facade_window_upper bench."
     },
     "plank_shelf_c": {
       "s": "station",
@@ -5264,7 +5302,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Upper piece enabling alternative placement for plank_shelf_a bench variant."
     },
     "plank_shelf_d": {
       "s": "station",
@@ -5280,7 +5319,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Bench with bird droppings."
     },
     "prop_bench_wood": {
       "s": "station",
@@ -5296,7 +5336,8 @@
         "station",
         "top",
         "wood"
-      ]
+      ],
+      "semantic": "Log stump."
     },
     "station_ground_top_r01_c24": {
       "s": "station",
@@ -5437,7 +5478,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Dark concrete connector; typical context uses side transitions and northern edge blending."
     },
     "wall_grey_lower_b": {
       "s": "station",
@@ -5452,7 +5494,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete corner variant; meaningful when north-east neighbor differs."
     },
     "wall_grey_lower_c": {
       "s": "station",
@@ -5467,7 +5510,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete edge variant; meaningful when northern neighbor differs."
     },
     "wall_grey_lower_d": {
       "s": "station",
@@ -5482,7 +5526,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete corner variant; meaningful when north-west neighbor differs."
     },
     "wall_grey_lower_e": {
       "s": "station",
@@ -5497,7 +5542,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with bottom line and white stone detail; center segment for north-east sensitive transitions."
     },
     "wall_grey_lower_f": {
       "s": "station",
@@ -5512,7 +5558,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with bottom line; center segment for north-sensitive transitions."
     },
     "wall_grey_lower_g": {
       "s": "station",
@@ -5527,7 +5574,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with bottom line and white stone detail; center segment for north-west sensitive transitions."
     },
     "wall_grey_lower_h": {
       "s": "station",
@@ -5542,7 +5590,8 @@
         "grey",
         "lower",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with partially eroded bottom line; distressed center continuity segment."
     },
     "prop_vending_machine": {
       "s": "station",
@@ -5556,7 +5605,8 @@
         "building",
         "station",
         "vending"
-      ]
+      ],
+      "semantic": "Fire hydrant."
     },
     "prop_crate_wooden": {
       "s": "station",
@@ -5571,7 +5621,8 @@
         "crate",
         "station",
         "wood"
-      ]
+      ],
+      "semantic": "Double suitcase prop."
     },
     "prop_locker_green": {
       "s": "station",
@@ -5586,7 +5637,8 @@
         "green",
         "locker",
         "station"
-      ]
+      ],
+      "semantic": "Top stone for west-to-east platform stair; recommended neighbors: south arch_canopy_bl and east arch_canopy_tc."
     },
     "arch_canopy_tc": {
       "s": "station",
@@ -5602,7 +5654,8 @@
         "center",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Gray concrete with stone on left edge; use as west piece in matching set."
     },
     "arch_canopy_tr": {
       "s": "station",
@@ -5618,7 +5671,8 @@
         "right",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Variant very similar to wall_grey_lower_c behavior."
     },
     "arch_canopy_detail_a": {
       "s": "station",
@@ -5633,7 +5687,8 @@
         "canopy",
         "detail",
         "station"
-      ]
+      ],
+      "semantic": "Gray concrete with stone on right edge; use as east piece in matching set."
     },
     "arch_canopy_detail_b": {
       "s": "station",
@@ -5648,7 +5703,8 @@
         "canopy",
         "detail",
         "station"
-      ]
+      ],
+      "semantic": "Top stone for east-to-west platform stair; recommended neighbors: south arch_canopy_glass_b and west arch_canopy_detail_a."
     },
     "electric_pole_top": {
       "s": "station",
@@ -5664,7 +5720,8 @@
         "station",
         "top"
       ],
-      "z": "STRUCTURES_HIGH"
+      "z": "STRUCTURES_HIGH",
+      "semantic": "Electric pole top tip segment."
     },
     "sign_info_board_a": {
       "s": "station",
@@ -5679,7 +5736,8 @@
         "building",
         "info",
         "station"
-      ]
+      ],
+      "semantic": "Information board top piece; should have sign_route_map_a directly below."
     },
     "sign_info_board_b": {
       "s": "station",
@@ -5694,7 +5752,8 @@
         "building",
         "info",
         "station"
-      ]
+      ],
+      "semantic": "Empty and slightly dirty information board top piece; should have sign_route_map_b directly below."
     },
     "prop_arrow_up_a": {
       "s": "station",
@@ -5709,7 +5768,8 @@
         "building",
         "station",
         "up"
-      ]
+      ],
+      "semantic": "Top piece of hanging Japanese info paper on poles; should have station_building_r03_c19 directly below."
     },
     "prop_signal_colored": {
       "s": "station",
@@ -5724,7 +5784,8 @@
         "colored",
         "signal",
         "station"
-      ]
+      ],
+      "semantic": "Hanging Japanese info paper on poles."
     },
     "vegetation_bush_large_a": {
       "s": "station",
@@ -5739,7 +5800,8 @@
         "bush",
         "large",
         "station"
-      ]
+      ],
+      "semantic": "Filama top piece; should have vegetation_bush_med directly below."
     },
     "vegetation_bush_large_b": {
       "s": "station",
@@ -5754,7 +5816,8 @@
         "bush",
         "large",
         "station"
-      ]
+      ],
+      "semantic": "Large bush left piece."
     },
     "station_building_r02_c23": {
       "s": "station",
@@ -5767,7 +5830,8 @@
       "tags": [
         "station",
         "building"
-      ]
+      ],
+      "semantic": "Large bush right piece."
     },
     "station_building_r02_c24": {
       "s": "station",
@@ -5893,7 +5957,8 @@
         "building",
         "grey",
         "station"
-      ]
+      ],
+      "semantic": "Dark concrete with light patches; contextual connector similar to dark concrete transition family."
     },
     "prop_bollard_a": {
       "s": "station",
@@ -5907,7 +5972,8 @@
         "bollard",
         "building",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with white stone strip at bottom."
     },
     "prop_bollard_b": {
       "s": "station",
@@ -5921,7 +5987,8 @@
         "bollard",
         "building",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with white line and white stone strip at bottom."
     },
     "prop_bollard_c": {
       "s": "station",
@@ -5935,7 +6002,8 @@
         "bollard",
         "building",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with bottom white stone strip; variant used when northern neighbor differs."
     },
     "wall_grey_base_b": {
       "s": "station",
@@ -5950,7 +6018,8 @@
         "building",
         "grey",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with bottom white line and white stone strip; variant used when northern neighbor differs."
     },
     "structure_stairs_top": {
       "s": "station",
@@ -5965,7 +6034,8 @@
         "stairs",
         "station",
         "top"
-      ]
+      ],
+      "semantic": "Concrete with top curb or wall stone strip."
     },
     "structure_stairs_mid": {
       "s": "station",
@@ -5980,7 +6050,8 @@
         "mid",
         "stairs",
         "station"
-      ]
+      ],
+      "semantic": "Vertical stairs tile for platform-to-track descent paths."
     },
     "wall_grey_base_c": {
       "s": "station",
@@ -5995,7 +6066,8 @@
         "building",
         "grey",
         "station"
-      ]
+      ],
+      "semantic": "Concrete with bottom line; right cap for a continuous line sequence."
     },
     "prop_luggage": {
       "s": "station",
@@ -6010,7 +6082,8 @@
         "cart",
         "luggage",
         "station"
-      ]
+      ],
+      "semantic": "Luggage item prop."
     },
     "station_r03_c09": {
       "s": "station",
@@ -6019,7 +6092,8 @@
         9
       ],
       "g": "station_auto",
-      "sub": "auto"
+      "sub": "auto",
+      "semantic": "Empty placeholder tile."
     },
     "arch_canopy_bl": {
       "s": "station",
@@ -6035,7 +6109,8 @@
         "canopy",
         "left",
         "station"
-      ]
+      ],
+      "semantic": "Stair descending from east to west."
     },
     "arch_canopy_bc": {
       "s": "station",
@@ -6051,7 +6126,8 @@
         "canopy",
         "center",
         "station"
-      ]
+      ],
+      "semantic": "Platform middle top ground with curb at center and stone retaining wall below."
     },
     "arch_canopy_pillar": {
       "s": "station",
@@ -6066,7 +6142,8 @@
         "canopy",
         "pillar",
         "station"
-      ]
+      ],
+      "semantic": "Platform middle top with yellow boarding warning line; curb at center and stone retaining wall below."
     },
     "arch_canopy_glass_a": {
       "s": "station",
@@ -6081,7 +6158,8 @@
         "canopy",
         "glass",
         "station"
-      ]
+      ],
+      "semantic": "Platform middle top ground with curb at center and stone retaining wall below."
     },
     "arch_canopy_glass_b": {
       "s": "station",
@@ -6096,7 +6174,8 @@
         "canopy",
         "glass",
         "station"
-      ]
+      ],
+      "semantic": "Stair descending from west to east."
     },
     "electric_pole_upper": {
       "s": "station",
@@ -6112,7 +6191,8 @@
         "station",
         "upper"
       ],
-      "z": "STRUCTURES_HIGH"
+      "z": "STRUCTURES_HIGH",
+      "semantic": "Electric pole upper body segment."
     },
     "sign_route_map_a": {
       "s": "station",
@@ -6127,7 +6207,8 @@
         "map",
         "route",
         "station"
-      ]
+      ],
+      "semantic": "Information board bottom piece; used below sign_info_board_a."
     },
     "sign_route_map_b": {
       "s": "station",
@@ -6142,7 +6223,8 @@
         "map",
         "route",
         "station"
-      ]
+      ],
+      "semantic": "Information board bottom piece; used below sign_info_board_b."
     },
     "station_building_r03_c19": {
       "s": "station",
@@ -6155,7 +6237,8 @@
       "tags": [
         "station",
         "building"
-      ]
+      ],
+      "semantic": "Top piece of hanging Japanese info paper on poles; used below prop_arrow_up_a."
     },
     "vegetation_bush_med": {
       "s": "station",
@@ -6170,7 +6253,8 @@
         "bush",
         "medium",
         "station"
-      ]
+      ],
+      "semantic": "Filama bottom piece."
     },
     "vegetation_bush_sm_a": {
       "s": "station",
@@ -6185,7 +6269,8 @@
         "bush",
         "small",
         "station"
-      ]
+      ],
+      "semantic": "Small bush A."
     },
     "vegetation_bush_sm_b": {
       "s": "station",
@@ -6200,7 +6285,8 @@
         "bush",
         "small",
         "station"
-      ]
+      ],
+      "semantic": "Upper foliage of a tree piece; should have vegetation_grass_cluster_b directly below."
     },
     "building_jp_door": {
       "s": "station",
@@ -6300,7 +6386,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Stone-framed soil patch; left end of a horizontal 3-tile set."
     },
     "terrain_rock_b": {
       "s": "station",
@@ -6316,7 +6403,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Stone-framed soil patch; repeatable middle segment for wider horizontal sets."
     },
     "terrain_rock_c": {
       "s": "station",
@@ -6332,7 +6420,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Stone-framed soil patch; right end of a horizontal 3-tile set."
     },
     "terrain_rock_d": {
       "s": "station",
@@ -6348,7 +6437,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Light concrete connector variant used with side transition neighbors."
     },
     "vegetation_hedge_a": {
       "s": "station",
@@ -6364,7 +6454,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Stone-framed grass patch; left end of a horizontal 3-tile set."
     },
     "vegetation_hedge_b": {
       "s": "station",
@@ -6380,7 +6471,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Stone-framed grass patch; repeatable middle segment for wider horizontal sets."
     },
     "terrain_rock_e": {
       "s": "station",
@@ -6395,7 +6487,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Stone-framed grass patch; right end of a horizontal 3-tile set."
     },
     "terrain_rock_f": {
       "s": "station",
@@ -6410,7 +6503,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Concrete with partially eroded bottom line; north-sensitive distressed center segment."
     },
     "arch_frame_tl": {
       "s": "station",
@@ -6426,7 +6520,8 @@
         "station",
         "tl",
         "upper"
-      ]
+      ],
+      "semantic": "Frame and metal railing upper-left corner; often paired on same cell context with wall_grey_accent_a."
     },
     "arch_frame_tc": {
       "s": "station",
@@ -6442,7 +6537,8 @@
         "station",
         "tc",
         "upper"
-      ]
+      ],
+      "semantic": "Frame and metal railing upper-middle segment; often paired on same cell context with wall_grey_accent_b."
     },
     "arch_frame_tr": {
       "s": "station",
@@ -6458,7 +6554,8 @@
         "station",
         "tr",
         "upper"
-      ]
+      ],
+      "semantic": "Frame and metal railing upper-middle variant; often paired on same cell context with wall_grey_accent_b."
     },
     "arch_inner_tl": {
       "s": "station",
@@ -6474,7 +6571,8 @@
         "station",
         "tl",
         "upper"
-      ]
+      ],
+      "semantic": "Frame and metal railing upper-right corner; often paired on same cell context with wall_grey_accent_c."
     },
     "arch_inner_tc": {
       "s": "station",
@@ -6490,7 +6588,8 @@
         "station",
         "tc",
         "upper"
-      ]
+      ],
+      "semantic": "Striped variant corresponding to wall_grey_accent_a."
     },
     "arch_inner_tr": {
       "s": "station",
@@ -6506,7 +6605,8 @@
         "station",
         "tr",
         "upper"
-      ]
+      ],
+      "semantic": "Striped variant corresponding to wall_grey_accent_b."
     },
     "arch_large_tl": {
       "s": "station",
@@ -6522,7 +6622,8 @@
         "station",
         "top",
         "upper"
-      ]
+      ],
+      "semantic": "Striped variant corresponding to wall_grey_accent_c."
     },
     "prop_flowerpot": {
       "s": "station",
@@ -6537,7 +6638,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Electric pole middle body segment."
     },
     "vegetation_potted_a": {
       "s": "station",
@@ -6552,7 +6654,8 @@
         "potted",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Flower pot A with violets."
     },
     "vegetation_potted_b": {
       "s": "station",
@@ -6567,7 +6670,8 @@
         "potted",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Flower pot B with daisies."
     },
     "prop_flower_white": {
       "s": "station",
@@ -6583,7 +6687,8 @@
         "station",
         "upper",
         "white"
-      ]
+      ],
+      "semantic": "Empty pot."
     },
     "vegetation_grass_tall_a": {
       "s": "station",
@@ -6599,7 +6704,8 @@
         "station",
         "tall",
         "upper"
-      ]
+      ],
+      "semantic": "Pot with plant but no flower."
     },
     "vegetation_grass_tall_b": {
       "s": "station",
@@ -6615,7 +6721,8 @@
         "station",
         "tall",
         "upper"
-      ]
+      ],
+      "semantic": "Grass cluster A."
     },
     "vegetation_grass_cluster_a": {
       "s": "station",
@@ -6631,7 +6738,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Grass cluster B."
     },
     "vegetation_grass_cluster_b": {
       "s": "station",
@@ -6647,7 +6755,8 @@
         "platform",
         "station",
         "upper"
-      ]
+      ],
+      "semantic": "Lower trunk part of a tree piece; should have vegetation_bush_sm_b directly above."
     },
     "terrain_earth_tl": {
       "s": "station",
@@ -20009,12 +20118,570 @@
         "train_interior",
         "floor"
       ]
+    },
+    "flag_segment_top_f01": {
+      "s": "station",
+      "rc": [
+        0,
+        33
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_01"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_top_f02": {
+      "s": "station",
+      "rc": [
+        0,
+        34
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_02"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_top_f03": {
+      "s": "station",
+      "rc": [
+        0,
+        35
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_03"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_top_f04": {
+      "s": "station",
+      "rc": [
+        0,
+        36
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_04"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_top_f05": {
+      "s": "station",
+      "rc": [
+        0,
+        37
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_05"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_top_f06": {
+      "s": "station",
+      "rc": [
+        0,
+        38
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_06"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_top_f07": {
+      "s": "station",
+      "rc": [
+        0,
+        39
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "top",
+        "segment",
+        "frame_07"
+      ],
+      "semantic": "Flag/banner top frame; pair this frame with the matching bottom frame index."
+    },
+    "flag_segment_bottom_f01": {
+      "s": "station",
+      "rc": [
+        1,
+        33
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_01"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "flag_segment_bottom_f02": {
+      "s": "station",
+      "rc": [
+        1,
+        34
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_02"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "flag_segment_bottom_f03": {
+      "s": "station",
+      "rc": [
+        1,
+        35
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_03"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "flag_segment_bottom_f04": {
+      "s": "station",
+      "rc": [
+        1,
+        36
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_04"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "flag_segment_bottom_f05": {
+      "s": "station",
+      "rc": [
+        1,
+        37
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_05"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "flag_segment_bottom_f06": {
+      "s": "station",
+      "rc": [
+        1,
+        38
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_06"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "flag_segment_bottom_f07": {
+      "s": "station",
+      "rc": [
+        1,
+        39
+      ],
+      "g": "fx",
+      "sub": "flag",
+      "tags": [
+        "station",
+        "fx",
+        "flag",
+        "bottom",
+        "segment",
+        "frame_07"
+      ],
+      "semantic": "Flag/banner bottom frame; pair this frame with the matching top frame index."
+    },
+    "cat_lie_f01": {
+      "s": "station",
+      "rc": [
+        2,
+        33
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_01"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "cat_lie_f02": {
+      "s": "station",
+      "rc": [
+        2,
+        34
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_02"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "cat_lie_f03": {
+      "s": "station",
+      "rc": [
+        2,
+        35
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_03"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "cat_lie_f04": {
+      "s": "station",
+      "rc": [
+        2,
+        36
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_04"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "cat_lie_f05": {
+      "s": "station",
+      "rc": [
+        2,
+        37
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_05"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "cat_lie_f06": {
+      "s": "station",
+      "rc": [
+        2,
+        38
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_06"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "cat_lie_f07": {
+      "s": "station",
+      "rc": [
+        2,
+        39
+      ],
+      "g": "fx",
+      "sub": "cat",
+      "tags": [
+        "station",
+        "fx",
+        "cat",
+        "lie",
+        "frame_07"
+      ],
+      "semantic": "Lying cat animation frame."
+    },
+    "pigeon_ground_f01": {
+      "s": "station",
+      "rc": [
+        3,
+        33
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_01"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_ground_f02": {
+      "s": "station",
+      "rc": [
+        3,
+        34
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_02"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_ground_f03": {
+      "s": "station",
+      "rc": [
+        3,
+        35
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_03"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_ground_f04": {
+      "s": "station",
+      "rc": [
+        3,
+        36
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_04"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_ground_f05": {
+      "s": "station",
+      "rc": [
+        3,
+        37
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_05"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_ground_f06": {
+      "s": "station",
+      "rc": [
+        3,
+        38
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_06"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_ground_f07": {
+      "s": "station",
+      "rc": [
+        3,
+        39
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "ground",
+        "frame_07"
+      ],
+      "semantic": "Pigeon idle/ground animation frame."
+    },
+    "pigeon_fly_f01": {
+      "s": "station",
+      "rc": [
+        4,
+        33
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "fly",
+        "frame_01"
+      ],
+      "semantic": "Pigeon flying animation frame."
+    },
+    "pigeon_fly_f02": {
+      "s": "station",
+      "rc": [
+        4,
+        34
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "fly",
+        "frame_02"
+      ],
+      "semantic": "Pigeon flying animation frame."
+    },
+    "pigeon_fly_f03": {
+      "s": "station",
+      "rc": [
+        4,
+        35
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "fly",
+        "frame_03"
+      ],
+      "semantic": "Pigeon flying animation frame."
+    },
+    "pigeon_fly_f04": {
+      "s": "station",
+      "rc": [
+        4,
+        36
+      ],
+      "g": "fx",
+      "sub": "pigeon",
+      "tags": [
+        "station",
+        "fx",
+        "pigeon",
+        "fly",
+        "frame_04"
+      ],
+      "semantic": "Pigeon flying animation frame."
     }
   },
   "composites": {
     "electric_pole": {
       "type": "vertical_stack",
-      "description": "Electric/light pole — 4 tiles top to base",
+      "description": "Electric/light pole \u2014 4 tiles top to base",
       "tiles": [
         "electric_pole_top",
         "electric_pole_upper",
@@ -20030,7 +20697,7 @@
     },
     "arch_frame": {
       "type": "grid_block",
-      "description": "Station arch frame — 3×3 grid",
+      "description": "Station arch frame \u2014 3\u00d73 grid",
       "layout": [
         [
           "arch_frame_tl",
@@ -20054,7 +20721,7 @@
     },
     "arch_inner": {
       "type": "grid_block",
-      "description": "Station arch inner frame — 3×3 grid",
+      "description": "Station arch inner frame \u2014 3\u00d73 grid",
       "layout": [
         [
           "arch_inner_tl",
@@ -20078,7 +20745,7 @@
     },
     "tunnel_arch": {
       "type": "grid_block",
-      "description": "Tunnel entrance — 3×3 grid",
+      "description": "Tunnel entrance \u2014 3\u00d73 grid",
       "layout": [
         [
           "tunnel_tl",
@@ -20102,7 +20769,7 @@
     },
     "green_train": {
       "type": "horizontal_vehicle",
-      "description": "Green express train — 3 bands × 34 columns",
+      "description": "Green express train \u2014 3 bands \u00d7 34 columns",
       "sheet": "train_ext",
       "bands": {
         "upper": {
@@ -20142,7 +20809,7 @@
     },
     "bullet_train_a": {
       "type": "horizontal_vehicle",
-      "description": "Bullet/Shinkansen variant A — streamlined nose",
+      "description": "Bullet/Shinkansen variant A \u2014 streamlined nose",
       "sheet": "train_ext",
       "bands": {
         "upper": {
@@ -20181,7 +20848,7 @@
     },
     "commuter_train": {
       "type": "horizontal_vehicle",
-      "description": "Commuter/Silver train — 3 bands × 28 columns",
+      "description": "Commuter/Silver train \u2014 3 bands \u00d7 28 columns",
       "sheet": "train_ext",
       "bands": {
         "upper": {
@@ -20220,7 +20887,7 @@
     },
     "bullet_train_b": {
       "type": "horizontal_vehicle",
-      "description": "Bullet/Shinkansen variant B — lower section",
+      "description": "Bullet/Shinkansen variant B \u2014 lower section",
       "sheet": "train_ext",
       "bands": {
         "upper": {
@@ -20259,7 +20926,7 @@
     },
     "tree": {
       "type": "animated_vertical",
-      "description": "Animated tree — top canopy + bottom trunk synced sway",
+      "description": "Animated tree \u2014 top canopy + bottom trunk synced sway",
       "animations": {
         "top": "tree_top",
         "bottom": "tree_bottom"
@@ -20271,7 +20938,7 @@
     },
     "flag_pole": {
       "type": "animated_vertical",
-      "description": "Animated flag on pole — top + bottom synced wave",
+      "description": "Animated flag on pole \u2014 top + bottom synced wave",
       "animations": {
         "top": "flag_top",
         "bottom": "flag_bottom"
@@ -20280,6 +20947,123 @@
         "top": "CANOPY",
         "bottom": "FURNITURE"
       }
+    },
+    "station_building_block_121_160": {
+      "type": "rc_block_lock",
+      "description": "Standalone station building block; use atomically without removing internal tiles.",
+      "sheet": "station",
+      "row_range": [
+        0,
+        4
+      ],
+      "col_range": [
+        24,
+        31
+      ],
+      "number_range": [
+        121,
+        160
+      ],
+      "atomic": true,
+      "placement_rule": "Use as a full 8x5 unit; do not remove or replace sub-tiles."
+    },
+    "flag_segment_pair_lock_162_176": {
+      "type": "vertical_frame_pairs",
+      "description": "Flag segment top and bottom frames must be used as matching index pairs.",
+      "sheet": "station",
+      "pairs": [
+        {
+          "index": 1,
+          "top_rc": [
+            0,
+            33
+          ],
+          "bottom_rc": [
+            1,
+            33
+          ],
+          "top_tile": "flag_segment_top_f01",
+          "bottom_tile": "flag_segment_bottom_f01"
+        },
+        {
+          "index": 2,
+          "top_rc": [
+            0,
+            34
+          ],
+          "bottom_rc": [
+            1,
+            34
+          ],
+          "top_tile": "flag_segment_top_f02",
+          "bottom_tile": "flag_segment_bottom_f02"
+        },
+        {
+          "index": 3,
+          "top_rc": [
+            0,
+            35
+          ],
+          "bottom_rc": [
+            1,
+            35
+          ],
+          "top_tile": "flag_segment_top_f03",
+          "bottom_tile": "flag_segment_bottom_f03"
+        },
+        {
+          "index": 4,
+          "top_rc": [
+            0,
+            36
+          ],
+          "bottom_rc": [
+            1,
+            36
+          ],
+          "top_tile": "flag_segment_top_f04",
+          "bottom_tile": "flag_segment_bottom_f04"
+        },
+        {
+          "index": 5,
+          "top_rc": [
+            0,
+            37
+          ],
+          "bottom_rc": [
+            1,
+            37
+          ],
+          "top_tile": "flag_segment_top_f05",
+          "bottom_tile": "flag_segment_bottom_f05"
+        },
+        {
+          "index": 6,
+          "top_rc": [
+            0,
+            38
+          ],
+          "bottom_rc": [
+            1,
+            38
+          ],
+          "top_tile": "flag_segment_top_f06",
+          "bottom_tile": "flag_segment_bottom_f06"
+        },
+        {
+          "index": 7,
+          "top_rc": [
+            0,
+            39
+          ],
+          "bottom_rc": [
+            1,
+            39
+          ],
+          "top_tile": "flag_segment_top_f07",
+          "bottom_tile": "flag_segment_bottom_f07"
+        }
+      ]
     }
   },
   "animations": {
@@ -21158,6 +21942,292 @@
         "top": "flag_top",
         "bottom": "flag_bottom"
       }
+    },
+    "flag_segment_top_162_168": {
+      "sheet": "station",
+      "loop": true,
+      "group": "fx",
+      "tags": [
+        "flag",
+        "segment",
+        "top",
+        "wave"
+      ],
+      "frames": [
+        {
+          "rc": [
+            0,
+            33
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            0,
+            34
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            0,
+            35
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            0,
+            36
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            0,
+            37
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            0,
+            38
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            0,
+            39
+          ],
+          "ms": 150
+        }
+      ]
+    },
+    "flag_segment_bottom_170_176": {
+      "sheet": "station",
+      "loop": true,
+      "group": "fx",
+      "tags": [
+        "flag",
+        "segment",
+        "bottom",
+        "wave"
+      ],
+      "frames": [
+        {
+          "rc": [
+            1,
+            33
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            1,
+            34
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            1,
+            35
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            1,
+            36
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            1,
+            37
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            1,
+            38
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            1,
+            39
+          ],
+          "ms": 150
+        }
+      ]
+    },
+    "cat_lie_178_184": {
+      "sheet": "station",
+      "loop": true,
+      "group": "fx",
+      "tags": [
+        "cat",
+        "lie",
+        "rest"
+      ],
+      "frames": [
+        {
+          "rc": [
+            2,
+            33
+          ],
+          "ms": 200
+        },
+        {
+          "rc": [
+            2,
+            34
+          ],
+          "ms": 200
+        },
+        {
+          "rc": [
+            2,
+            35
+          ],
+          "ms": 200
+        },
+        {
+          "rc": [
+            2,
+            36
+          ],
+          "ms": 200
+        },
+        {
+          "rc": [
+            2,
+            37
+          ],
+          "ms": 200
+        },
+        {
+          "rc": [
+            2,
+            38
+          ],
+          "ms": 200
+        },
+        {
+          "rc": [
+            2,
+            39
+          ],
+          "ms": 200
+        }
+      ]
+    },
+    "pigeon_ground_186_192": {
+      "sheet": "station",
+      "loop": true,
+      "group": "fx",
+      "tags": [
+        "bird",
+        "pigeon",
+        "ground"
+      ],
+      "frames": [
+        {
+          "rc": [
+            3,
+            33
+          ],
+          "ms": 120
+        },
+        {
+          "rc": [
+            3,
+            34
+          ],
+          "ms": 120
+        },
+        {
+          "rc": [
+            3,
+            35
+          ],
+          "ms": 120
+        },
+        {
+          "rc": [
+            3,
+            36
+          ],
+          "ms": 120
+        },
+        {
+          "rc": [
+            3,
+            37
+          ],
+          "ms": 120
+        },
+        {
+          "rc": [
+            3,
+            38
+          ],
+          "ms": 120
+        },
+        {
+          "rc": [
+            3,
+            39
+          ],
+          "ms": 120
+        }
+      ]
+    },
+    "pigeon_fly_194_197": {
+      "sheet": "station",
+      "loop": true,
+      "group": "fx",
+      "tags": [
+        "bird",
+        "pigeon",
+        "fly"
+      ],
+      "frames": [
+        {
+          "rc": [
+            4,
+            33
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            4,
+            34
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            4,
+            35
+          ],
+          "ms": 150
+        },
+        {
+          "rc": [
+            4,
+            36
+          ],
+          "ms": 150
+        }
+      ]
     }
   },
   "characters": {
@@ -21178,8 +22248,8 @@
     "idle_alt_col": 4,
     "walk_frames": 5,
     "walk_dirs": {
-      "walk_a": "Walk direction set A (row+1) — verify sprite facing per character",
-      "walk_b": "Walk direction set B (row+2) — verify sprite facing per character"
+      "walk_a": "Walk direction set A (row+1) \u2014 verify sprite facing per character",
+      "walk_b": "Walk direction set B (row+2) \u2014 verify sprite facing per character"
     },
     "list": [
       {
@@ -26843,5 +27913,23 @@
       ]
     ],
     "chars": []
+  },
+  "empty_semantics": {
+    "station_r00_c00": "Empty tile; use as true blank filler where no visible surface should exist.",
+    "station_r00_c15": "Empty tile by pixel content.",
+    "station_r01_c14": "Empty tile by pixel content.",
+    "station_r01_c15": "Empty tile by pixel content.",
+    "station_r00_c18": "Empty tile by pixel content.",
+    "station_r00_c19": "Empty tile by pixel content.",
+    "station_r00_c23": "Empty tile by pixel content.",
+    "station_r02_c16": "Empty tile by pixel content.",
+    "station_r03_c16": "Empty tile by pixel content.",
+    "station_r03_c20": "Empty tile by pixel content.",
+    "station_r04_c16": "Empty tile by pixel content.",
+    "station_r00_c32": "Empty tile by user specification (161).",
+    "station_r01_c32": "Empty tile by user specification (169).",
+    "station_r02_c32": "Empty tile by user specification (177).",
+    "station_r03_c32": "Empty tile by user specification (185).",
+    "station_r04_c32": "Empty tile by user specification (193)."
   }
 }
